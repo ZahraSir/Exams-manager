@@ -1,0 +1,64 @@
+.position{
+    margin-left: 88%;
+    width: 120px;
+}
+
+
+.form{
+    padding-left: 250%;
+}
+
+#float-input{
+    width: 300px;
+    height: 40px;
+    margin-top: 30px;
+}
+label{
+    font-size: 20px;
+}
+
+.custom-invalid-feedback{
+  width: 100% !important;
+  margin-top: 0.25rem;
+  margin-left: 35px;
+  font-size: 100%;
+  color: red;
+  text-align: center;
+
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color:  #24C2FF;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+h3 {
+  color: black;
+}
+/*
+#thirdModal2 {
+  background-color: #84E0A1;
+  border-color: #ffffff;
+  color: #fff;
+}*/
+.card-footer {
+  padding: .5rem 1rem;
+  background-color: rgba(0,0,0,.03);
+  border-top: 1px solid rgba(0,0,0,.125);
+}

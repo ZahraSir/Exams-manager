@@ -1,0 +1,353 @@
+<!--Liste des filieres-->
+<div class="card">
+
+  <div class="card-img-overly">
+
+    <h6 style="text-align: center;">Liste des filières</h6>
+    <div class="row">
+      <div class="col-md-4">
+        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <button class="btn btn-info fa fa-plus" (click)="parentModal.show(); vider();" style="float: right !important;">Ajouter</button>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table" style="text-align: center;">
+      <thead>
+      <tr>
+        <th>Libell&eacute;</th>
+        <th>Niveau</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor= "let filiere of filieres | filter: item">
+        <td>{{filiere.libelle}}</td>
+        <td>{{filiere.niveau.libelle}}</td>
+        <td>
+          <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal);"></button>
+          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recupererF(filiere); findByFiliereLibelle(filiere);"></button>
+        </td>
+        <!--Confirmation du suppression-->
+        <ng-template #modal>
+          <div class="modal-body text-center">
+            <p>Voulez-vous vraiment supprimer cette filière?</p>
+            <button type="button" class="btn btn-success" (click)="confirm(); deleteByDesignation(filiere)"  >Oui</button>
+            <button type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+          </div>
+        </ng-template>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<!--Ajouter filiere-->
+<div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter filière</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="filiere.libelle"
+                   ngModel
+                   required
+                   #libelle="ngModel"
+                   [ngClass]="{'form-control' : true,
+                'is-invalid' : !libelle?.valid && libelle?.touched,
+                  'is-valid' : libelle?.valid && libelle?.touched}">
+            <small *ngIf="libelle?.errors?.required && libelle?.touched"
+                   class="form-text text-danger">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau"
+                    ngModel
+                    required
+                    #niveau="ngModel"
+                    [ngClass]="{'form-control' : true,
+                'is-invalid' : !niveau?.valid && niveau?.touched,
+                  'is-valid' : niveau?.valid && niveau?.touched}">
+              <option value="">--Choisir un niveau--</option>
+              <option *ngFor="let niveau of niveaux" [ngValue]="niveau">{{niveau.libelle}}</option>
+            </select>
+            <small *ngIf="niveau?.errors?.required && niveau?.touched" class="form-text text-danger">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info btn-sm" type="button" (click)="childModal.show(); recupererF(filiere); ">Ajouter modules</button>
+          </div>
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Ajouter module-->
+<div class="modal fade" bsModal #childModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-nested-name2" class="modal-title pull-left">Ajouter modules</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="childModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="module.libelle"
+                     ngModel
+                     required
+                     #libelle="ngModel"
+                     [ngClass]="{'form-control' : true,
+                   'is-invalid' : !libelle?.valid && libelle?.touched,
+                   'is-valid' : libelle?.valid && libelle?.touched}">
+              <small *ngIf="libelle?.errors?.required && libelle?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre"
+                      ngModel
+                      required
+                      #semestre="ngModel"
+                      [ngClass]="{'form-control' : true,
+                      'is-invalid' : !semestre?.valid && semestre?.touched,
+                        'is-valid' : semestre?.valid && semestre?.touched}">
+                <option value="">--Choisir un semestre--</option>
+                <option *ngFor="let semestre of semestres" [ngValue]="semestre">{{semestre.libelle}}</option>
+              </select>
+              <small *ngIf="semestre?.errors?.required && semestre?.touched"class="form-text text-danger">champs obligatoire</small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addModules()"></button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Libell&eacute;</th>
+                <th>Semestre</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let module of filiere.modules">
+                <td>{{module.libelle}}</td>
+                <td>{{module.semestre.libelle}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-outline-danger pull-right" (click)="childModal.hide();">Annuler</button>
+        <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="saveFM();childModal.hide();">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Modifier filiere-->
+<div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier filière</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="filiere.libelle"
+                       ngModel
+                       required
+                       #libelle="ngModel"
+                       [ngClass]="{'form-control' : true,
+                'is-invalid' : !libelle?.valid && libelle?.touched,
+                  'is-valid' : libelle?.valid && libelle?.touched}">
+                <small *ngIf="libelle?.errors?.required && libelle?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau"
+                        ngModel
+                        required
+                        #niveau="ngModel"
+                        [ngClass]="{'form-control' : true,
+                'is-invalid' : !niveau?.valid && niveau?.touched,
+                  'is-valid' : niveau?.valid && niveau?.touched}">
+                  <option [ngValue]="niveau" [selected]="filiere.niveau.libelle">{{filiere.niveau.libelle}}</option>
+                  <option *ngFor="let niveau of niveaux" [ngValue]="niveau">{{niveau.libelle}}</option>
+                </select>
+                <small *ngIf="niveau?.errors?.required && niveau?.touched" class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info btn-sm" type="button" (click)="ajoutModal.show(); ">Ajouter modules</button>
+          </div>
+        </form>
+
+
+
+        <div class="card">
+          <div class="card-body">
+            <div class="card-header"><h6>La liste des modules</h6></div>
+            <div class="table-responsive">
+              <table class="table" style="text-align: center;">
+                <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Semestre</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor= "let module of filiere.modules">
+                  <td>{{module.libelle}}</td>
+                  <td>{{module.semestre.libelle}}</td>
+                  <td>
+                    <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal2);"></button>
+                    <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="modifeModal.show();recupererM(module);"></button>
+                  </td>
+                  <!--Confirmation du suppression-->
+                  <ng-template #modal2>
+                    <div class="modal-body text-center">
+                      <p>Voulez-vous vraiment supprimer cette filière?</p>
+                      <button type="button" class="btn btn-success" (click)="confirm(); deleteByLibelle(module)"  >Oui</button>
+                      <button type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+                    </div>
+                  </ng-template>
+
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="display==-1; then erreur" ></div>
+<ng-template #erreur >
+  <div class="modal-body text-center alert-danger">
+    Attention! Filière existe déja
+  </div>
+</ng-template>
+
+
+<div *ngIf="display==1; then reussi" ></div>
+<ng-template #reussi >
+  <div class="modal-body text-center alert-success">
+    Filière est ajoutée avec succés
+  </div>
+</ng-template>
+
+<!--Editer module-->
+
+<div class="modal fade" bsModal #modifeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier module</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modifeModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-module></app-module>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Ajouter module-->
+<div class="modal fade" bsModal #ajoutModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter module</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="ajoutModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="module.libelle"
+                       ngModel
+                       required
+                       #li="ngModel"
+                       [ngClass]="{'form-control' : true,
+                'is-invalid' : !li?.valid && li?.touched,
+                  'is-valid' : li?.valid && li?.touched}">
+                <small *ngIf="li?.errors?.required && li?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre"
+                        ngModel
+                        required
+                        #se="ngModel"
+                        [ngClass]="{'form-control' : true,
+                'is-invalid' : !se?.valid && se?.touched,
+                  'is-valid' : se?.valid && se?.touched}">
+                  <option value="" selected="selected">Choisir un semestre</option>
+                  <option *ngFor="let semestre of semestres" [ngValue]="semestre">{{semestre.libelle}}</option>
+                </select>
+                <small *ngIf="se?.errors?.required && se?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info btn-sm" type="button" (click)="saveM(module); ajoutModal.hide();">Ajouter</button>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</div>

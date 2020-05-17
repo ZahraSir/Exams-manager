@@ -1,0 +1,241 @@
+<!--Liste des Professeurs-->
+<div class="card">
+  <div class="card-img-overly">
+    <h6 style="text-align: center;">Liste des Professeurs</h6>
+    <div class="row">
+      <div class="col-md-4">
+        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <button class="btn btn-info fa fa-plus" (click)="parentModal.show()" style="float: right !important;">Ajouter</button>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table" style="text-align: center;">
+      <thead>
+      <th>Nom</th>
+      <th>Prenom</th>
+      <th>Mail</th>
+      <th>Responsabilite</th>
+      <th>Departement</th>
+      <th>Actions</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of professeurs|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+        <td>{{p.nom}}</td>
+        <td >{{p.prenom}}</td>
+        <td>{{p.mail}}</td>
+        <td>{{p.responsabilite.libelle}}</td>
+        <td>{{p.departement.libelle}}</td>
+        <td>
+          <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
+          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;"  (click)=" recuperer(p,p.id); editModal.show();"></button>
+        </td>
+        <!--Confirmation du suppression-->
+        <ng-template #template >
+          <div class="modal-body text-center">
+            <p>Voulez-vous vraiment supprimer cette Professeur?</p>
+            <button type="button" class="btn btn-success" (click)="confirm();deleteByNom(p);" >Oui</button>
+            <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+          </div>
+        </ng-template>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
+  </div>
+</div>
+
+
+
+<!--Ajouter Professeur-->
+<div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter Professeur</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+                   ngModel
+                   required
+                   #nom="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !nom?.valid && nom?.touched,
+                     'is-valid' : nom?.valid && nom?.touched}">
+            <small *ngIf="nom?.errors?.required && nom?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="text" min="1" size="4" pInputText placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+                   ngModel
+                   required
+                   min="18"
+                   #prenom="ngModel"
+                   [ngClass]="{'form-control' : true,
+                    'is-invalid' : !prenom?.valid && prenom?.touched,
+                    'is-valid' : prenom?.valid && prenom?.touched}">
+            <small *ngIf="prenom?.errors?.required && prenom?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="email" size="30" pInputText placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
+                   ngModel
+                   required
+                   #mail="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !mail?.valid && mail?.touched,
+                     'is-valid' : mail?.valid && mail?.touched}">
+            <small *ngIf="mail?.errors?.required && mail?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <div>
+              <select class="form-control" [(ngModel)]="professeur.responsabilite" [ngModelOptions]="{standalone: true}">
+                <option value="" selected="selected">Choisir une responsabilite</option>
+                <option *ngFor="let r of responsabilites" [ngValue]="r">{{r.libelle}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div>
+              <select class="form-control" [(ngModel)]="professeur.departement" [ngModelOptions]="{standalone: true}">
+                <option value="" selected="selected">Choisir un departement</option>
+                <option *ngFor="let d of departements" [ngValue]="d">{{d.libelle}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- alerte-->
+
+<div *ngIf="display==-1; then erreur" ></div>
+<ng-template #erreur >
+  <div class="modal-body text-center alert-danger">
+    Attention! Professeur existe déja
+  </div>
+</ng-template>
+
+
+<div *ngIf="display==1; then reussi" ></div>
+<ng-template #reussi >
+  <div class="modal-body text-center alert-success">
+    Professeur est ajoutée avec succés
+  </div>
+</ng-template>
+
+<!--Modifier Professeur-->
+<div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier Professeur</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+                   ngModel
+                   required
+                   #nom="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !nom?.valid && nom?.touched,
+                     'is-valid' : nom?.valid && nom?.touched}">
+            <small *ngIf="nom?.errors?.required && nom?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="text" min="1" size="4" pInputText placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+                   ngModel
+                   required
+                   min="18"
+                   #prenom="ngModel"
+                   [ngClass]="{'form-control' : true,
+                    'is-invalid' : !prenom?.valid && prenom?.touched,
+                    'is-valid' : prenom?.valid && prenom?.touched}">
+            <small *ngIf="prenom?.errors?.required && prenom?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="email" size="30" pInputText placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
+                   ngModel
+                   required
+                   #mail="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !mail?.valid && mail?.touched,
+                     'is-valid' : mail?.valid && mail?.touched}">
+            <small *ngIf="mail?.errors?.required && mail?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+<div class="form-group">
+  <div>
+    <select class="form-control" [(ngModel)]="professeur.responsabilite" [ngModelOptions]="{standalone: true}">
+      <option value="" selected="selected">Choisir une responsabilite</option>
+      <option *ngFor="let r of responsabilites" [ngValue]="r">{{r.libelle}}</option>
+    </select>
+  </div>
+</div>
+          <div class="form-group">
+            <div>
+              <select class="form-control" [(ngModel)]="professeur.departement" [ngModelOptions]="{standalone: true}">
+                <option value="" selected="selected">Choisir un departement</option>
+                <option *ngFor="let d of departements" [ngValue]="d">{{d.libelle}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite, professeur.departement);">Editer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #thirdModal2="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name3" >
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" id="thirdModal2">
+      <div class="modal-body">
+        le Professeur est editee .
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

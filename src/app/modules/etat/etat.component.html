@@ -1,0 +1,44 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Liste des Etats</h3>
+
+    <input  type = " text " class = " search-query form-control " placeholder = " Search  "   name = " item " [(ngModel)] = "item"  style="width: 180px;padding-right: 100px;"/>
+  </div>
+  <div class="card-body" >
+    <table class="table" style="text-align: center;">
+      <thead>
+
+      <th>Libelle</th>
+      <th>Action</th>
+      <th>DateAction</th>
+      <th>Actions</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let s of etats|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+        <td>{{s.libelle}}</td>
+        <td>{{s.action}}</td>
+        <td>{{s.dateAction}}</td>
+        <td>
+         <button pButton type="button" label="Restaurer" class="ui-button-rounded ui-button-default" (click)=" openModal(template);"></button>
+        </td>
+      </tr>
+
+      </tbody>
+
+    </table>
+  </div>
+  <div class="card-footer">
+  <pagination-controls style="position: center" (pageChange)=" p=$event "></pagination-controls>
+</div>
+</div>
+<!-- restaurer -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Confirmation</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  </div>
+</ng-template>

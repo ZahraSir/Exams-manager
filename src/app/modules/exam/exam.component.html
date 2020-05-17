@@ -1,0 +1,275 @@
+<!--Liste des Exams-->
+<div class="card">
+  <div class="card-img-overly">
+    <h6 style="text-align: center;">Liste des Exams</h6>
+    <div class="row">
+      <div class="col-md-4">
+        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <button class="btn btn-info fa fa-plus" (click)="parentModal.show()" style="float: right !important;">Ajouter</button>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table" style="text-align: center;">
+      <thead>
+      <th>Reference</th>
+      <th>Date</th>
+      <th>HeureDepart</th>
+      <th>HeuereFin</th>
+      <th>Professeur</th>
+      <th>Surveillants</th>
+      <th>Salles</th>
+      <th>Modules</th>
+      <th>Actions</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let e of exams|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+        <td>{{e.reference}}</td>
+        <td >{{e.date}}</td>
+        <td>{{e.heureDepart}}</td>
+        <td>{{e.heureFin}}</td>
+        <td>{{e.prof.nom}}</td>
+        <td>{{e.surveillants.nom}}</td>
+        <td>{{e.salles.designation}}</td>
+        <td>{{e.module.libelle}}</td>
+        <td>
+          <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
+          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;"  (click)=" recuperer(e,e.id); editModal.show();"></button>
+        </td>
+        <!--Confirmation du suppression-->
+        <ng-template #template >
+          <div class="modal-body text-center">
+            <p>Voulez-vous vraiment supprimer cette salle?</p>
+            <button type="button" class="btn btn-success" (click)="confirm();deleteByReference(e);" >Oui</button>
+            <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+          </div>
+        </ng-template>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
+  </div>
+</div>
+
+
+
+<!--Ajouter Exam-->
+<div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter Exam</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="Reference"  [(ngModel)]="exam.reference" [ngModelOptions]="{standalone: true}"
+                   ngModel
+                   required
+                   #reference="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !reference?.valid && reference?.touched,
+                     'is-valid' : reference?.valid && reference?.touched}">
+            <small *ngIf="reference?.errors?.required && reference?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="date" min="1" size="4" pInputText placeholder="Date" [ngModelOptions]="{standalone: true}" [(ngModel)]="exam.date"
+                   ngModel
+                   required
+                   min="18"
+                   #date="ngModel"
+                   [ngClass]="{'form-control' : true,
+                    'is-invalid' : !date?.valid && date?.touched,
+                    'is-valid' : date?.valid && date?.touched}">
+            <small *ngIf="date?.errors?.required && date?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="HeureDepart"  [(ngModel)]="exam.heureDepart" [ngModelOptions]="{standalone: true}"
+                   ngModel
+                   required
+                   #heureDepart="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !heureDepart?.valid && heureDepart?.touched,
+                     'is-valid' : heureDepart?.valid && heureDepart?.touched}">
+
+            <small *ngIf="heureDepart?.errors?.required && heureDepart?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="HeureFin"  [(ngModel)]="exam.heureFin" [ngModelOptions]="{standalone: true}"
+                   ngModel
+                   required
+                   #heureFin="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !heureFin?.valid && heureFin?.touched,
+                     'is-valid' : heureFin?.valid && heureFin?.touched}">
+
+            <small *ngIf="heureFin?.errors?.required && heureFin?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+<div class="form-group">
+  <div><select class="form-control" [(ngModel)]="exam.salles" [ngModelOptions]="{standalone: true}">
+    <option *ngFor="let s of salles" [ngValue]="s">{{s.designation}}</option>
+  </select></div>
+</div>
+          <div class="form-group">
+            <div><select class="form-control" [(ngModel)]="exam.module" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let m of modules" [ngValue]="m">{{m.libelle}}</option>
+            </select></div>
+          </div>
+          <div class="form-group">
+            <div><select class="form-control" [(ngModel)]="exam.surveillants" [ngModelOptions]="{standalone: true}" multiple size="3">
+              <option *ngFor="let s of surveillants" [ngValue]="s">{{s.nom}}</option>
+            </select></div>
+          </div>
+          <div class="form-group">
+            <select class="form-control" [(ngModel)]="exam.prof" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let p of professeurs" [ngValue]="p">{{p.nom}}</option>
+            </select></div>
+
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- alerte-->
+
+<div *ngIf="display==-1; then erreur" ></div>
+<ng-template #erreur >
+  <div class="modal-body text-center alert-danger">
+    Attention! Exam existe déja
+  </div>
+</ng-template>
+
+
+<div *ngIf="display==1; then reussi" ></div>
+<ng-template #reussi >
+  <div class="modal-body text-center alert-success">
+    Exam est ajoutée avec succés
+  </div>
+</ng-template>
+
+<!--Modifier Exam-->
+<div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier Exam</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="Reference"  [(ngModel)]="exam.reference" [ngModelOptions]="{standalone: true}"
+                   ngModel
+                   required
+                   #reference="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !reference?.valid && reference?.touched,
+                     'is-valid' : reference?.valid && reference?.touched}">
+            <small *ngIf="reference?.errors?.required && reference?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="date" min="1" size="4" pInputText placeholder="Date" [ngModelOptions]="{standalone: true}" [(ngModel)]="exam.date"
+                   ngModel
+                   required
+                   min="18"
+                   #date="ngModel"
+                   [ngClass]="{'form-control' : true,
+                    'is-invalid' : !date?.valid && date?.touched,
+                    'is-valid' : date?.valid && date?.touched}">
+            <small *ngIf="date?.errors?.required && date?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="HeureDepart"  [(ngModel)]="exam.heureDepart" [ngModelOptions]="{standalone: true}"
+                   ngModel
+                   required
+                   #heureDepart="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !heureDepart?.valid && heureDepart?.touched,
+                     'is-valid' : heureDepart?.valid && heureDepart?.touched}">
+
+            <small *ngIf="heureDepart?.errors?.required && heureDepart?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input id="float-input" type="text" size="30" pInputText placeholder="HeureFin"  [(ngModel)]="exam.heureFin" [ngModelOptions]="{standalone: true}"
+                   ngModel
+                   required
+                   #heureFin="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !heureFin?.valid && heureFin?.touched,
+                     'is-valid' : heureFin?.valid && heureFin?.touched}">
+
+            <small *ngIf="heureFin?.errors?.required && heureFin?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <div><select class="form-control" [(ngModel)]="exam.salles" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let s of salles" [ngValue]="s">{{s.designation}}</option>
+            </select></div>
+          </div>
+          <div class="form-group">
+            <div><select class="form-control" [(ngModel)]="exam.module" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let m of modules" [ngValue]="m">{{m.libelle}}</option>
+            </select></div>
+          </div>
+          <div class="form-group">
+            <div><select class="form-control" [(ngModel)]="exam.surveillants" [ngModelOptions]="{standalone: true}" multiple size="4">
+              <option *ngFor="let s of surveillants" [ngValue]="s">{{s.nom}}</option>
+            </select></div>
+          </div>
+<div class="form-group">
+ <div> <select class="form-control" [(ngModel)]="exam.prof" [ngModelOptions]="{standalone: true}">
+    <option *ngFor="let p of professeurs" [ngValue]="p">{{p.nom}}</option>
+  </select></div>
+      </div>
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(exam.id, exam.reference, exam.date, exam.heureDepart, exam.heureFin, exam.module, exam.prof, exam.surveillants, exam.salles);">Editer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #thirdModal2="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name3" >
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" id="thirdModal2">
+      <div class="modal-body">
+        l'Exam est editee .
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+

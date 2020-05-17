@@ -1,0 +1,210 @@
+<!--Liste des salles-->
+<div class="card">
+  <div class="card-img-overly">
+    <h6 style="text-align: center;">Liste des Salles</h6>
+    <div class="row">
+      <div class="col-md-4">
+        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " designation " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <button class="btn btn-info fa fa-plus" (click)="parentModal.show()" style="float: right !important;">Ajouter</button>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table" style="text-align: center;" id="content-excel">
+        <thead>
+        <th>D&eacute;signation</th>
+        <th>Capacit&eacute;</th>
+        <th>Etat</th>
+        <th>Type</th>
+        <th>Actions</th>
+        </thead>
+      <tbody>
+      <tr *ngFor="let s of salles|filter: item|paginate: {itemsPerPage:5,currentPage:p}" >
+        <td>{{s.designation}}</td>
+        <td >{{s.capacite}}</td>
+        <td>{{s.etat}}</td>
+        <td>{{s.type}}</td>
+        <td>
+          <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
+          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;"  (click)=" recuperer(s,s.id); editModal.show();"></button>
+        </td>
+        <!--Confirmation du suppression-->
+        <ng-template #template >
+          <div class="modal-body text-center">
+            <p>Voulez-vous vraiment supprimer cette salle?</p>
+            <button type="button" class="btn btn-success" (click)="confirm();deleteByDesignation(s);" >Oui</button>
+            <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+          </div>
+        </ng-template>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
+  </div>
+</div>
+<button pButton type="button" label="Imprimer en PDF" class="ui-button-rounded ui-button-danger" (click)= "imprimer()"></button>
+<button pButton type="button" label="Imprimer en Excel" class="ui-button-rounded ui-button-success" (click)="exportexcel()"></button>
+
+
+
+
+<!--Ajouter salle-->
+<div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter Salle</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input class="form-control"  placeholder="D&eacute;signation" name="designation" [(ngModel)]="salle.designation"
+                   ngModel
+                   required
+                   #designation="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !designation?.valid && designation?.touched,
+                     'is-valid' : designation?.valid && designation?.touched}">
+            <small *ngIf="designation?.errors?.required && designation?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="Capacit&eacute;" name="capacite" [(ngModel)]="salle.capacite"
+                   ngModel
+                   required
+                   min="18"
+                   #capacite="ngModel"
+                   [ngClass]="{'form-control' : true,
+                    'is-invalid' : !capacite?.valid && capacite?.touched,
+                    'is-valid' : capacite?.valid && capacite?.touched}">
+            <small *ngIf="capacite?.errors?.required && capacite?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+         <div class="form-group">
+           <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
+             <label style="margin-right: 30px;">Etat:</label>
+             <div><div class="ui-g-12">  <p-radioButton name="etat" value="prevue" label="Prévue" [(ngModel)]="salle.etat" inputId="prevue"></p-radioButton></div>
+               <div class="ui-g-12"><p-radioButton name="etat" value="non prevue" label="Non prévue" [(ngModel)]="salle.etat" inputId="non prevue"></p-radioButton></div>
+             </div>
+           </div>
+         </div>
+          <div class="form-group">
+            <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
+              <label style="margin-right: 26px;">Type:</label>
+              <div>  <div class="ui-g-12"> <p-radioButton  name="type" value="salle" label="Salle" [(ngModel)]="salle.type" inputId="salle"></p-radioButton></div>
+                <div class="ui-g-12"> <p-radioButton  name="type" value=" amphi" label="Amphi" [(ngModel)]="salle.type" inputId="amphi"></p-radioButton></div>
+              </div></div>
+         </div>
+
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- alerte-->
+
+<div *ngIf="display==-1; then erreur" ></div>
+<ng-template #erreur >
+  <div class="modal-body text-center alert-danger">
+    Attention! Salle existe déja
+  </div>
+</ng-template>
+
+
+<div *ngIf="display==1; then reussi" ></div>
+<ng-template #reussi >
+  <div class="modal-body text-center alert-success">
+    Salle est ajoutée avec succés
+  </div>
+</ng-template>
+
+<!--Modifier salle-->
+<div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier salle</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="form-group">
+            <input class="form-control"  placeholder="D&eacute;signation" name="designation" [(ngModel)]="salle.designation"
+                   ngModel
+                   required
+                   #designation="ngModel"
+                   [ngClass]="{'form-control' : true,
+                     'is-invalid' : !designation?.valid && designation?.touched,
+                     'is-valid' : designation?.valid && designation?.touched}">
+            <small *ngIf="designation?.errors?.required && designation?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="Capacit&eacute;" name="capacite" [(ngModel)]="salle.capacite"
+                   ngModel
+                   required
+                   min="18"
+                   #capacite="ngModel"
+                   [ngClass]="{'form-control' : true,
+                    'is-invalid' : !capacite?.valid && capacite?.touched,
+                    'is-valid' : capacite?.valid && capacite?.touched}">
+            <small *ngIf="capacite?.errors?.required && capacite?.touched"
+                   class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div>
+          <div class="form-group">
+            <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
+              <label style="margin-right: 30px;">Etat:</label>
+              <div><div class="ui-g-12">  <p-radioButton name="etat" value="prevue" label="Prévue" [(ngModel)]="salle.etat" inputId="prevue"></p-radioButton></div>
+                <div class="ui-g-12"><p-radioButton name="etat" value="non prevue" label="Non prévue" [(ngModel)]="salle.etat" inputId="non prevue"></p-radioButton></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
+              <label style="margin-right: 26px;">Type:</label>
+              <div>  <div class="ui-g-12"> <p-radioButton  name="type" value="salle" label="Salle" [(ngModel)]="salle.type" inputId="salle"></p-radioButton></div>
+                <div class="ui-g-12"> <p-radioButton  name="type" value=" amphi" label="Amphi" [(ngModel)]="salle.type" inputId="amphi"></p-radioButton></div>
+              </div></div>
+          </div>
+
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(salle.id,salle.designation, salle.etat, salle.type, salle.capacite);thirdModal2.show();">Editer</button>
+        </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div class="modal fade" bsModal #thirdModal2="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name3" >
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" id="thirdModal2">
+      <div class="modal-body">
+        la salle est editee .
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
