@@ -1,10 +1,10 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {PrintService} from "../../controller/services/print.service";
-import {Responsabilite} from "../../controller/model/responsabilite.model";
-import {Departement} from "../../controller/model/departement.model";
-import {ProfesseurService} from "../../controller/services/professeur.service";
-import {Professeur} from "../../controller/model/professeur.model";
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {PrintService} from '../../controller/services/print.service';
+import {Responsabilite} from '../../controller/model/responsabilite.model';
+import {Departement} from '../../controller/model/departement.model';
+import {ProfesseurService} from '../../controller/services/professeur.service';
+import {Professeur} from '../../controller/model/professeur.model';
 
 @Component({
   selector: 'app-professeur',
@@ -17,7 +17,7 @@ export class ProfesseurComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   item: string;
-  p: number =1;
+  p = 1;
   constructor(private professeurService: ProfesseurService,
               private modalService: BsModalService, private printService: PrintService) { }
 
@@ -65,7 +65,7 @@ export class ProfesseurComponent implements OnInit {
   }
 
   public update(id: number, nom: string, prenom: string, mail: string, responsabilite: Responsabilite, departement: Departement){
-    this.professeurService.update(id,nom, prenom, mail, responsabilite, departement);
+    this.professeurService.update(id, nom, prenom, mail, responsabilite, departement);
   }
 }
 

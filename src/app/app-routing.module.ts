@@ -4,17 +4,15 @@ import { AdminComponent } from './layouts/admin/admin.component';
 import { SallesComponent } from './modules/salles/salles.component';
 import { DepartementComponent } from './modules/departement/departement.component';
 import { PrintComponent } from './modules/print/print.component';
-import {ProfesseurComponent} from "./modules/professeur/professeur.component";
-import {SurveillantComponent} from "./modules/surveillant/surveillant.component";
-import {ResponsabiliteComponent} from "./modules/responsabilite/responsabilite.component";
-import {ExamComponent} from "./modules/exam/exam.component";
-import {ModuleComponent} from "./modules/module/module.component";
-import {NgxPaginationModule} from "ngx-pagination";
-import {EtatComponent} from "./modules/etat/etat.component";
-import {FiliereComponent} from "./modules/filiere/filiere.component";
-import {CalendarComponent} from "./modules/calendar/calendar.component";
-import {EtudiantComponent} from "./modules/etudiant/etudiant.component";
-import {ModuleCreateComponent} from "./modules/module/module-create/module-create.component";
+import {ProfesseurComponent} from './modules/professeur/professeur.component';
+import {SurveillantComponent} from './modules/surveillant/surveillant.component';
+import {ResponsabiliteComponent} from './modules/responsabilite/responsabilite.component';
+import {ExamComponent} from './modules/exam/exam.component';
+import {EtatComponent} from './modules/etat/etat.component';
+import {FiliereComponent} from './modules/filiere/filiere.component';
+import {CalendarComponent} from './modules/calendar/calendar.component';
+import {EtudiantComponent} from './modules/etudiant/etudiant.component';
+import {ModuleCreateComponent} from './modules/module/module-create/module-create.component';
 
 
 
@@ -23,12 +21,12 @@ const routes: Routes = [
        children: [
          {path: 'salles', component: SallesComponent},
          {path: 'departements', component: DepartementComponent},
-         {path: 'professeurs', component:ProfesseurComponent},
-         {path: 'surveillants', component:SurveillantComponent},
-         {path: 'responsabilites', component:ResponsabiliteComponent},
-         {path: 'exams', component:ExamComponent},
-         {path: 'modules', component:ModuleCreateComponent},
-         {path: 'etat', component:EtatComponent},
+         {path: 'professeurs', component: ProfesseurComponent},
+         {path: 'surveillants', component: SurveillantComponent},
+         {path: 'responsabilites', component: ResponsabiliteComponent},
+         {path: 'exams', component: ExamComponent},
+         {path: 'modules', component: ModuleCreateComponent},
+         {path: 'etat', component: EtatComponent},
          {path: 'fillieres', component: FiliereComponent},
          {path: 'calendars', component: CalendarComponent},
          {path: 'etudiants', component: EtudiantComponent}

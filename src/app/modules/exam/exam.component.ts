@@ -1,12 +1,12 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {PrintService} from "../../controller/services/print.service";
-import {Professeur} from "../../controller/model/professeur.model";
-import {ExamService} from "../../controller/services/exam.service";
-import {Exam} from "../../controller/model/exam.model";
-import {Surveillant} from "../../controller/model/surveillant.model";
-import {Module} from "../../controller/model/module.model";
-import {Salles} from "../../controller/model/salles";
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {PrintService} from '../../controller/services/print.service';
+import {Professeur} from '../../controller/model/professeur.model';
+import {ExamService} from '../../controller/services/exam.service';
+import {Exam} from '../../controller/model/exam.model';
+import {Surveillant} from '../../controller/model/surveillant.model';
+import {Module} from '../../controller/model/module.model';
+import {Salles} from '../../controller/model/salles';
 
 @Component({
   selector: 'app-exam',
@@ -19,7 +19,7 @@ export class ExamComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   item: string;
-  p: number =1;
+  p = 1;
   constructor(private examService: ExamService,
               private modalService: BsModalService, private printService: PrintService) { }
 
@@ -73,7 +73,6 @@ export class ExamComponent implements OnInit {
   get display(): number{
     return this.examService.display;
   }
-
   public update(id: number, reference: string, date: Date, heureDepart: string, heureFin: string, module: Module, prof: Professeur, surveillants: Surveillant, salles: Salles){
     this.examService.update(id, reference, date, heureDepart, heureFin, module, prof, surveillants, salles);
   }

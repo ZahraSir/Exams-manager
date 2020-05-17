@@ -1,13 +1,13 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {ModuleService} from "../../controller/services/module.service";
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {Semestre} from "../../controller/model/semestre";
-import {SemestreService} from "../../controller/services/semestre.service";
-import {FiliereService} from "../../controller/services/filiere.service";
-import {Niveau} from "../../controller/model/niveau";
-import {Filiere} from "../../controller/model/filiere";
-import {EtudiantService} from "../../controller/services/etudiant.service";
-import {Module} from "../../controller/model/module.model";
+import {ModuleService} from '../../controller/services/module.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {Semestre} from '../../controller/model/semestre';
+import {SemestreService} from '../../controller/services/semestre.service';
+import {FiliereService} from '../../controller/services/filiere.service';
+import {Niveau} from '../../controller/model/niveau';
+import {Filiere} from '../../controller/model/filiere';
+import {EtudiantService} from '../../controller/services/etudiant.service';
+import {Module} from '../../controller/model/module.model';
 
 @Component({
   selector: 'app-filiere',
@@ -22,7 +22,7 @@ export class FiliereComponent implements OnInit {
   item: string;
   selected: string;
 
-  constructor(private modalService: BsModalService, private filiereService: FiliereService, private moduleService: ModuleService, private etudiantService: EtudiantService,private semestreService: SemestreService) {
+  constructor(private modalService: BsModalService, private filiereService: FiliereService, private moduleService: ModuleService, private etudiantService: EtudiantService, private semestreService: SemestreService) {
     this.selected = 'choisir un niveau';
   }
 
@@ -30,7 +30,7 @@ export class FiliereComponent implements OnInit {
     this.filiereService.findAll();
     this.filiereService.getNiveaux();
     this.etudiantService.getSemestres();
-    console.log(this.semestres)
+    console.log(this.semestres);
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -117,7 +117,7 @@ export class FiliereComponent implements OnInit {
     this.module.id = module.id;
     this.module.libelle = module.libelle;
     this.module.semestre = module.semestre;
-    this.module.filiere =this.filiere;
+    this.module.filiere = this.filiere;
     return this.module;
   }
 

@@ -1,10 +1,10 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
-import {PrintService} from "../../controller/services/print.service";
+import {PrintService} from '../../controller/services/print.service';
 
-import {Surveillant} from "../../controller/model/surveillant.model";
-import {SurveillantService} from "../../controller/services/surveillant.service";
+import {Surveillant} from '../../controller/model/surveillant.model';
+import {SurveillantService} from '../../controller/services/surveillant.service';
 
 @Component({
   selector: 'app-surveillant',
@@ -17,7 +17,7 @@ export class SurveillantComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   item: string;
-  p: number =1;
+  p = 1;
   constructor(private surveillantService: SurveillantService,
               private modalService: BsModalService, private printService: PrintService) { }
 

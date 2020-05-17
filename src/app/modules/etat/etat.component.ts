@@ -1,10 +1,10 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {SelectItem} from "primeng";
-import {Etat} from "../../controller/model/etat.model";
-import {EtatService} from "../../controller/services/etat.service";
-import {SallesService} from "../../controller/services/salles.service";
-import {Salles} from "../../controller/model/salles";
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+
+import {Etat} from '../../controller/model/etat.model';
+import {EtatService} from '../../controller/services/etat.service';
+import {SallesService} from '../../controller/services/salles.service';
+import {Salles} from '../../controller/model/salles';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-etat',
@@ -14,7 +14,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 export class EtatComponent implements OnInit {
   modalRef: BsModalRef;
   item: string;
-  p: number =1;
+  p = 1;
   constructor(private etatService: EtatService,
               private salleService: SallesService,
               private modalService: BsModalService) { }

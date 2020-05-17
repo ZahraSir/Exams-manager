@@ -4,8 +4,7 @@ import { Salles } from 'src/app/controller/model/salles';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import { PrintService } from 'src/app/controller/services/print.service';
 import * as XLSX from 'xlsx';
-import {Etat} from "../../controller/model/etat.model";
-import {EtatService} from "../../controller/services/etat.service";
+import {EtatService} from '../../controller/services/etat.service';
 
 
 
@@ -22,8 +21,8 @@ export class SallesComponent implements OnInit {
   item: string;
   public salls: any;
   recordCount: number;
-  fileName= 'ExcelSheet.xlsx';
-  p: number =1;
+  fileName = 'ExcelSheet.xlsx';
+  p = 1;
 
 
 
@@ -90,13 +89,13 @@ export class SallesComponent implements OnInit {
  //   event.pageCount = 5;
  }
 
- exportexcel(): void {
+  exportexcel(): void {
     /* table id is passed over here */
     let element = document.getElementById('content-excel');
-   const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
     /* generate workbook and add the worksheet */
-   const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */

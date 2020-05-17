@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {Responsabilite} from "../model/responsabilite.model";
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Responsabilite} from '../model/responsabilite.model';
 
 
-ImageBitmapRenderingContext
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +16,7 @@ export class ResponsabiliteService {
   private _responsabilites: Array<Responsabilite>;
   private _display: number;
   private _urlrespo = 'http://localhost:8090/exam-api/responsabilites/';
-  private isPrinting=false;
+  private isPrinting = false;
 
   get http(): HttpClient {
     return this._http;
@@ -67,7 +67,7 @@ export class ResponsabiliteService {
     console.log('haa lien ' + this._urlrespo);
     console.log('haa responsabilite ' + this.responsabilite);
 
-    this.http.post<number>(this._urlrespo+ 'save', this.responsabilite).subscribe(
+    this.http.post<number>(this._urlrespo + 'save', this.responsabilite).subscribe(
       data => {
         if (data > 0) {
           this.responsabilites.push(this.cloneResponsabilite(this.responsabilite));
@@ -75,8 +75,9 @@ export class ResponsabiliteService {
           this.display = 1;
           console.log(this.responsabilite);
         }
-        else if(data == -1)
+        else if (data == -1) {
           this.display = -1;
+ }
       }, error => {
         console.log(error);
       }
@@ -105,7 +106,7 @@ export class ResponsabiliteService {
   }
 
 
-  public recuperer(responsabilite: Responsabilite, id:number) {
+  public recuperer(responsabilite: Responsabilite, id: number) {
     console.log(responsabilite);
     this.responsabilite.id = responsabilite.id;
     this.responsabilite.libelle = responsabilite.libelle;
@@ -117,16 +118,16 @@ export class ResponsabiliteService {
     this.isPrinting = true;
     this.router.navigate(['/',
       {outlets: {
-          'print': ['print', documentName, documentData.join()]
+          print: ['print', documentName, documentData.join()]
         }}
-    ])
+    ]);
   }
   public update(id: number, libelle: string){
-    this.http.put(this._urlrespo +id +'/'+libelle , this.responsabilite).subscribe(
-      data =>{
-        if(data >0) {
+    this.http.put(this._urlrespo + id + '/' + libelle , this.responsabilite).subscribe(
+      data => {
+        if (data > 0) {
           console.log('le responsabilite est modifie ');
         }
-      })
+      });
   }
 }

@@ -1,13 +1,14 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {Etudiant} from "../../controller/model/etudiant";
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {Semestre} from "../../controller/model/semestre";
-import {SemestreService} from "../../controller/services/semestre.service";
-import {FiliereService} from "../../controller/services/filiere.service";
-import {Filiere} from "../../controller/model/filiere";
-import {EtudiantService} from "../../controller/services/etudiant.service";
+ import {Component, OnInit, TemplateRef} from '@angular/core';
 
-@Component({
+ import {Etudiant} from '../../controller/model/etudiant';
+ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+ import {Semestre} from '../../controller/model/semestre';
+ import {SemestreService} from '../../controller/services/semestre.service';
+ import {FiliereService} from '../../controller/services/filiere.service';
+ import {Filiere} from '../../controller/model/filiere';
+ import {EtudiantService} from '../../controller/services/etudiant.service';
+
+ @Component({
   selector: 'app-etudiant',
   templateUrl: './etudiant.component.html',
   styleUrls: ['./etudiant.component.css']
@@ -16,7 +17,7 @@ export class EtudiantComponent implements OnInit {
 
   item: string;
   modalRef: BsModalRef;
-  selected= '---Choisir une filière---';
+  selected = '---Choisir une filière---';
   constructor(private etudiantService: EtudiantService, private modalService: BsModalService, private filiereService: FiliereService, private semestreService: SemestreService) { }
 
   ngOnInit(): void {

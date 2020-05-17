@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {Etat} from "../model/etat.model";
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Etat} from '../model/etat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class EtatService {
   private _etat: Etat;
   private _etats: Array<Etat>;
   private _urletat = 'http://localhost:8090/exam-api/etat/';
-  private isPrinting=false;
+  private isPrinting = false;
 
   get http(): HttpClient {
     return this._http;
@@ -57,7 +57,7 @@ export class EtatService {
     console.log(' lien ' + this._urletat);
     console.log(' etat ' + this.etat);
 
-    this.http.post<number>(this._urletat+ 'save', this.etat).subscribe(
+    this.http.post<number>(this._urletat + 'save', this.etat).subscribe(
       data => {
         if (data > 0) {
           this.etats.push(this.etat);

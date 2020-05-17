@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Niveau} from "../model/niveau";
-import {HttpClient} from "@angular/common/http";
-import {Filiere} from "../model/filiere";
-import {Module} from "../model/module.model";
+import {Niveau} from '../model/niveau';
+import {HttpClient} from '@angular/common/http';
+import {Filiere} from '../model/filiere';
+import {Module} from '../model/module.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +16,14 @@ export class FiliereService {
   private _modules: Array<Module>;
   private _display: number;
   private _niveaux: Array<Niveau>;
-  private _urlFiliere= 'http://localhost:8090/exam-api/filieres/';
-  private _urlModule= 'http://localhost:8090/exam-api/modules';
-  private _urlNiveau= 'http://localhost:8090/exam-api/niveaux/'
+  private _urlFiliere = 'http://localhost:8090/exam-api/filieres/';
+  private _urlModule = 'http://localhost:8090/exam-api/modules';
+  private _urlNiveau = 'http://localhost:8090/exam-api/niveaux/';
 
   constructor(private http: HttpClient) { }
 
   get filiere(): Filiere{
-    if(this._filiere == null){
+    if (this._filiere == null){
       this._filiere = new Filiere();
     }
     return this._filiere;
@@ -34,7 +34,7 @@ export class FiliereService {
   }
 
   get niveau(): Niveau{
-    if(this._niveau == null){
+    if (this._niveau == null){
       this._niveau = new Filiere();
     }
     return this._niveau;
@@ -44,7 +44,7 @@ export class FiliereService {
     this._niveau = niveau;
   }
   get niveaux(): Array<Niveau>{
-    if(this._niveaux == null){
+    if (this._niveaux == null){
       this._niveaux = new Array<Niveau>();
     }
     return this._niveaux;
@@ -55,7 +55,7 @@ export class FiliereService {
   }
 
   get module(): Module{
-    if(this._module == null){
+    if (this._module == null){
       this._module = new Module();
     }
     return this._module;
@@ -66,7 +66,7 @@ export class FiliereService {
   }
 
   get filieres(): Array<Filiere>{
-    if(this._filieres == null){
+    if (this._filieres == null){
       this._filieres = new Array<Filiere>();
     }
     return this._filieres;
@@ -77,7 +77,7 @@ export class FiliereService {
   }
 
   get modules(): Array<Module>{
-    if(this._modules == null){
+    if (this._modules == null){
       this._modules = new Array<Module>();
     }
     return this._modules;
@@ -96,12 +96,12 @@ export class FiliereService {
   }
 
   public findAll(){
-    this.http.get<Array<Filiere>>(this._urlFiliere +'/find-all').subscribe(
+    this.http.get<Array<Filiere>>(this._urlFiliere + '/find-all').subscribe(
       data => {
         this.filieres = data;
         console.log(data);
       }
-    )
+    );
   }
 
   public validateSave(): boolean{
@@ -111,21 +111,21 @@ export class FiliereService {
   public deleteByDesignation(filiere: Filiere){
     this.http.delete<number>(this._urlFiliere + 'delete-by-libelle/' + filiere.libelle).subscribe(
       data => {
-        console.log("data suprime");
+        console.log('data suprime');
         this.deleteByReferenceFromView(filiere);
       }
     );
   }
 
   public deleteByReferenceFromView(filiere: Filiere){
-    const index = this.filieres.findIndex(f=> f.libelle === filiere.libelle);
+    const index = this.filieres.findIndex(f => f.libelle === filiere.libelle);
     if (index !== -1) {
       this.filieres.splice(index, 1);
     }
   }
 
   public save(){
-    this.http.post<number>(this._urlFiliere+ 'save/', this.filiere).subscribe(
+    this.http.post<number>(this._urlFiliere + 'save/', this.filiere).subscribe(
       data => {
         if (data > 0) {
           this.filieres.push(this.filiere);
@@ -133,8 +133,9 @@ export class FiliereService {
           this.display = 1;
           console.log(this.filiere);
         }
-        else if(data == -1)
+        else if (data == -1) {
           this.display = -1;
+ }
       },
       error => {
         console.log(error);
@@ -144,12 +145,12 @@ export class FiliereService {
 
   public findByFiliereLibelle(filiere: Filiere){
     this.http.get<Array<Module
-      >>(this._urlModule +'/find-by-filiere/'+filiere.libelle).subscribe(
+      >>(this._urlModule + '/find-by-filiere/' + filiere.libelle).subscribe(
       data => {
         this.filiere.modules = data;
-        console.log(data+"hani");
+        console.log(data + 'hani');
       }
-    )
+    );
   }
   public recupererF(filiere: Filiere){
     this.filiere.libelle = filiere.libelle;
@@ -163,7 +164,7 @@ export class FiliereService {
   }
 
   public saveFM(){
-    this.http.post<number>(this._urlFiliere+ 'saveFM', this.filiere).subscribe(
+    this.http.post<number>(this._urlFiliere + 'saveFM', this.filiere).subscribe(
       data => {
         if (data > 0) {
           this.filieres.push(this.filiere);
@@ -177,7 +178,7 @@ export class FiliereService {
   }
 
   public saveM(module: Module){
-    this.http.post<number>(this._urlModule+ '/add-module/', module).subscribe(
+    this.http.post<number>(this._urlModule + '/add-module/', module).subscribe(
       data => {
         if (data > 0) {
           this.filiere.modules.push(this.module);
@@ -193,26 +194,26 @@ export class FiliereService {
   public deleteByLibelle(module: Module){
     this.http.delete<number>(this._urlModule + '/delete-by-libelle/' + module.libelle).subscribe(
       data => {
-        console.log("data suprime");
+        console.log('data suprime');
         this.deleteByReferenceFromView1(module);
       }
     );
   }
 
   public deleteByReferenceFromView1(module: Module){
-    const index = this.filiere.modules.findIndex(m=> m.libelle === module.libelle);
+    const index = this.filiere.modules.findIndex(m => m.libelle === module.libelle);
     if (index !== -1) {
       this.filiere.modules.splice(index, 1);
     }
   }
 
   public getNiveaux(){
-    this.http.get<Array<Niveau>>(this._urlNiveau +'find-all').subscribe(
+    this.http.get<Array<Niveau>>(this._urlNiveau + 'find-all').subscribe(
       data => {
         this.niveaux = data;
         console.log(data);
       }
-    )
+    );
   }
 
   public vider(){

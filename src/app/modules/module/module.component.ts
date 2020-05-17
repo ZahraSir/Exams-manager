@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ModuleService} from "../../controller/services/module.service";
-import {FiliereService} from "../../controller/services/filiere.service";
-import {Filiere} from "../../controller/model/filiere";
-import {Module} from "../../controller/model/module.model";
-import {Semestre} from "../../controller/model/semestre";
-import {SemestreService} from "../../controller/services/semestre.service";
-import {EtudiantService} from "../../controller/services/etudiant.service";
+import {ModuleService} from '../../controller/services/module.service';
+import {FiliereService} from '../../controller/services/filiere.service';
+import {Filiere} from '../../controller/model/filiere';
+import {Module} from '../../controller/model/module.model';
+import {Semestre} from '../../controller/model/semestre';
+import {SemestreService} from '../../controller/services/semestre.service';
+import {EtudiantService} from '../../controller/services/etudiant.service';
 
 @Component({
   selector: 'app-module',
@@ -13,7 +13,7 @@ import {EtudiantService} from "../../controller/services/etudiant.service";
   styleUrls: ['./module.component.css']
 })
 export class ModuleComponent implements OnInit {
-  constructor(private moduleService: ModuleService,private filiereService: FiliereService, private semestreService: SemestreService, private etudiantService: EtudiantService) { }
+  constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private etudiantService: EtudiantService) { }
 
   ngOnInit(): void {
   }

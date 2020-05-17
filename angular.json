@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "exam-manager"
+    }
+  },
+  "defaultProject": "exam-manager",
+  "cli": {
+    "analytics": "c14e800f-ef00-42ef-a681-d8e74c8c83a7"
+  }
 }

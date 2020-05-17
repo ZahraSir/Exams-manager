@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {Professeur} from "../model/professeur.model";
-import {Responsabilite} from "../model/responsabilite.model";
-import {Departement} from "../model/departement.model";
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Professeur} from '../model/professeur.model';
+import {Responsabilite} from '../model/responsabilite.model';
+import {Departement} from '../model/departement.model';
 
-ImageBitmapRenderingContext
 @Injectable({
   providedIn: 'root'
 })

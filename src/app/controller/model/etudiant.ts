@@ -1,5 +1,5 @@
-import {Filiere} from "./filiere";
-import {Semestre} from "./semestre";
+import {Filiere} from './filiere';
+import {Semestre} from './semestre';
 
 export class Etudiant {
   public id: number;

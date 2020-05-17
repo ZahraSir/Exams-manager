@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {Exam} from "../model/exam.model";
-import {Module} from "../model/module.model";
-import {Semestre} from "../model/semestre";
+import {HttpClient} from '@angular/common/http';
+import {Module} from '../model/module.model';
+import {Semestre} from '../model/semestre';
 
-ImageBitmapRenderingContext
+
 @Injectable({
   providedIn: 'root'
 })

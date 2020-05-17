@@ -10,25 +10,26 @@ import { HttpClientModule } from '@angular/common/http';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {FormsModule} from '@angular/forms';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {ProfesseurComponent} from '../../modules/professeur/professeur.component';
+import {ResponsabiliteComponent} from '../../modules/responsabilite/responsabilite.component';
+import {SurveillantComponent} from '../../modules/surveillant/surveillant.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {ExamComponent} from '../../modules/exam/exam.component';
+import {ModuleComponent} from '../../modules/module/module.component';
+import {EtatComponent} from '../../modules/etat/etat.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {FiliereComponent} from '../../modules/filiere/filiere.component';
+import {AlertModule} from 'ngx-bootstrap/alert';
+import {CalendarComponent} from '../../modules/calendar/calendar.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {EtudiantComponent} from '../../modules/etudiant/etudiant.component';
+import {ModuleCreateComponent} from '../../modules/module/module-create/module-create.component';
 import {InputTextModule} from 'primeng/inputtext';
 import {RadioButtonModule} from 'primeng/radiobutton';
-import {Ng2SearchPipeModule} from "ng2-search-filter";
-import {ProfesseurComponent} from "../../modules/professeur/professeur.component";
-import {ResponsabiliteComponent} from "../../modules/responsabilite/responsabilite.component";
-import {SurveillantComponent} from "../../modules/surveillant/surveillant.component";
-import {BrowserModule} from "@angular/platform-browser";
-import {ExamComponent} from "../../modules/exam/exam.component";
-import {ModuleComponent} from "../../modules/module/module.component";
-import {EtatComponent} from "../../modules/etat/etat.component";
-import { PaginationModule } from 'ngx-bootstrap/pagination';
-import {PaginatorModule} from "primeng";
-import {NgxPaginationModule} from "ngx-pagination";
-import {FiliereComponent} from "../../modules/filiere/filiere.component";
-import {AlertModule} from "ngx-bootstrap/alert";
-import {CalendarComponent} from "../../modules/calendar/calendar.component";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {EtudiantComponent} from "../../modules/etudiant/etudiant.component";
-import {ModuleCreateComponent} from "../../modules/module/module-create/module-create.component";
+import {ButtonModule} from 'primeng/button';
+
 
 
 
@@ -57,15 +58,15 @@ import {ModuleCreateComponent} from "../../modules/module/module-create/module-c
         FlexLayoutModule,
         FormsModule,
         ButtonsModule.forRoot(),
-        InputTextModule,
-        RadioButtonModule,
         Ng2SearchPipeModule,
         BrowserModule,
-        PaginatorModule,
+      InputTextModule,
+      RadioButtonModule,
         PaginationModule.forRoot(),
         NgxPaginationModule,
         AlertModule.forRoot(),
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      ButtonModule
 
     ]
 })

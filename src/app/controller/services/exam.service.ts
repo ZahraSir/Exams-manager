@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {Salles} from "../model/salles";
-import {Exam} from "../model/exam.model";
-import {Surveillant} from "../model/surveillant.model";
-import {Professeur} from "../model/professeur.model";
-import {Module} from "../model/module.model";
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Salles} from '../model/salles';
+import {Exam} from '../model/exam.model';
+import {Surveillant} from '../model/surveillant.model';
+import {Professeur} from '../model/professeur.model';
+import {Module} from '../model/module.model';
 
-ImageBitmapRenderingContext
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +26,7 @@ export class ExamService {
   private _urlsalle = 'http://localhost:8090/exam-api/salles/';
   private _modules: Array<Module>;
   private _urlmodule = 'http://localhost:8090/exam-api/modules/';
-  private isPrinting=false;
+  private isPrinting = false;
   private _display: number;
 
   get http(): HttpClient {
@@ -109,7 +109,7 @@ export class ExamService {
     this._display = display;
   }
   public findAll() {
-    this.http.get<Array<Exam>>(this._urlexam+ 'find-all').subscribe(
+    this.http.get<Array<Exam>>(this._urlexam + 'find-all').subscribe(
       data => {
         this.exams = data;
         console.log(data);
@@ -121,7 +121,7 @@ export class ExamService {
     console.log('haa lien ' + this._urlsalle);
     console.log('haa salle ' + this.exam);
 
-    this.http.post<number>(this._urlexam+ 'save', this.exam).subscribe(
+    this.http.post<number>(this._urlexam + 'save', this.exam).subscribe(
       data => {
         if (data > 0) {
           this.exams.push(this.exam);
@@ -130,8 +130,9 @@ export class ExamService {
           this.display = 1;
           console.log(this.exam);
         }
-        else if(data == -1)
+        else if (data == -1) {
           this.display = -1;
+ }
       }, error => {
         console.log(error);
       }
@@ -141,7 +142,7 @@ export class ExamService {
   private cloneExam(exam: Exam) {
     const myClone = new Exam();
     myClone.reference = exam.reference;
-    myClone.heureDepart= exam.heureDepart;
+    myClone.heureDepart = exam.heureDepart;
     myClone.date = exam.date;
     myClone.heureFin = exam.heureFin;
     myClone.module = exam.module;
@@ -169,9 +170,9 @@ export class ExamService {
 
 
 
-  public recuperer(exam: Exam, id:number) {
+  public recuperer(exam: Exam, id: number) {
     console.log(exam);
-    this.exam.id = exam.id
+    this.exam.id = exam.id;
     this.exam.reference = exam.reference;
     this.exam.date = exam.date;
     this.exam.heureFin = exam.heureFin;
@@ -188,40 +189,40 @@ export class ExamService {
     this.isPrinting = true;
     this.router.navigate(['/',
       {outlets: {
-          'print': ['print', documentName, documentData.join()]
+          print: ['print', documentName, documentData.join()]
         }}
-    ])
+    ]);
   }
   public update(id: number, reference: string, date: Date, heureDepart: string, heureFin: string, module: Module, prof: Professeur, surveillants: Surveillant, salles: Salles){
-    this.http.put(this._urlexam + id +'/'+ reference +'/' + date + '/' + heureDepart + '/'+ heureFin + '/' + module + '/'+ prof + '/' + surveillants + '/'+ salles , this.exam).subscribe(
-      data =>{
-        if(data >0) {
+    this.http.put(this._urlexam + id + '/' + reference + '/' + date + '/' + heureDepart + '/' + heureFin + '/' + module + '/' + prof + '/' + surveillants + '/' + salles , this.exam).subscribe(
+      data => {
+        if (data > 0) {
           console.log('exam ');
         }
-      })
+      });
   }
   public getSurveillant() {
-    this.http.get<Array<Surveillant>>(this._urlsurve+ 'find-all').subscribe(
+    this.http.get<Array<Surveillant>>(this._urlsurve + 'find-all').subscribe(
       data => {
-        this._surveillants= data;
+        this._surveillants = data;
       }
     );
   }
   public getModule() {
-    this.http.get<Array<Module>>(this._urlmodule+ 'find-all').subscribe(
+    this.http.get<Array<Module>>(this._urlmodule + 'find-all').subscribe(
       data => {
         this._modules = data;
       }
     );
   }  public getSalles() {
-    this.http.get<Array<Salles>>(this._urlsalle+ 'findAll').subscribe(
+    this.http.get<Array<Salles>>(this._urlsalle + 'findAll').subscribe(
       data => {
         this._salles = data;
       }
     );
   }
   public getProfesseur() {
-    this.http.get<Array<Professeur>>(this._urlprof+ 'find-all').subscribe(
+    this.http.get<Array<Professeur>>(this._urlprof + 'find-all').subscribe(
       data => {
         this._professeurs = data;
       }

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Salles } from '../model/salles';
 import { Router } from '@angular/router';
-import {Etat} from "../model/etat.model";
 
-ImageBitmapRenderingContext
 @Injectable({
   providedIn: 'root'
 })
@@ -126,15 +124,15 @@ export class SallesService {
        {outlets: {
          'print': ['print', documentName, documentData.join()]
        }}
-     ])
+     ]);
   }
-  public update(id: number,designation: string, etat: string, type: string, capacite: number){
-    this.http.put(this._urlsalle + id +'/'+ designation +'/' + etat + '/' + type + '/'+ capacite, this.salle).subscribe(
-      data =>{
-        if(data >0) {
-          console.log('la salle ')
+  public update(id: number, designation: string, etat: string, type: string, capacite: number){
+    this.http.put(this._urlsalle + id + '/' + designation + '/' + etat + '/' + type + '/' + capacite, this.salle).subscribe(
+      data => {
+        if (data > 0) {
+          console.log('la salle ');
         }
-      })
+      });
   }
 }
 

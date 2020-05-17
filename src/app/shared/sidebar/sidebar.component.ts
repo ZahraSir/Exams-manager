@@ -25,7 +25,7 @@ menuItems: MenuItem[];
       { label: 'Filliere', icon: 'fa-home', routerLink: ['/fillieres']},
       { label: 'Calendar', icon: 'fa-home', routerLink: ['/calendars']},
 
-        ]
+        ];
   }
 
 }

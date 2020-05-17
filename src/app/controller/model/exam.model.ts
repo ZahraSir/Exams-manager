@@ -1,7 +1,7 @@
-import {Professeur} from "./professeur.model";
-import {Surveillant} from "./surveillant.model";
-import {Salles} from "./salles";
-import {Module} from "./module.model";
+import {Professeur} from './professeur.model';
+import {Surveillant} from './surveillant.model';
+import {Salles} from './salles';
+import {Module} from './module.model';
 
 export class Exam {
 

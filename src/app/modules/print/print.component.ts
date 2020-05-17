@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { PrintService } from 'src/app/controller/services/print.service';
 import { SallesService } from 'src/app/controller/services/salles.service';
 import { Salles } from 'src/app/controller/model/salles';
-import {Responsabilite} from "../../controller/model/responsabilite.model";
-import {Surveillant} from "../../controller/model/surveillant.model";
-import {DepartementService} from "../../controller/services/departement.service";
-import {SurveillantService} from "../../controller/services/surveillant.service";
-import {ProfesseurService} from "../../controller/services/professeur.service";
-import {ResponsabiliteService} from "../../controller/services/responsabilite.service";
-import {Departement} from "../../controller/model/departement.model";
-import {Professeur} from "../../controller/model/professeur.model";
+import {Responsabilite} from '../../controller/model/responsabilite.model';
+import {Surveillant} from '../../controller/model/surveillant.model';
+import {DepartementService} from '../../controller/services/departement.service';
+import {SurveillantService} from '../../controller/services/surveillant.service';
+import {ProfesseurService} from '../../controller/services/professeur.service';
+import {ResponsabiliteService} from '../../controller/services/responsabilite.service';
+import {Departement} from '../../controller/model/departement.model';
+import {Professeur} from '../../controller/model/professeur.model';
 
 @Component({
   selector: 'app-print',

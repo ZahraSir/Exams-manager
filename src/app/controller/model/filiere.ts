@@ -1,5 +1,5 @@
-import {Module} from "./module.model";
-import {Niveau} from "./niveau";
+import {Module} from './module.model';
+import {Niveau} from './niveau';
 
 export class Filiere {
   public id: number;

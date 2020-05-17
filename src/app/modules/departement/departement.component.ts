@@ -1,8 +1,8 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {PrintService} from "../../controller/services/print.service";
-import {DepartementService} from "../../controller/services/departement.service";
-import {Departement} from "../../controller/model/departement.model";
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {PrintService} from '../../controller/services/print.service';
+import {DepartementService} from '../../controller/services/departement.service';
+import {Departement} from '../../controller/model/departement.model';
 
 @Component({
   selector: 'app-departement',
@@ -14,7 +14,7 @@ export class DepartementComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   item: string;
-  p: number =1;
+  p = 1;
   constructor(private departementService: DepartementService,
               private modalService: BsModalService, private printService: PrintService) { }
 
@@ -53,7 +53,7 @@ export class DepartementComponent implements OnInit {
   }
 
 
-   public update(id: number,libelle: string){
-    this.departementService.update(id,libelle);
+   public update(id: number, libelle: string){
+    this.departementService.update(id, libelle);
   }
 }

@@ -1,5 +1,5 @@
-import {Responsabilite} from "./responsabilite.model";
-import {Departement} from "./departement.model";
+import {Responsabilite} from './responsabilite.model';
+import {Departement} from './departement.model';
 
 export class Professeur {
  public  id: number;

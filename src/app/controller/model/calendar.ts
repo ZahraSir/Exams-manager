@@ -1,5 +1,5 @@
-import {Filiere} from "./filiere";
-import {Exam} from "./exam.model";
+import {Filiere} from './filiere';
+import {Exam} from './exam.model';
 
 export class Calendar {
   public  id: number;

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {Surveillant} from "../model/surveillant.model";
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {Surveillant} from '../model/surveillant.model';
 
-ImageBitmapRenderingContext
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +16,7 @@ export class SurveillantService {
   private _surveillants: Array<Surveillant>;
   private _display: number;
   private _urlsurve = 'http://localhost:8090/exam-api/surveillants/';
-  private isPrinting=false;
+  private isPrinting = false;
 
   get http(): HttpClient {
     return this._http;
@@ -68,7 +68,7 @@ export class SurveillantService {
     console.log('haa lien ' + this._urlsurve);
     console.log('haa surveillant ' + this.surveillant);
 
-    this.http.post<number>(this._urlsurve+ 'save', this.surveillant).subscribe(
+    this.http.post<number>(this._urlsurve + 'save', this.surveillant).subscribe(
       data => {
         if (data > 0) {
           this.surveillants.push(this.cloneSurveillant(this.surveillant));
@@ -77,8 +77,9 @@ export class SurveillantService {
           this.display = 1;
           console.log(this.surveillant);
         }
-        else if(data == -1)
+        else if (data == -1) {
           this.display = -1;
+ }
       }, error => {
         console.log(error);
       }
@@ -110,9 +111,9 @@ export class SurveillantService {
     }
   }
 
-  public recuperer(surveillant: Surveillant, id:number) {
+  public recuperer(surveillant: Surveillant, id: number) {
     console.log(surveillant);
-    this.surveillant.id = surveillant.id
+    this.surveillant.id = surveillant.id;
     this.surveillant.nom = surveillant.nom;
     this.surveillant.prenom = surveillant.prenom;
     this.surveillant.mail = surveillant.mail;
@@ -125,17 +126,17 @@ export class SurveillantService {
     this.isPrinting = true;
     this.router.navigate(['/',
       {outlets: {
-          'print': ['print', documentName, documentData.join()]
+          print: ['print', documentName, documentData.join()]
         }}
-    ])
+    ]);
   }
   public update(id: number, nom: string, prenom: string, mail: string){
-    this.http.put(this._urlsurve +id +'/'+nom +'/' + prenom+ '/' + mail, this.surveillant).subscribe(
-      data =>{
-        if(data >0) {
+    this.http.put(this._urlsurve + id + '/' + nom + '/' + prenom + '/' + mail, this.surveillant).subscribe(
+      data => {
+        if (data > 0) {
           console.log('la surveillant ');
         }
-      })
+      });
   }
 }
 

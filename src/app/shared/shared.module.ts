@@ -4,10 +4,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { FlexLayoutModule} from "@angular/flex-layout";
-import {MenuModule} from 'primeng/menu';
-import {ButtonModule} from 'primeng/button';
-import {NgxPaginationModule} from "ngx-pagination";
+import { FlexLayoutModule} from '@angular/flex-layout';
+
+
 
 @NgModule({
   declarations: [
@@ -18,9 +17,7 @@ import {NgxPaginationModule} from "ngx-pagination";
   imports: [
     CommonModule,
     RouterModule,
-    FlexLayoutModule,
-    MenuModule,
-    ButtonModule
+    FlexLayoutModule
 
   ],
   exports: [

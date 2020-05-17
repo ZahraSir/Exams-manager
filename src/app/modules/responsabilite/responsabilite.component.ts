@@ -1,8 +1,8 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {PrintService} from "../../controller/services/print.service";
-import {ResponsabiliteService} from "../../controller/services/responsabilite.service";
-import {Responsabilite} from "../../controller/model/responsabilite.model";
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {PrintService} from '../../controller/services/print.service';
+import {ResponsabiliteService} from '../../controller/services/responsabilite.service';
+import {Responsabilite} from '../../controller/model/responsabilite.model';
 
 @Component({
   selector: 'app-responsabilite',
@@ -15,7 +15,7 @@ export class ResponsabiliteComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   item: string;
-  p: number =1;
+  p = 1;
   constructor(private responsabiliteService: ResponsabiliteService,
               private modalService: BsModalService, private printService: PrintService) { }
 
@@ -55,6 +55,6 @@ export class ResponsabiliteComponent implements OnInit {
 
 
   public update(id: number, libelle: string){
-    this.responsabiliteService.update(id,libelle);
+    this.responsabiliteService.update(id, libelle);
   }
 }

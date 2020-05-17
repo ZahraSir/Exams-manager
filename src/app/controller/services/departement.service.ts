@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
-import {Departement} from "../model/departement.model";
+import {Departement} from '../model/departement.model';
 
-ImageBitmapRenderingContext
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +15,7 @@ export class DepartementService {
   private _departements: Array<Departement>;
   private _display: number;
   private _urldepart = 'http://localhost:8090/exam-api/departements/';
-  private isPrinting=false;
+  private isPrinting = false;
 
   get http(): HttpClient {
     return this._http;
@@ -67,7 +66,7 @@ export class DepartementService {
     console.log('haa lien ' + this._urldepart);
     console.log('haa departement ' + this.departement);
 
-    this.http.post<number>(this._urldepart+ 'save', this.departement).subscribe(
+    this.http.post<number>(this._urldepart + 'save', this.departement).subscribe(
       data => {
         if (data > 0) {
           this.departements.push(this.cloneDepartement(this.departement));
@@ -76,8 +75,9 @@ export class DepartementService {
           this.display = 1;
           console.log(this.departement);
         }
-        else if(data == -1)
+        else if (data == -1) {
           this.display = -1;
+ }
       }, error => {
         console.log(error);
       }
@@ -106,7 +106,7 @@ export class DepartementService {
     }
   }
 
-  public recuperer(departement: Departement, id:number) {
+  public recuperer(departement: Departement, id: number) {
     console.log(departement);
     this.departement.id = departement.id;
     this.departement.libelle = departement.libelle;
@@ -118,17 +118,17 @@ export class DepartementService {
     this.isPrinting = true;
     this.router.navigate(['/',
       {outlets: {
-          'print': ['print', documentName, documentData.join()]
+          print: ['print', documentName, documentData.join()]
         }}
-    ])
+    ]);
   }
   public update(id: number, libelle: string){
-    this.http.put(this._urldepart + id +'/' +libelle , this.departement).subscribe(
-      data =>{
-        if(data >0) {
+    this.http.put(this._urldepart + id + '/' + libelle , this.departement).subscribe(
+      data => {
+        if (data > 0) {
           console.log('le departement est modifie ');
         }
-      })
+      });
   }
 }
 

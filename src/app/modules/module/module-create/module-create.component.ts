@@ -1,11 +1,11 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {ModuleService} from "../../../controller/services/module.service";
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {Semestre} from "../../../controller/model/semestre";
-import {SemestreService} from "../../../controller/services/semestre.service";
-import {FiliereService} from "../../../controller/services/filiere.service";
-import {Filiere} from "../../../controller/model/filiere";
-import {Module} from "../../../controller/model/module.model";
+import {ModuleService} from '../../../controller/services/module.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {Semestre} from '../../../controller/model/semestre';
+import {SemestreService} from '../../../controller/services/semestre.service';
+import {FiliereService} from '../../../controller/services/filiere.service';
+import {Filiere} from '../../../controller/model/filiere';
+import {Module} from '../../../controller/model/module.model';
 
 @Component({
   selector: 'app-module-create',
@@ -14,7 +14,7 @@ import {Module} from "../../../controller/model/module.model";
 })
 export class ModuleCreateComponent implements OnInit {
 
-  constructor(private moduleService: ModuleService,private filiereService: FiliereService, private semestreService: SemestreService, private modalService: BsModalService) { }
+  constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private modalService: BsModalService) { }
   item: string;
   modalRef: BsModalRef;
   ngOnInit(): void {
