@@ -3,6 +3,8 @@ import {Niveau} from '../model/niveau';
 import {HttpClient} from '@angular/common/http';
 import {Filiere} from '../model/filiere';
 import {Module} from '../model/module.model';
+import { NiveauSemestre } from '../model/niveau-semestre';
+import { Departement } from '../model/departement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,7 @@ export class FiliereService {
   private _filiere: Filiere;
   private _module: Module;
   private _niveau: Niveau;
+  private _departements: Array<Departement>;
   private _filieres: Array<Filiere>;
   private _modules: Array<Module>;
   private _display: number;
@@ -19,7 +22,9 @@ export class FiliereService {
   private _urlFiliere = 'http://localhost:8090/exam-api/filieres/';
   private _urlModule = 'http://localhost:8090/exam-api/modules';
   private _urlNiveau = 'http://localhost:8090/exam-api/niveaux/';
-
+  private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
+  private _niveauSemestres: Array<NiveauSemestre>;
+  
   constructor(private http: HttpClient) { }
 
   get filiere(): Filiere{
@@ -35,7 +40,7 @@ export class FiliereService {
 
   get niveau(): Niveau{
     if (this._niveau == null){
-      this._niveau = new Filiere();
+      this._niveau = new Niveau();
     }
     return this._niveau;
   }
@@ -52,6 +57,17 @@ export class FiliereService {
 
   set niveaux(niveaux: Array<Niveau>){
     this._niveaux = niveaux;
+  }
+
+  get niveauSemestres(): Array<NiveauSemestre>{
+    if (this._niveauSemestres == null){
+      this._niveauSemestres = new Array<NiveauSemestre>();
+    }
+    return this._niveauSemestres;
+  }
+
+  set niveauSemestres(niveauSemestres: Array<NiveauSemestre>){
+    this._niveauSemestres = niveauSemestres;
   }
 
   get module(): Module{
@@ -74,6 +90,17 @@ export class FiliereService {
 
   set filieres(filieres: Array<Filiere>){
     this._filieres = filieres;
+  }
+
+  get departements(): Array<Departement>{
+    if (this._departements == null){
+      this._departements = new Array<Departement>();
+    }
+    return this._departements;
+  }
+
+  set departements(departements: Array<Departement>){
+    this._departements = departements;
   }
 
   get modules(): Array<Module>{
@@ -124,11 +151,13 @@ export class FiliereService {
     }
   }
 
-  public save(){
-    this.http.post<number>(this._urlFiliere + 'save/', this.filiere).subscribe(
+  public save(selectedNiveau: string){
+    this.filiere.niveau.libelle = selectedNiveau;
+    this.http.post<number>(this._urlFiliere + selectedNiveau+'/save/', this.filiere).subscribe(
       data => {
         if (data > 0) {
           this.filieres.push(this.filiere);
+
           this.filiere = null;
           this.display = 1;
           console.log(this.filiere);
@@ -154,8 +183,9 @@ export class FiliereService {
   }
   public recupererF(filiere: Filiere){
     this.filiere.libelle = filiere.libelle;
-    this.filiere.niveau.libelle = filiere.niveau.libelle;
+    this.filiere.niveau.libelle= filiere.niveau.libelle;
     this.filiere.modules = filiere.modules;
+    this.filiere.departement.libelle = filiere.departement.libelle;
   }
 
   public addModules(){
@@ -167,7 +197,7 @@ export class FiliereService {
     this.http.post<number>(this._urlFiliere + 'saveFM', this.filiere).subscribe(
       data => {
         if (data > 0) {
-          this.filieres.push(this.filiere);
+          this.filieres.push(this.clone(this.filiere));
           this.filiere = null;
           console.log(this.filiere);
         }},
@@ -175,6 +205,18 @@ export class FiliereService {
         console.log(error);
       }
     );
+  }
+
+
+  public clone(filiere: Filiere){
+    const cloneFiliere = new Filiere();
+    cloneFiliere.id = filiere.id;
+    cloneFiliere.libelle = filiere.libelle;
+    cloneFiliere.modules = filiere.modules;
+    cloneFiliere.niveau.libelle = filiere.niveau.libelle;
+    console.log(filiere.niveau);
+    cloneFiliere.departement =filiere.departement;
+    return cloneFiliere;
   }
 
   public saveM(module: Module){
@@ -218,5 +260,25 @@ export class FiliereService {
 
   public vider(){
     this.filiere = null;
+  }
+
+  public findByNiveauLibelle(niveau){
+    this.http.get<Array<NiveauSemestre>>(this._urlSemestre+ 'find-by-niveau/'+niveau).subscribe(
+      data => {
+        console.log(data);
+       this.niveauSemestres = data;
+        console.log('fbjd '+this.niveauSemestres)
+        
+      }
+    )
+  }
+
+  public getDepartements(){
+    this.http.get<Array<Departement>>('http://localhost:8090/exam-api/departements/find-all').subscribe(
+      data => {
+        this.departements = data;
+        console.log(data);
+      }
+    );
   }
 }

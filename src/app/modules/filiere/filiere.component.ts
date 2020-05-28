@@ -8,6 +8,8 @@ import {Niveau} from '../../controller/model/niveau';
 import {Filiere} from '../../controller/model/filiere';
 import {EtudiantService} from '../../controller/services/etudiant.service';
 import {Module} from '../../controller/model/module.model';
+import { Departement } from 'src/app/controller/model/departement.model';
+import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
 
 @Component({
   selector: 'app-filiere',
@@ -21,6 +23,7 @@ export class FiliereComponent implements OnInit {
   message: string;
   item: string;
   selected: string;
+  selectedNiveau: string;
 
   constructor(private modalService: BsModalService, private filiereService: FiliereService, private moduleService: ModuleService, private etudiantService: EtudiantService, private semestreService: SemestreService) {
     this.selected = 'choisir un niveau';
@@ -29,8 +32,8 @@ export class FiliereComponent implements OnInit {
   ngOnInit(): void {
     this.filiereService.findAll();
     this.filiereService.getNiveaux();
-    this.etudiantService.getSemestres();
-    console.log(this.semestres);
+    this.filiereService.getDepartements();
+   // this.etudiantService.getSemestres();
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -64,13 +67,19 @@ export class FiliereComponent implements OnInit {
   get filieres(): Array<Filiere>{
     return this.filiereService.filieres;
   }
-
+  get departements(): Array<Departement>{
+    return this.filiereService.departements;
+  }
   get niveaux(): Array<Niveau>{
     return this.filiereService.niveaux;
   }
 
   get modules(): Array<Module>{
     return this.filiereService.modules;
+  }
+
+  get niveauSemestres(): Array<NiveauSemestre>{
+    return this.filiereService.niveauSemestres;
   }
 
   public validateSave(): boolean{
@@ -81,8 +90,8 @@ export class FiliereComponent implements OnInit {
     this.modalRef2 = this.modalService.show(template, { class: 'second' });
   }
 
-  public save(){
-    this.filiereService.save();
+  public save(selectedNiveau: string){
+      this.filiereService.save(selectedNiveau);
   }
 
   public recupererF(filiere: Filiere){
@@ -103,6 +112,7 @@ export class FiliereComponent implements OnInit {
 
   public findByFiliereLibelle(filiere: Filiere){
     this.filiereService.findByFiliereLibelle(filiere);
+    console.log(filiere.niveau.libelle)
   }
 
   get display(): number{
@@ -140,4 +150,9 @@ export class FiliereComponent implements OnInit {
     this.filiereService.vider();
   }
 
+  public findByNiveauLibelle(niveau){
+    console.log(niveau);
+   this.filiereService.findByNiveauLibelle(niveau);
+    
+  }
 }

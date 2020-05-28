@@ -93,8 +93,13 @@ export class SallesService {
   public deleteByDesignation(salle: Salles) {
     this.http.delete<number>(this._urlsalle + 'delete-by-designation/' + salle.designation).subscribe(
       data => {
-        console.log('ha data ' + data);
-        this.deleteByDesignationFromView(salle);
+        if(data>0){
+          console.log('ha data ' + data);
+          this.deleteByDesignationFromView(salle);
+        }
+        else{
+          console.log('salle occupée');
+        }
       }
     );
   }

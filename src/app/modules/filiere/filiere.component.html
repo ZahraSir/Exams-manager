@@ -1,3 +1,23 @@
+<div *ngIf="display==-1; then erreur" ></div>
+<ng-template #erreur >
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+  <div class="modal-body text-center alert-danger">
+    Attention! Filière existe déja
+  </div>
+</ng-template>
+
+
+<div *ngIf="display==1; then reussi" ></div>
+<ng-template #reussi >
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+  <div class="modal-body text-center alert-success">
+    Filière est ajoutée avec succés
+  </div>
+</ng-template>
 <!--Liste des filieres-->
 <div class="card">
 
@@ -20,6 +40,7 @@
       <tr>
         <th>Libell&eacute;</th>
         <th>Niveau</th>
+        <th>D&eacute;partement</th>
         <th>Action</th>
       </tr>
       </thead>
@@ -27,6 +48,7 @@
       <tr *ngFor= "let filiere of filieres | filter: item">
         <td>{{filiere.libelle}}</td>
         <td>{{filiere.niveau.libelle}}</td>
+        <td>{{filiere.departement.libelle}}</td>
         <td>
           <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal);"></button>
           <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recupererF(filiere); findByFiliereLibelle(filiere);"></button>
@@ -71,103 +93,105 @@
             <small *ngIf="libelle?.errors?.required && libelle?.touched"
                    class="form-text text-danger">champs obligatoire</small>
           </div>
+          <div class="row">
+            <div class="col-md-6">
           <div class="form-group">
-            <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau"
+            <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau.libelle" (change)="findByNiveauLibelle($event.target.value)"
                     ngModel
                     required
                     #niveau="ngModel"
                     [ngClass]="{'form-control' : true,
                 'is-invalid' : !niveau?.valid && niveau?.touched,
                   'is-valid' : niveau?.valid && niveau?.touched}">
-              <option value="">--Choisir un niveau--</option>
-              <option *ngFor="let niveau of niveaux" [ngValue]="niveau">{{niveau.libelle}}</option>
+            <option selected>--Choisir un niveau--</option>
+              <option *ngFor="let niveau of niveaux" [value]="niveau.libelle" >{{niveau.libelle}}</option>
             </select>
             <small *ngIf="niveau?.errors?.required && niveau?.touched" class="form-text text-danger">champs obligatoire</small>
           </div>
+        </div>
+        <div class="col-md-6">
           <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="childModal.show(); recupererF(filiere); ">Ajouter modules</button>
+            <select class=" input-large form-control" name="departement" [(ngModel)]="filiere.departement"
+                    ngModel
+                    required
+                    #departement="ngModel"
+                    [ngClass]="{'form-control' : true,
+                'is-invalid' : !departement?.valid && departement?.touched,
+                  'is-valid' : departement?.valid && departement?.touched}">
+            <option selected>--Choisir un d&eacute;partement--</option>
+              <option *ngFor="let departement of departements" [ngValue]="departement" >{{departement.libelle}}</option>
+            </select>
+            <small *ngIf="departement?.errors?.required && departement?.touched" class="form-text text-danger">champs obligatoire</small>
+          </div>
+        </div>
+      </div>
+          <div class="card">
+            <div class="card-header">Ajouter les modules</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="form-control" name="lib" placeholder="Libell&eacute;" [(ngModel)]="module.libelle"
+                           ngModel
+                           required
+                           #lib="ngModel"
+                           [ngClass]="{'form-control' : true,
+                         'is-invalid' : !lib?.valid && lib?.touched,
+                         'is-valid' : lib?.valid && lib?.touched}">
+                    <small *ngIf="lib?.errors?.required && lib?.touched" class="form-text text-danger">champs obligatoire</small>
+                  </div>
+                </div>
+      
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre"
+                            ngModel
+                            required
+                            #semestre="ngModel"
+                            [ngClass]="{'form-control' : true,
+                            'is-invalid' : !semestre?.valid && semestre?.touched,
+                              'is-valid' : semestre?.valid && semestre?.touched}">
+                      <option value="">--Choisir un semestre--</option>
+                      <option *ngFor="let semestreN of niveauSemestres " [ngValue]="semestreN.semestre">{{semestreN.semestre.libelle}}</option>
+                    </select>
+                    <small *ngIf="semestre?.errors?.required && semestre?.touched"class="form-text text-danger">champs obligatoire</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addModules()"></button>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">La liste des modules</div>
+                <div class="card-body">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th>Libell&eacute;</th>
+                      <th>Semestre</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let module of filiere.modules">
+                      <td>{{module.libelle}}</td>
+                      <td>{{module.semestre.libelle}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
         <div class="modal-body">
           <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="saveFM();parentModal.hide();">Ajouter</button>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--Ajouter module-->
-<div class="modal fade" bsModal #childModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name2">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 id="dialog-nested-name2" class="modal-title pull-left">Ajouter modules</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="childModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="module.libelle"
-                     ngModel
-                     required
-                     #libelle="ngModel"
-                     [ngClass]="{'form-control' : true,
-                   'is-invalid' : !libelle?.valid && libelle?.touched,
-                   'is-valid' : libelle?.valid && libelle?.touched}">
-              <small *ngIf="libelle?.errors?.required && libelle?.touched" class="form-text text-danger">champs obligatoire</small>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre"
-                      ngModel
-                      required
-                      #semestre="ngModel"
-                      [ngClass]="{'form-control' : true,
-                      'is-invalid' : !semestre?.valid && semestre?.touched,
-                        'is-valid' : semestre?.valid && semestre?.touched}">
-                <option value="">--Choisir un semestre--</option>
-                <option *ngFor="let semestre of semestres" [ngValue]="semestre">{{semestre.libelle}}</option>
-              </select>
-              <small *ngIf="semestre?.errors?.required && semestre?.touched"class="form-text text-danger">champs obligatoire</small>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addModules()"></button>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <table class="table">
-              <thead>
-              <tr>
-                <th>Libell&eacute;</th>
-                <th>Semestre</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let module of filiere.modules">
-                <td>{{module.libelle}}</td>
-                <td>{{module.semestre.libelle}}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-body">
-        <button class="btn btn-outline-danger pull-right" (click)="childModal.hide();">Annuler</button>
-        <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="saveFM();childModal.hide();">Ajouter</button>
       </div>
     </div>
   </div>
@@ -187,38 +211,29 @@
       <div class="modal-body">
 
         <form>
-          <div class="row">
+              <div class="form-group">
+                <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="filiere.libelle">
+              </div>
+            <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="filiere.libelle"
-                       ngModel
-                       required
-                       #libelle="ngModel"
-                       [ngClass]="{'form-control' : true,
-                'is-invalid' : !libelle?.valid && libelle?.touched,
-                  'is-valid' : libelle?.valid && libelle?.touched}">
-                <small *ngIf="libelle?.errors?.required && libelle?.touched"
-                       class="form-text text-danger">champs obligatoire</small>
+                <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau">
+                  <option [ngValue]="niveau" [selected]="filiere.niveau.libelle">{{filiere.niveau.libelle}}</option>
+                  <option *ngFor="let niveau of niveaux" [ngValue]="niveau">{{niveau.libelle}}</option>
+                </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau"
-                        ngModel
-                        required
-                        #niveau="ngModel"
-                        [ngClass]="{'form-control' : true,
-                'is-invalid' : !niveau?.valid && niveau?.touched,
-                  'is-valid' : niveau?.valid && niveau?.touched}">
-                  <option [ngValue]="niveau" [selected]="filiere.niveau.libelle">{{filiere.niveau.libelle}}</option>
-                  <option *ngFor="let niveau of niveaux" [ngValue]="niveau">{{niveau.libelle}}</option>
+                <select class=" input-large form-control" name="departement" [(ngModel)]="filiere.departement">
+                  <option [ngValue]="departement" [selected]="filiere.departement.libelle">{{filiere.departement.libelle}}</option>
+                  <option *ngFor="let departement of departements" [ngValue]="departement">{{departement.libelle}}</option>
                 </select>
-                <small *ngIf="niveau?.errors?.required && niveau?.touched" class="form-text text-danger">champs obligatoire</small>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="ajoutModal.show(); ">Ajouter modules</button>
+            <button class="btn btn-info btn-sm" type="button" (click)="ajoutModal.show(); findByNiveauLibelle(filiere.niveau.libelle)">Ajouter modules</button>
           </div>
         </form>
 
@@ -242,7 +257,7 @@
                   <td>{{module.semestre.libelle}}</td>
                   <td>
                     <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal2);"></button>
-                    <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="modifeModal.show();recupererM(module);"></button>
+                    <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="modifeModal.show();recupererM(module); findByNiveauLibelle(module.filiere.niveau.libelle)"></button>
                   </td>
                   <!--Confirmation du suppression-->
                   <ng-template #modal2>
@@ -264,20 +279,7 @@
   </div>
 </div>
 
-<div *ngIf="display==-1; then erreur" ></div>
-<ng-template #erreur >
-  <div class="modal-body text-center alert-danger">
-    Attention! Filière existe déja
-  </div>
-</ng-template>
 
-
-<div *ngIf="display==1; then reussi" ></div>
-<ng-template #reussi >
-  <div class="modal-body text-center alert-success">
-    Filière est ajoutée avec succés
-  </div>
-</ng-template>
 
 <!--Editer module-->
 
@@ -326,7 +328,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre"
+                <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre.libelle"
                         ngModel
                         required
                         #se="ngModel"
@@ -334,7 +336,7 @@
                 'is-invalid' : !se?.valid && se?.touched,
                   'is-valid' : se?.valid && se?.touched}">
                   <option value="" selected="selected">Choisir un semestre</option>
-                  <option *ngFor="let semestre of semestres" [ngValue]="semestre">{{semestre.libelle}}</option>
+                  <option *ngFor="let niveauSemestre of niveauSemestres" [value]="niveauSemestre.semestre.libelle">{{niveauSemestre.semestre.libelle}}</option>
                 </select>
                 <small *ngIf="se?.errors?.required && se?.touched"
                        class="form-text text-danger">champs obligatoire</small>

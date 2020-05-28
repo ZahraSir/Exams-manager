@@ -3,6 +3,7 @@ import {Etudiant} from '../model/etudiant';
 import {Semestre} from '../model/semestre';
 import {HttpClient} from '@angular/common/http';
 import {Filiere} from '../model/filiere';
+import { NiveauSemestre } from '../model/niveau-semestre';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,10 @@ export class EtudiantService {
 
   private _etudiant: Etudiant;
   private _etudiants: Array<Etudiant>;
-  private _filieres: Array<Filiere>;
   private _semestres: Array<Semestre>;
+  private _niveauSemestres: Array<NiveauSemestre>;
   private _urlEtudiants = 'http://localhost:8090/exam-api/etudiants/';
-  private _urlSemestre = 'http://localhost:8090/exam-api/semestre/find-all';
+  private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
   constructor(private http: HttpClient) { }
 
   get etudiant(): Etudiant{
@@ -37,6 +38,17 @@ export class EtudiantService {
 
   set etudiants(etudiants: Array<Etudiant>) {
     this._etudiants = etudiants;
+  }
+
+  get niveauSemestres(): Array<NiveauSemestre>{
+    if (this._niveauSemestres == null){
+      this._niveauSemestres = new Array<NiveauSemestre>();
+    }
+    return this._niveauSemestres;
+  }
+
+  set niveauSemestres(niveauSemestres: Array<NiveauSemestre>){
+    this._niveauSemestres = niveauSemestres;
   }
 
   public save(){
@@ -64,8 +76,8 @@ export class EtudiantService {
     this.etudiant.semestre.libelle = etudiant.semestre.libelle;
   }
 
-  public update(id: number, nom: string, prenom: string, cne: string, mail: string, idFiliere: number, idSemestre: number){
-    this.http.put(this._urlEtudiants + id + '/' + nom + '/' + prenom + '/' + cne + '/' + mail + '/' + idFiliere + '/' + idSemestre, this.etudiant).subscribe(
+  public update(id: number, nom: string, prenom: string, cne: string, mail: string, Filiere: string, idSemestre: number){
+    this.http.put(this._urlEtudiants + id + '/' + nom + '/' + prenom + '/' + cne + '/' + mail + '/' + Filiere + '/' + idSemestre, this.etudiant).subscribe(
       data => {
         if (data > 0) {
           console.log(this.etudiant);
@@ -120,5 +132,16 @@ export class EtudiantService {
 
   public vider(){
     this.etudiant = null;
+  }
+
+  public findByFiliereLibelle(filiere){
+    this.http.get<Array<NiveauSemestre>>(this._urlSemestre+ 'find-by-filiere/'+filiere).subscribe(
+      data => {
+        console.log(data);
+       this.niveauSemestres = data;
+        console.log('fbjd '+this.niveauSemestres)
+        
+      }
+    )
   }
 }
