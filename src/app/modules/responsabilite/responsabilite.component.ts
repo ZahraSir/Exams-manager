@@ -57,4 +57,10 @@ export class ResponsabiliteComponent implements OnInit {
   public update(id: number, libelle: string){
     this.responsabiliteService.update(id, libelle);
   }
+  public vider(){
+    this.responsabiliteService.vider();
+  }
+  refresh(): void {
+    window.location.reload();
+  }
 }

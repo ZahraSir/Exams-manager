@@ -60,5 +60,11 @@ export class SurveillantComponent implements OnInit {
   public update(id: number, nom: string, prenom: string, mail: string){
     this.surveillantService.update(id, nom, prenom, mail);
   }
+  public vider(){
+    this.surveillantService.vider();
+  }
+  refresh(): void {
+    window.location.reload();
+  }
 }
 

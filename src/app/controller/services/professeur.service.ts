@@ -142,17 +142,17 @@ export class ProfesseurService {
     }
   }
 
-  public recuperer(professeur: Professeur, id:number) {
+  public recuperer(professeur: Professeur, id: number) {
     console.log(professeur);
     this.professeur.id = professeur.id
     this.professeur.nom = professeur.nom;
     this.professeur.prenom = professeur.prenom;
     this.professeur.mail = professeur.mail;
-    this.professeur.departement= professeur.departement;
-    this.professeur.responsabilite = professeur.responsabilite;
+    this.professeur.departement.libelle = professeur.departement.libelle;
+    this.professeur.responsabilite.libelle = professeur.responsabilite.libelle;
     console.log(this.professeur.nom);
-console.log(this.professeur.departement);
-console.log(this.professeur.responsabilite);
+        console.log(this.professeur.departement);
+     console.log(this.professeur.responsabilite);
   }
 
 
@@ -185,6 +185,9 @@ console.log(this.professeur.responsabilite);
         this._responsabilites = data;
       }
     );
+  }
+  public vider(){
+    this.professeur = null;
   }
 }
 

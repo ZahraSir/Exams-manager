@@ -17,6 +17,7 @@ export class ModuleCreateComponent implements OnInit {
   constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private modalService: BsModalService) { }
   item: string;
   modalRef: BsModalRef;
+  p = 1;
   ngOnInit(): void {
     this.moduleService.getSemestres();
     this.moduleService.findAll();

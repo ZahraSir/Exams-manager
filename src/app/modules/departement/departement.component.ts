@@ -51,9 +51,14 @@ export class DepartementComponent implements OnInit {
   get display(): number{
     return this.departementService.display;
   }
-
+  refresh(): void {
+    window.location.reload();
+  }
 
    public update(id: number, libelle: string){
     this.departementService.update(id, libelle);
+  }
+  public vider(){
+    this.departementService.vider();
   }
 }

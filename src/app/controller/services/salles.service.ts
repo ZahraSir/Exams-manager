@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Salles } from '../model/salles';
 import { Router } from '@angular/router';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class SallesService {
   private _urlsalle = 'http://localhost:8090/exam-api/salles/';
   private isPrinting=false;
   private _display: number;
+ //  private _refresh = new Subject<void>();
 
   get http(): HttpClient {
     return this._http;
@@ -52,6 +54,15 @@ export class SallesService {
   set display(display: number){
     this._display = display;
   }
+
+ /* get refresh(): Subject<void> {
+    return this._refresh;
+  }
+
+  set refresh(value: Subject<void>) {
+    this._refresh = value;
+  }*/
+
   public findAll() {
     this.http.get<Array<Salles>>(this._urlsalle + 'findAll').subscribe(
       data => {
@@ -65,14 +76,14 @@ export class SallesService {
     console.log('haa lien ' + this._urlsalle);
     console.log('haa salle ' + this.salle);
 
-    this.http.post<number>(this._urlsalle+ 'save', this.salle).subscribe(
+    this.http.post<number>(this._urlsalle + 'save', this.salle).subscribe(
       data => {
         if (data > 0) {
           this.salles.push(this.salle);
           this.salle = null;
-          this.display= 1;
+          this.display = 1;
         }
-        else if(data == -1)
+        else if (data == -1)
           this.display = -1;
 
       }, error => {
@@ -112,6 +123,7 @@ export class SallesService {
    this.salle.capacite = salle.capacite;
    this.salle.etat = salle.etat;
    this.salle.type = salle.type;
+  // this.salle.exam.reference = salle.exam.reference;
    console.log(this.salle.designation);
 
   }
@@ -133,6 +145,9 @@ export class SallesService {
           console.log('la salle ');
         }
       });
+  }
+  public vider(){
+    this.salle = null;
   }
 }
 

@@ -24,7 +24,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor= "let filiere of filieres | filter: item">
+      <tr *ngFor= "let filiere of filieres | filter: item|paginate: {itemsPerPage:4,currentPage:p}">
         <td>{{filiere.libelle}}</td>
         <td>{{filiere.niveau.libelle}}</td>
         <td>
@@ -43,6 +43,9 @@
       </tr>
       </tbody>
     </table>
+  </div>
+  <div class="card-img-overly">
+    <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
   </div>
 </div>
 

@@ -130,4 +130,7 @@ export class ResponsabiliteService {
         }
       });
   }
+  public vider(){
+    this.responsabilite = null;
+  }
 }

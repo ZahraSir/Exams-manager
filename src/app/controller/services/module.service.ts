@@ -53,7 +53,7 @@ export class ModuleService {
 
 
   public save(){
-    this.http.post<number>(this._urlModule+ '/add-module/', this.module).subscribe(
+    this.http.post<number>(this._urlModule + '/add-module/', this.module).subscribe(
       data => {
         if (data > 0) {
           this.modules.push(this.module);
@@ -72,24 +72,24 @@ export class ModuleService {
     myClone.id = module.id;
     myClone.filiere = module.filiere;
     myClone.libelle = module.libelle;
-    myClone.semestre =module.semestre;
+    myClone.semestre = module.semestre;
     return myClone;
   }
 
-  public update(id: number,libelle: string, semestre: string){
-    this.http.put(this._urlModule + id +'/'+ libelle +'/' + semestre, this.module).subscribe(
-      data =>{
-        if(data >0) {
-          console.log(this.module)
+  public update(id: number, libelle: string, semestre: string){
+    this.http.put(this._urlModule + id + '/' + libelle + '/' + semestre, this.module).subscribe(
+      data => {
+        if (data > 0) {
+          console.log(this.module);
         }
-      })
+      });
   }
 
-  public recuperer(module:Module){
+  public recuperer(module: Module){
     this.module.id = module.id;
     this.module.libelle = module.libelle;
     this.module.semestre.libelle = module.semestre.libelle;
-    this.module.filiere.libelle =module.filiere.libelle;
+    this.module.filiere.libelle = module.filiere.libelle;
     console.log(this.module)
   }
 
@@ -102,7 +102,7 @@ export class ModuleService {
   }
 
   public findAll(){
-    this.http.get<Array<Module>>(this._urlModule+ 'find-all').subscribe(
+    this.http.get<Array<Module>>(this._urlModule + 'find-all').subscribe(
       data => {
         this.modules = data;
       }
@@ -112,14 +112,14 @@ export class ModuleService {
   public deleteById(module: Module){
     this.http.delete<number>(this._urlModule + '/delete-by-id/' + module.id).subscribe(
       data => {
-        console.log("data suprime");
+        console.log('data suprime');
         this.deleteByReferenceFromView(module);
       }
     );
   }
 
   public deleteByReferenceFromView(module: Module){
-    const index = this.modules.findIndex(m=> m.libelle === module.libelle);
+    const index = this.modules.findIndex(m => m.libelle === module.libelle);
     if (index !== -1) {
       this.modules.splice(index, 1);
     }

@@ -5,6 +5,9 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import { PrintService } from 'src/app/controller/services/print.service';
 import * as XLSX from 'xlsx';
 import {EtatService} from '../../controller/services/etat.service';
+import {ExamService} from '../../controller/services/exam.service';
+import {Filiere} from '../../controller/model/filiere';
+import {Exam} from '../../controller/model/exam.model';
 
 
 
@@ -29,14 +32,23 @@ export class SallesComponent implements OnInit {
   constructor(private salleService: SallesService,
               private modalService: BsModalService,
               private printService: PrintService,
-              private etatService: EtatService) {
+              private etatService: EtatService,
+              private examService: ExamService) {
   }
 
 
   ngOnInit(): void {
     this.salleService.findAll();
     this.recordCount = this.salles.length;
+   // this.examService.findAll();
 
+  }
+
+  get exam(): Exam{
+    return this.examService.exam;
+  }
+  get exams(): Array<Exam>{
+    return this.examService.exams;
   }
 
   public save() {
@@ -106,6 +118,12 @@ export class SallesComponent implements OnInit {
     return this.salleService.display;
   }
 
+  public vider(){
+    this.salleService.vider();
+  }
+  refresh(): void {
+    window.location.reload();
+  }
 }
 
 

@@ -9,7 +9,7 @@
       </div>
       <div class="col-md-4"></div>
       <div class="col-md-4">
-        <button class="btn btn-info fa fa-plus" (click)="parentModal.show()" style="float: right !important;">Ajouter</button>
+        <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: right !important;">Ajouter</button>
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@
       </tbody>
     </table>
   </div>
-  <div class="card-footer">
+  <div class="card-img-overly">
     <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
   </div>
 </div>
@@ -59,7 +59,7 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <input id="float-input" type="text" size="30" pInputText placeholder="Libelle" name="libelle" [(ngModel)]="departement.libelle"
+            <input id="float-input" type="text" size="30"  placeholder="Libelle" name="libelle" [(ngModel)]="departement.libelle"
                    ngModel
                    required
                    #libelle="ngModel"
@@ -113,7 +113,7 @@
 
         <form>
           <div class="form-group">
-            <input id="float-input" type="text" size="30" pInputText placeholder="Libelle" name="libelle" [(ngModel)]="departement.libelle"
+            <input id="float-input" type="text" size="30"  placeholder="Libelle" name="libelle" [(ngModel)]="departement.libelle"
                    ngModel
                    required
                    #libelle="ngModel"
@@ -128,7 +128,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(departement.id,departement.libelle);">Editer</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(departement.id,departement.libelle);refresh();">Editer</button>
         </div>
       </div>
     </div>

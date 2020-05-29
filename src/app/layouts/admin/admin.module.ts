@@ -26,11 +26,12 @@ import {CalendarComponent} from '../../modules/calendar/calendar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EtudiantComponent} from '../../modules/etudiant/etudiant.component';
 import {ModuleCreateComponent} from '../../modules/module/module-create/module-create.component';
-import {InputTextModule} from 'primeng/inputtext';
+import {CalendarCreateComponent} from '../../modules/calendar/calendar-create/calendar-create.component';
+import {CalendarListComponent} from '../../modules/calendar/calendar-list/calendar-list.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
-import {ButtonModule} from 'primeng/button';
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
-
+import {FullCalendarModule} from 'ng-fullcalendar';
 
 
 @NgModule({
@@ -47,27 +48,29 @@ import {ButtonModule} from 'primeng/button';
     FiliereComponent,
     CalendarComponent,
     EtudiantComponent,
-    ModuleCreateComponent
+    ModuleCreateComponent,
+    CalendarCreateComponent,
+    CalendarListComponent
   ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        RouterModule,
-        ModalModule.forRoot(),
-        HttpClientModule,
-        FlexLayoutModule,
-        FormsModule,
-        ButtonsModule.forRoot(),
-        Ng2SearchPipeModule,
-        BrowserModule,
-      InputTextModule,
-      RadioButtonModule,
-        PaginationModule.forRoot(),
-        NgxPaginationModule,
-        AlertModule.forRoot(),
-      BrowserAnimationsModule,
-      ButtonModule
+  imports: [
+    CommonModule,
+    SharedModule,
+    RouterModule,
+    ModalModule.forRoot(),
+    HttpClientModule,
+    FlexLayoutModule,
+    FormsModule,
+    ButtonsModule.forRoot(),
+    Ng2SearchPipeModule,
+    BrowserModule,
+    PaginationModule.forRoot(),
+    NgxPaginationModule,
+    AlertModule.forRoot(),
+    BrowserAnimationsModule,
+    RadioButtonModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    FullCalendarModule
 
-    ]
+  ]
 })
 export class AdminModule { }

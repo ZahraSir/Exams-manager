@@ -18,6 +18,7 @@ export class EtudiantComponent implements OnInit {
   item: string;
   modalRef: BsModalRef;
   selected = '---Choisir une filière---';
+   p = 1;
   constructor(private etudiantService: EtudiantService, private modalService: BsModalService, private filiereService: FiliereService, private semestreService: SemestreService) { }
 
   ngOnInit(): void {
@@ -72,5 +73,7 @@ export class EtudiantComponent implements OnInit {
   public deleteByCne(etudiant: Etudiant){
     this.etudiantService.deleteByCne(etudiant);
   }
-
+   refresh(): void {
+     window.location.reload();
+   }
 }

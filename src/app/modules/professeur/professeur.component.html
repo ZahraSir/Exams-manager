@@ -8,7 +8,7 @@
       </div>
       <div class="col-md-4"></div>
       <div class="col-md-4">
-        <button class="btn btn-info fa fa-plus" (click)="parentModal.show()" style="float: right !important;">Ajouter</button>
+        <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: right !important;">Ajouter</button>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@
       </tbody>
     </table>
   </div>
-  <div class="card-footer">
+  <div class="card-img-overly">
     <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
   </div>
 </div>
@@ -64,8 +64,10 @@
       </div>
       <div class="modal-body">
         <form>
+          <div class="row">
+            <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" size="30" pInputText placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+            <input id="float-input" type="text" size="30"  placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
                    ngModel
                    required
                    #nom="ngModel"
@@ -74,9 +76,10 @@
                      'is-valid' : nom?.valid && nom?.touched}">
             <small *ngIf="nom?.errors?.required && nom?.touched"
                    class="form-text custom-invalid-feedback">champs obligatoire</small>
-          </div>
+          </div></div>
+            <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" min="1" size="4" pInputText placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+            <input id="float-input" type="text" min="1" size="4"  placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
                    ngModel
                    required
                    min="18"
@@ -87,8 +90,10 @@
             <small *ngIf="prenom?.errors?.required && prenom?.touched"
                    class="form-text custom-invalid-feedback">champs obligatoire</small>
           </div>
+            </div>
+              <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="email" size="30" pInputText placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
+            <input id="float-input" type="email" size="30" placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
                    ngModel
                    required
                    #mail="ngModel"
@@ -98,21 +103,37 @@
             <small *ngIf="mail?.errors?.required && mail?.touched"
                    class="form-text custom-invalid-feedback">champs obligatoire</small>
           </div>
+              </div>
+            <div class="col-md-6">
           <div class="form-group">
-            <div>
-              <select class="form-control" [(ngModel)]="professeur.responsabilite" [ngModelOptions]="{standalone: true}">
-                <option value="" selected="selected">Choisir une responsabilite</option>
-                <option *ngFor="let r of responsabilites" [ngValue]="r">{{r.libelle}}</option>
-              </select>
+            <select class=" input-large form-control" name="responsabilite" [(ngModel)]="professeur.responsabilite"
+                    ngModel
+                    required
+                    #responsabilite="ngModel"
+                    [ngClass]="{'form-control' : true,
+                'is-invalid' : !responsabilite?.valid && responsabilite?.touched,
+                  'is-valid' : responsabilite?.valid && responsabilite?.touched}">
+              <option value="">--Choisir une responsabilite--</option>
+              <option *ngFor="let responsabilite of responsabilites" [ngValue]="responsabilite">{{responsabilite.libelle}}</option>
+            </select>
+            <small *ngIf="responsabilite?.errors?.required && responsabilite?.touched" class="form-text text-danger">champs obligatoire</small>
+          </div>
+            </div>
+            <div class="col-md-6">
+          <div class="form-group">
+            <select class=" input-large form-control" name="departement" [(ngModel)]="professeur.departement"
+                    ngModel
+                    required
+                    #departement="ngModel"
+                    [ngClass]="{'form-control' : true,
+                'is-invalid' : !departement?.valid && departement?.touched,
+                  'is-valid' : departement?.valid && departement?.touched}">
+              <option value="">--Choisir une departement--</option>
+              <option *ngFor="let departement of departements" [ngValue]="departement">{{departement.libelle}}</option>
+            </select>
+            <small *ngIf="departement?.errors?.required && departement?.touched" class="form-text text-danger">champs obligatoire</small>
             </div>
           </div>
-          <div class="form-group">
-            <div>
-              <select class="form-control" [(ngModel)]="professeur.departement" [ngModelOptions]="{standalone: true}">
-                <option value="" selected="selected">Choisir un departement</option>
-                <option *ngFor="let d of departements" [ngValue]="d">{{d.libelle}}</option>
-              </select>
-            </div>
           </div>
         </form>
         <div class="modal-body">
@@ -154,8 +175,10 @@
       <div class="modal-body">
 
         <form>
+          <div class="row">
+            <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" size="30" pInputText placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+            <input id="float-input" type="text" size="30"  placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
                    ngModel
                    required
                    #nom="ngModel"
@@ -164,9 +187,10 @@
                      'is-valid' : nom?.valid && nom?.touched}">
             <small *ngIf="nom?.errors?.required && nom?.touched"
                    class="form-text custom-invalid-feedback">champs obligatoire</small>
-          </div>
+          </div></div>
+            <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" min="1" size="4" pInputText placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+            <input id="float-input" type="text" min="1" size="4"  placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
                    ngModel
                    required
                    min="18"
@@ -176,9 +200,10 @@
                     'is-valid' : prenom?.valid && prenom?.touched}">
             <small *ngIf="prenom?.errors?.required && prenom?.touched"
                    class="form-text custom-invalid-feedback">champs obligatoire</small>
-          </div>
+          </div></div>
+            <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="email" size="30" pInputText placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
+            <input id="float-input" type="email" size="30"  placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
                    ngModel
                    required
                    #mail="ngModel"
@@ -187,27 +212,43 @@
                      'is-valid' : mail?.valid && mail?.touched}">
             <small *ngIf="mail?.errors?.required && mail?.touched"
                    class="form-text custom-invalid-feedback">champs obligatoire</small>
+          </div></div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class=" input-large form-control" name="responsabilite" [(ngModel)]="professeur.responsabilite"
+                      ngModel
+                      required
+                      #responsabilite="ngModel"
+                      [ngClass]="{'form-control' : true,
+                'is-invalid' : !responsabilite?.valid && responsabilite?.touched,
+                  'is-valid' : responsabilite?.valid && responsabilite?.touched}">
+                <option [ngValue]="responsabilite" [selected]="professeur.responsabilite.libelle">{{professeur.responsabilite.libelle}}</option>
+                <option *ngFor="let responsabilite of responsabilites" [ngValue]="responsabilite">{{responsabilite.libelle}}</option>
+              </select>
+              <small *ngIf="responsabilite?.errors?.required && responsabilite?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div>
           </div>
-<div class="form-group">
-  <div>
-    <select class="form-control" [(ngModel)]="professeur.responsabilite" [ngModelOptions]="{standalone: true}">
-      <option value="" selected="selected">Choisir une responsabilite</option>
-      <option *ngFor="let r of responsabilites" [ngValue]="r">{{r.libelle}}</option>
-    </select>
-  </div>
-</div>
+            <div class="col-md-6">
           <div class="form-group">
             <div>
-              <select class="form-control" [(ngModel)]="professeur.departement" [ngModelOptions]="{standalone: true}">
-                <option value="" selected="selected">Choisir un departement</option>
-                <option *ngFor="let d of departements" [ngValue]="d">{{d.libelle}}</option>
+              <select class=" input-large form-control" name="departement" [(ngModel)]="professeur.departement"
+                      ngModel
+                      required
+                      #departement="ngModel"
+                      [ngClass]="{'form-control' : true,
+                'is-invalid' : !departement?.valid && departement?.touched,
+                  'is-valid' : departement?.valid && departement?.touched}">
+                <option [ngValue]="departement" [selected]="professeur.departement.libelle">{{professeur.departement.libelle}}</option>
+                <option *ngFor="let departement of departements" [ngValue]="departement">{{departement.libelle}}</option>
               </select>
+            </div>
+          </div>
             </div>
           </div>
         </form>
         <div class="modal-body">
           <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite, professeur.departement);">Editer</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite, professeur.departement);refresh();">Editer</button>
         </div>
       </div>
     </div>

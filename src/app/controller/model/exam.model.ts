@@ -1,17 +1,15 @@
 import {Professeur} from './professeur.model';
-import {Surveillant} from './surveillant.model';
-import {Salles} from './salles';
 import {Module} from './module.model';
+import {ExamSalle} from './exam-salle';
+import {ExamSurveillant} from './exam-surveillant';
 
 export class Exam {
-
   public id: number;
   public  reference: string;
-  public date: Date;
-  public heureDepart: string;
-  public heureFin: string;
+  public dateDepart: string;
+  public dateFin: string;
   public  prof = new Professeur();
-  public  surveillants = new Surveillant();
+  public  examSurveillants = new Array<ExamSurveillant>();
   public  module = new Module();
-  public  salles = new Salles();
+  public  examSalles = new Array<ExamSalle>();
 }

@@ -11,27 +11,23 @@
       <th>Libelle</th>
       <th>Action</th>
       <th>DateAction</th>
-      <th>Actions</th>
       </thead>
       <tbody>
       <tr *ngFor="let s of etats|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
         <td>{{s.libelle}}</td>
         <td>{{s.action}}</td>
         <td>{{s.dateAction}}</td>
-        <td>
-         <button pButton type="button" label="Restaurer" class="ui-button-rounded ui-button-default" (click)=" openModal(template);"></button>
-        </td>
       </tr>
 
       </tbody>
 
     </table>
   </div>
-  <div class="card-footer">
+  <div class="card-img-overly">
   <pagination-controls style="position: center" (pageChange)=" p=$event "></pagination-controls>
 </div>
 </div>
-<!-- restaurer -->
+<!-- restaurer
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Confirmation</h4>
@@ -41,4 +37,4 @@
   </div>
   <div class="modal-body">
   </div>
-</ng-template>
+</ng-template>-->

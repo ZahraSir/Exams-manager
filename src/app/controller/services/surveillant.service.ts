@@ -138,5 +138,8 @@ export class SurveillantService {
         }
       });
   }
+  public vider(){
+    this.surveillant= null;
+  }
 }
 

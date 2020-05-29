@@ -21,7 +21,7 @@ export class FiliereComponent implements OnInit {
   message: string;
   item: string;
   selected: string;
-
+  p = 1;
   constructor(private modalService: BsModalService, private filiereService: FiliereService, private moduleService: ModuleService, private etudiantService: EtudiantService, private semestreService: SemestreService) {
     this.selected = 'choisir un niveau';
   }

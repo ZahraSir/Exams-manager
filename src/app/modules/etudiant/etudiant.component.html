@@ -29,7 +29,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor= "let etudiant of etudiants | filter: item">
+      <tr *ngFor= "let etudiant of etudiants | filter: item|paginate: {itemsPerPage:4,currentPage:p}">
         <td>{{etudiant.cne}}</td>
         <td>{{etudiant.nom}}</td>
         <td>{{etudiant.prenom}}</td>
@@ -52,6 +52,9 @@
       </tr>
       </tbody>
     </table>
+  </div>
+  <div class="card-img-overly">
+    <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
   </div>
 </div>
 
@@ -264,7 +267,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-outline-danger pull-right" (click)="update.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)=" update.hide(); updateE(etudiant.id, etudiant.nom, etudiant.prenom, etudiant.cne, etudiant.mail, etudiant.filiere.id, etudiant.semestre.id);">Modifier</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)=" update.hide(); updateE(etudiant.id, etudiant.nom, etudiant.prenom, etudiant.cne, etudiant.mail, etudiant.filiere.id, etudiant.semestre.id);refresh();">Modifier</button>
         </div>
       </div>
     </div>
