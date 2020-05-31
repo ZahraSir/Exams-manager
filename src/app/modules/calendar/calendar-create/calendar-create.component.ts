@@ -15,7 +15,6 @@ export class CalendarCreateComponent implements OnInit {
   modalRef: BsModalRef;
   handleSelect(arg) {
     console.log(arg);
-   
 }
   ngOnInit() {
     setTimeout(() => {
@@ -27,7 +26,7 @@ export class CalendarCreateComponent implements OnInit {
         header: {
           left: 'prev today next ',
           center: 'title',
-          right: 'month,agendaWeek,agendaDay'
+          right: 'month,agendaWeek,agendaDay,Ajouter Event'
         },
         buttonText: {
           today:    'Aujourd\'hui',
@@ -59,18 +58,7 @@ export class CalendarCreateComponent implements OnInit {
             allDay: false, // will make the time show,
             color: '#57cd5f'
           }
-        ],
-    /*  eventClick(calEvent, jsEvent, view, resourceObj) {
-        swal({
-          title: calEvent.title,
-          text: 'Start From : ' + moment(calEvent.start).format('MMMM Do YYYY, h:mm a'),
-          icon: 'success',
-        });
-      }*/
-        eventClick(event) {
-        $ ('#successModal'). modal('show');
-        $ ('#successModal .modal-body p'). text (event.title);
-      }
+        ]
 
     });
     }, 100);

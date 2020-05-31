@@ -15,14 +15,19 @@
   <div class="table-responsive">
     <table class="table" style="text-align: center;">
       <thead>
+      <th></th>
       <th>Nom</th>
+      <th></th>
       <th>Prenom</th>
+
       <th>Mail</th>
       <th>Actions</th>
       </thead>
       <tbody>
       <tr *ngFor="let s of surveillants|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+        <td></td>
         <td>{{s.nom}}</td>
+        <td></td>
         <td >{{s.prenom}}</td>
         <td>{{s.mail}}</td>
         <td>
@@ -111,23 +116,6 @@
     </div>
   </div>
 </div>
-
-<!-- alerte-->
-
-<div *ngIf="display==-1; then erreur" ></div>
-<ng-template #erreur >
-  <div class="modal-body text-center alert-danger">
-    Attention! Surveillant existe déja
-  </div>
-</ng-template>
-
-
-<div *ngIf="display==1; then reussi" ></div>
-<ng-template #reussi >
-  <div class="modal-body text-center alert-success">
-    Surveillant est ajoutée avec succés
-  </div>
-</ng-template>
 
 <!--Modifier Surveillant-->
 <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">

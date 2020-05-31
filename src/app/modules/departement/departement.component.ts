@@ -3,6 +3,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {PrintService} from '../../controller/services/print.service';
 import {DepartementService} from '../../controller/services/departement.service';
 import {Departement} from '../../controller/model/departement.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-departement',
@@ -16,7 +17,7 @@ export class DepartementComponent implements OnInit {
   item: string;
   p = 1;
   constructor(private departementService: DepartementService,
-              private modalService: BsModalService, private printService: PrintService) { }
+              private modalService: BsModalService, private printService: PrintService, private toastr: ToastrService) { }
 
 
   ngOnInit(): void {
@@ -60,5 +61,9 @@ export class DepartementComponent implements OnInit {
   }
   public vider(){
     this.departementService.vider();
+  }
+
+  showMessage(){
+    this.toastr.success('hello world', 'taostr fun!');
   }
 }

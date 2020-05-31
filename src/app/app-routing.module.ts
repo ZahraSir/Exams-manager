@@ -13,6 +13,7 @@ import {FiliereComponent} from './modules/filiere/filiere.component';
 import {CalendarComponent} from './modules/calendar/calendar.component';
 import {EtudiantComponent} from './modules/etudiant/etudiant.component';
 import {ModuleCreateComponent} from './modules/module/module-create/module-create.component';
+import {PersonnelComponent} from './modules/personnel/personnel.component';
 
 
 
@@ -29,7 +30,8 @@ const routes: Routes = [
          {path: 'etat', component: EtatComponent},
          {path: 'fillieres', component: FiliereComponent},
          {path: 'calendars', component: CalendarComponent},
-         {path: 'etudiants', component: EtudiantComponent}
+         {path: 'etudiants', component: EtudiantComponent},
+         {path: 'personnels', component: PersonnelComponent}
        ]},
    {path: 'print', component: PrintComponent}
 ];

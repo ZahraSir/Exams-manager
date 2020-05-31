@@ -9,6 +9,8 @@ import {Module} from '../model/module.model';
 import {ExamSalle} from '../model/exam-salle';
 import {ExamSurveillant} from '../model/exam-surveillant';
 import {Filiere} from '../model/filiere';
+import {Personnel} from '../model/personnel.model';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Injectable({
@@ -16,9 +18,10 @@ import {Filiere} from '../model/filiere';
 })
 export class ExamService {
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router,private toastr: ToastrService) { }
   private _surveill: Surveillant;
   private _sal: Salles;
+  private _perso:Personnel;
   private _exam: Exam;
   private _exams: Array<Exam>;
   private _urlexam = 'http://localhost:8090/exam-api/exams/';
@@ -38,6 +41,9 @@ export class ExamService {
   private _examSalles: Array<ExamSalle>;
   private _urlExSu = 'http://localhost:8090/exam-api/exams-surve/';
   private _urlExSa = 'http://localhost:8090/exam-api/exams-salle/';
+  private _personnel: Personnel;
+  private _personnels: Array<Personnel>;
+  private _urlperso = 'http://localhost:8090/exam-api/personnels/';
 
   private isPrinting = false;
   private _display: number;
@@ -48,6 +54,14 @@ export class ExamService {
 
   set http(value: HttpClient) {
     this._http = value;
+  }
+
+  get perso(): Personnel {
+    return this._perso;
+  }
+
+  set perso(value: Personnel) {
+    this._perso = value;
   }
 
   get exams(): Array<Exam> {
@@ -70,6 +84,27 @@ export class ExamService {
 
   set exam(value: Exam) {
     this._exam = value;
+  }
+  get personnels(): Array<Personnel> {
+    if (this._personnels == null) {
+      this._personnels = new Array<Personnel>();
+    }
+    return this._personnels;
+  }
+
+  set personnels(value: Array<Personnel>) {
+    this._personnels = value;
+  }
+
+  get personnel(): Personnel {
+    if (this._personnel == null) {
+      this._personnel = new Personnel();
+    }
+    return this._personnel;
+  }
+
+  set personnel(value: Personnel) {
+    this._personnel = value;
   }
   get surveillant(): Surveillant {
     return this._surveillant;
@@ -196,16 +231,14 @@ export class ExamService {
     console.log('haa salle ' + this.exam);
     this.http.post<number>(this._urlexam + 'save', this.exam).subscribe(
       data => {
-        if (data > 0) {
+        if (data === 1) {
           this.exams.push(this.cloneExam(this.exam));
+          this.toastr.success(this.exam.reference + 'a été ajouté avec succés', 'Ajout réussi!');
           this.exam = null;
-
-          this.display = 1;
           console.log(this.exam);
+        }else if (data === -1){
+          this.toastr.warning(this.exam.reference + 'existe déja', 'Attention!');
         }
-        else if (data == -1) {
-          this.display = -1;
- }
       }, error => {
         console.log(error);
       }
@@ -219,8 +252,6 @@ export class ExamService {
     myClone.dateFin = exam.dateFin;
     myClone.module = exam.module;
     myClone.prof = exam.prof;
-    //myClone.examSalles = exam.examSalles;
-    //myClone.examSurveillants = exam.examSurveillants;
     return myClone;
   }
 
@@ -265,7 +296,7 @@ export class ExamService {
     ]);
   }
 
-  public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur){
+  public update(id: number, reference: string, dateDepart: Date, dateFin: Date, module: Module, prof: Professeur){
     this.http.put(this._urlexam + id + '/' + reference  + '/' + dateDepart + '/' + dateFin + '/' + module + '/' + prof  , this.exam).subscribe(
       data => {
         if (data > 0) {
@@ -288,7 +319,7 @@ export class ExamService {
       }
     );
   }  public getSalles() {
-    this.http.get<Array<Salles>>(this._urlsalle + 'findAll').subscribe(
+    this.http.get<Array<Salles>>(this._urlsalle + 'prevue').subscribe(
       data => {
         this._salles = data;
       }
@@ -298,6 +329,13 @@ export class ExamService {
     this.http.get<Array<Professeur>>(this._urlprof + 'find-all').subscribe(
       data => {
         this._professeurs = data;
+      }
+    );
+  }
+  public getPersonnel() {
+    this.http.get<Array<Personnel>>(this._urlperso + 'find-all').subscribe(
+      data => {
+        this._personnels = data;
       }
     );
   }
@@ -321,11 +359,23 @@ public getExamSurveillant() {
     console.log('haaaa' + surveillant);
     this.surveillant = null;
   }
+  public addPersonnel(personnel: Personnel){
+    this.exam.examSurveillants.push(this.clonePerso(personnel));
+    console.log('haaaa' + personnel);
+    this.personnel = null;
+  }
   public addSalle(salle: Salles){
     this.exam.examSalles.push(this.cloneSalle(salle));
     this.salle = null;
   }
   public clone(examSurveillant: Surveillant) {
+    const surve = new ExamSurveillant();
+    surve.surveillant.nom = examSurveillant.nom;
+    surve.surveillant.prenom = examSurveillant.prenom;
+    surve.surveillant.mail = examSurveillant.mail;
+    return surve;
+  }
+  public clonePerso(examSurveillant: Personnel) {
     const surve = new ExamSurveillant();
     surve.surveillant.nom = examSurveillant.nom;
     surve.surveillant.prenom = examSurveillant.prenom;
@@ -349,6 +399,14 @@ public getExamSurveillant() {
     this.http.get<Surveillant>(this._urlsurve + 'find-by-nom/' + surveillant).subscribe(
       data => {
         this.surveill = data;
+        console.log(data);
+      }
+    );
+  }
+  public findByPersonnelNom(personnel) {
+    this.http.get<Personnel>(this._urlperso + 'find-by-nom/' + personnel).subscribe(
+      data => {
+        this.perso = data;
         console.log(data);
       }
     );

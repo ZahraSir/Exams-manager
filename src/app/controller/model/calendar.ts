@@ -3,10 +3,10 @@ import {Exam} from './exam.model';
 
 export class Calendar {
   public  id: number;
-  public  libelle: string;
-  public  anneUniversitaire: number;
-  public  filieres = new Filiere();
-  public  exams = new Exam();
+  public  start: Date;
+  public end: Date ;
+  public  title: string;
+  public  color: string;
 }
 
 

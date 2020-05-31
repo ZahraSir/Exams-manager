@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Responsabilite} from '../model/responsabilite.model';
+import {ToastrService} from 'ngx-toastr';
 
 
 
@@ -10,7 +11,7 @@ import {Responsabilite} from '../model/responsabilite.model';
 })
 export class ResponsabiliteService {
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router,private toastr: ToastrService) { }
 
   private _responsabilite: Responsabilite;
   private _responsabilites: Array<Responsabilite>;
@@ -69,15 +70,14 @@ export class ResponsabiliteService {
 
     this.http.post<number>(this._urlrespo + 'save', this.responsabilite).subscribe(
       data => {
-        if (data > 0) {
+        if (data === 1) {
           this.responsabilites.push(this.cloneResponsabilite(this.responsabilite));
+          this.toastr.success(this.responsabilite.libelle + 'a été ajouté avec succés', 'Ajout réussi!');
           this.responsabilite = null;
-          this.display = 1;
           console.log(this.responsabilite);
+        }else if (data === -1){
+          this.toastr.warning(this.responsabilite.libelle + 'existe déja', 'Attention!');
         }
-        else if (data == -1) {
-          this.display = -1;
- }
       }, error => {
         console.log(error);
       }

@@ -1,0 +1,38 @@
+
+<div class="card">
+  <div class="card-header">
+    <h3>Liste des Personnels</h3>
+
+    <input  type = " text " class = " search-query form-control " placeholder = " Search  "   name = " item " [(ngModel)] = "item"  style="width: 180px;padding-right: 100px;"/>
+  </div>
+  <div class="card-body" >
+    <table class="table" style="text-align: center;">
+      <thead>
+
+      <th></th>
+      <th>Nom</th>
+      <th></th>
+      <th></th>
+      <th>Prenom</th>
+      <th></th>
+      <th>Mail</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of personnels|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+      <td></td>
+        <td>{{p.nom}}</td>
+        <td></td>
+        <td></td>
+        <td>{{p.prenom}}</td>
+        <td></td>
+        <td>{{p.mail}}</td>
+      </tr>
+
+      </tbody>
+
+    </table>
+  </div>
+  <div class="card-img-overly">
+    <pagination-controls style="position: center" (pageChange)=" p=$event "></pagination-controls>
+  </div>
+</div>

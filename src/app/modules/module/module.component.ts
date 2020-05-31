@@ -6,6 +6,7 @@ import {Module} from '../../controller/model/module.model';
 import {Semestre} from '../../controller/model/semestre';
 import {SemestreService} from '../../controller/services/semestre.service';
 import {EtudiantService} from '../../controller/services/etudiant.service';
+import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
 
 @Component({
   selector: 'app-module',
@@ -35,6 +36,7 @@ export class ModuleComponent implements OnInit {
   }
 
   public update(id: number, libelle: string, semestre: string){
+    console.log('ha lid '+id);
     this.moduleService.update(id, libelle, semestre);
   }
 
@@ -48,4 +50,9 @@ export class ModuleComponent implements OnInit {
   get semestre(): Semestre{
     return this.semestreService.semestre;
   }
+
+  get niveauSemestres(): Array<NiveauSemestre>{
+    return this.filiereService.niveauSemestres;
+  }
+
 }

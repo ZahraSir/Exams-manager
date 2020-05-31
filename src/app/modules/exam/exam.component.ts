@@ -9,6 +9,9 @@ import {Module} from '../../controller/model/module.model';
 import {Salles} from '../../controller/model/salles';
 import {ExamSurveillant} from '../../controller/model/exam-surveillant';
 import {ExamSalle} from '../../controller/model/exam-salle';
+import {SallesService} from '../../controller/services/salles.service';
+import {Personnel} from '../../controller/model/personnel.model';
+import {SurveillantService} from '../../controller/services/surveillant.service';
 
 @Component({
   selector: 'app-exam',
@@ -24,7 +27,7 @@ export class ExamComponent implements OnInit {
   p = 1;
 
   constructor(private examService: ExamService,
-              private modalService: BsModalService, private printService: PrintService) { }
+              private modalService: BsModalService, private printService: PrintService, private salleService: SallesService,private surveillantService:SurveillantService) { }
 
 
   ngOnInit(): void {
@@ -32,6 +35,7 @@ export class ExamComponent implements OnInit {
     this.examService.getProfesseur();
     this.examService.getSalles();
     this.examService.getModule();
+    this.examService.getPersonnel();
     this.examService.getSurveillant();
     this.examService.getExamSurveillant();
     this.examService.getExamSalle();
@@ -67,6 +71,12 @@ export class ExamComponent implements OnInit {
   get examSalles(): Array<ExamSalle> {
     return this.examService.examSalles;
   }
+  get personnels(): Array<Personnel> {
+    return this.examService.personnels;
+  }
+  get personnel(): Personnel {
+    return this.examService.personnel;
+  }
   public deleteByReference(exam: Exam) {
     this.examService.deleteByReference(exam);
   }
@@ -93,7 +103,7 @@ export class ExamComponent implements OnInit {
   get display(): number{
     return this.examService.display;
   }
-  public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur){
+  public update(id: number, reference: string, dateDepart: Date, dateFin: Date, module: Module, prof: Professeur){
     this.examService.update(id, reference, dateDepart, dateFin, module, prof);
   }
  public addSurveillant(surveillant: Surveillant){
@@ -118,11 +128,18 @@ export class ExamComponent implements OnInit {
     console.log(sal);
     this.examService.findBySallesDesignation(sal);
   }
+  recupererPerso(perso) {
+    console.log(perso);
+    this.examService.findByPersonnelNom(perso);
+  }
   get surveill(): Surveillant {
     return this.examService.surveill;
   }
   get sal(): Salles {
     return this.examService.sal;
+  }
+  get perso(): Personnel {
+    return this.examService.perso;
   }
   refresh(): void {
     window.location.reload();
@@ -131,4 +148,13 @@ export class ExamComponent implements OnInit {
     this.examService.deleteExamBySalleDesignation(salle);
   }
 
+  public findEtatPrevue() {
+    this.salleService.findEtatPrevue();
+  }
+  public addPersonnel(personnel: Personnel){
+    this.examService.addPersonnel(personnel);
+  }
+  public saveSurveillant() {
+    this.surveillantService.save();
+  }
 }

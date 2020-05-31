@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Surveillant} from '../model/surveillant.model';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import {Surveillant} from '../model/surveillant.model';
 export class SurveillantService {
 
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
   private _surveillant: Surveillant;
   private _surveillants: Array<Surveillant>;
@@ -70,16 +71,14 @@ export class SurveillantService {
 
     this.http.post<number>(this._urlsurve + 'save', this.surveillant).subscribe(
       data => {
-        if (data > 0) {
+        if (data === 1) {
           this.surveillants.push(this.cloneSurveillant(this.surveillant));
+          this.toastr.success(this.surveillant.nom + 'a été ajouté avec succés', 'Ajout réussi!');
           this.surveillant = null;
-
-          this.display = 1;
           console.log(this.surveillant);
+        }else if (data === -1){
+          this.toastr.warning(this.surveillant.nom + 'existe déja', 'Attention!');
         }
-        else if (data == -1) {
-          this.display = -1;
- }
       }, error => {
         console.log(error);
       }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Etat} from '../model/etat.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import {Etat} from '../model/etat.model';
 export class EtatService {
 
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
   private _etat: Etat;
   private _etats: Array<Etat>;
@@ -59,9 +60,12 @@ export class EtatService {
 
     this.http.post<number>(this._urletat + 'save', this.etat).subscribe(
       data => {
-        if (data > 0) {
+        if (data === 1) {
           this.etats.push(this.etat);
+          this.toastr.success(this.etat.libelle + 'a été ajouté avec succés', 'Ajout réussi!');
           this.etat = null;
+        }else if (data === -1){
+          this.toastr.warning(this.etat.libelle + 'existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);

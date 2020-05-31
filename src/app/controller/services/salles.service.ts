@@ -3,13 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import { Salles } from '../model/salles';
 import { Router } from '@angular/router';
 import {Subject} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SallesService {
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
   private _salle: Salles;
  private _salles: Array<Salles>;
@@ -78,14 +79,13 @@ export class SallesService {
 
     this.http.post<number>(this._urlsalle + 'save', this.salle).subscribe(
       data => {
-        if (data > 0) {
+        if (data === 1) {
           this.salles.push(this.salle);
+          this.toastr.success('la salle "' + this.salle.designation + '" a été ajouté avec succés', 'Ajout réussi!');
           this.salle = null;
-          this.display = 1;
+        }else if (data === -1){
+          this.toastr.warning(this.salle.designation + 'existe déja', 'Attention!');
         }
-        else if (data == -1)
-          this.display = -1;
-
       }, error => {
         console.log(error);
       }
@@ -104,8 +104,13 @@ export class SallesService {
   public deleteByDesignation(salle: Salles) {
     this.http.delete<number>(this._urlsalle + 'delete-by-designation/' + salle.designation).subscribe(
       data => {
-        console.log('ha data ' + data);
-        this.deleteByDesignationFromView(salle);
+        if(data>0){
+          console.log('ha data ' + data);
+          this.deleteByDesignationFromView(salle);
+        }
+        else{
+          console.log('salle occupée');
+        }
       }
     );
   }
@@ -148,6 +153,14 @@ export class SallesService {
   }
   public vider(){
     this.salle = null;
+  }
+  public findEtatPrevue() {
+    this.http.get<Array<Salles>>(this._urlsalle + 'prevue').subscribe(
+      data => {
+        this.salles = data;
+        console.log(data);
+      }
+    );
   }
 }
 

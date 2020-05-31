@@ -11,7 +11,9 @@ import {Filiere} from '../model/filiere';
 })
 export class CalendarService {
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router) {
+  }
+
   private _calendar: Calendar;
   private _calendars: Array<Calendar>;
   private _display: number;
@@ -52,6 +54,7 @@ export class CalendarService {
   set calendar(value: Calendar) {
     this._calendar = value;
   }
+
   get exams(): Array<Exam> {
     if (this._exams == null) {
       this._exams = new Array<Exam>();
@@ -62,16 +65,17 @@ export class CalendarService {
   set exams(value: Array<Exam>) {
     this._exams = value;
   }
-  get display(): number{
+
+  get display(): number {
     return this._display;
   }
 
-  set display(display: number){
+  set display(display: number) {
     this._display = display;
   }
 
-  get filiere(): Filiere{
-    if (this._filiere == null){
+  get filiere(): Filiere {
+    if (this._filiere == null) {
       this._filiere = new Filiere();
     }
     return this._filiere;
@@ -80,6 +84,7 @@ export class CalendarService {
   set filiere(filiere: Filiere) {
     this._filiere = filiere;
   }
+
   public findAll() {
     this.http.get<Array<Calendar>>(this._urlcalendar + 'find-all').subscribe(
       data => {
@@ -88,6 +93,7 @@ export class CalendarService {
       }
     );
   }
+
   public save() {
     console.log('haa lien ' + this._urlcalendar);
     console.log('haa departement ' + this.calendar);
@@ -100,32 +106,31 @@ export class CalendarService {
 
           this.display = 1;
           console.log(this.calendar);
-        }
-        else if (data == -1) {
+        } else if (data == -1) {
           this.display = -1;
- }
+        }
       }, error => {
         console.log(error);
       }
     );
   }
-
-  public deleteByLibelle(calendar: Calendar) {
-    this.http.delete<number>(this._urlcalendar + 'delete-by-libelle/' + calendar.libelle).subscribe(
-      data => {
-        console.log('ha data ' + data);
-        this.deleteByLibelleFromView(calendar);
-      }
-    );
-  }
-
-  private deleteByLibelleFromView(calendar: Calendar) {
-    const index = this.calendars.findIndex(c => c.libelle === calendar.libelle);
-    if (index !== -1) {
-      this.calendars.splice(index, 1);
+  /*
+    public deleteByLibelle(calendar: Calendar) {
+      this.http.delete<number>(this._urlcalendar + 'delete-by-libelle/' + calendar.libelle).subscribe(
+        data => {
+          console.log('ha data ' + data);
+          this.deleteByLibelleFromView(calendar);
+        }     );
     }
-  }
-  public update(id: number, libelle: string, anneUniversitaire: number){
+  /*
+    private deleteByLibelleFromView(calendar: Calendar) {
+      const index = this.calendars.findIndex(c => c.libelle === calendar.libelle);
+      if (index !== -1) {
+        this.calendars.splice(index, 1);
+      }
+    }
+  */
+  public update(id: number, libelle: string, anneUniversitaire: number) {
     this.http.put(this._urlcalendar + id + '/' + libelle + '/' + anneUniversitaire, this.calendar).subscribe(
       data => {
         if (data > 0) {
@@ -133,9 +138,12 @@ export class CalendarService {
         }
       });
   }
-  public vider(){
+
+  public vider() {
     this.calendar = null;
   }
+
+  /*
   public recuperer(calendar: Calendar, id: number) {
     console.log(calendar);
     this.calendar.id = calendar.id;
@@ -160,4 +168,5 @@ export class CalendarService {
       }
     );
   }
+}*/
 }

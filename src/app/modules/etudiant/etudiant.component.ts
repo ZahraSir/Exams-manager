@@ -1,14 +1,16 @@
- import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 
- import {Etudiant} from '../../controller/model/etudiant';
- import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
- import {Semestre} from '../../controller/model/semestre';
- import {SemestreService} from '../../controller/services/semestre.service';
- import {FiliereService} from '../../controller/services/filiere.service';
- import {Filiere} from '../../controller/model/filiere';
- import {EtudiantService} from '../../controller/services/etudiant.service';
+import {Etudiant} from '../../controller/model/etudiant';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {Semestre} from '../../controller/model/semestre';
+import {SemestreService} from '../../controller/services/semestre.service';
+import {FiliereService} from '../../controller/services/filiere.service';
+import {Filiere} from '../../controller/model/filiere';
+import {EtudiantService} from '../../controller/services/etudiant.service';
+import { ModuleService } from 'src/app/controller/services/module.service';
+import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
 
- @Component({
+@Component({
   selector: 'app-etudiant',
   templateUrl: './etudiant.component.html',
   styleUrls: ['./etudiant.component.css']
@@ -18,8 +20,8 @@ export class EtudiantComponent implements OnInit {
   item: string;
   modalRef: BsModalRef;
   selected = '---Choisir une filière---';
-   p = 1;
-  constructor(private etudiantService: EtudiantService, private modalService: BsModalService, private filiereService: FiliereService, private semestreService: SemestreService) { }
+  p = 1;
+  constructor(private etudiantService: EtudiantService, private modalService: BsModalService, private filiereService: FiliereService, private moduleService: ModuleService) { }
 
   ngOnInit(): void {
     this.etudiantService.findAll();
@@ -65,15 +67,23 @@ export class EtudiantComponent implements OnInit {
     this.etudiantService.recuperer(etudiant);
   }
 
-  public updateE(id: number, nom: string, prenom: string, cne: string, mail: string, idFiliere: number, idSemestre: number){
-    this.etudiantService.update(id, nom, prenom, cne, mail, idFiliere, idSemestre);
+  public updateE(id: number, nom: string, prenom: string, cne: string, mail: string, Filiere: string, idSemestre: number){
+    this.etudiantService.update(id, nom, prenom, cne, mail, Filiere, idSemestre);
   }
 
 
   public deleteByCne(etudiant: Etudiant){
     this.etudiantService.deleteByCne(etudiant);
   }
-   refresh(): void {
-     window.location.reload();
-   }
+
+  public findByfiliereLibelle(filiere){
+    console.log(filiere);
+    this.etudiantService.findByFiliereLibelle(filiere);
+
+  }
+
+  get niveauSemestres(): Array<NiveauSemestre>{
+    return this.etudiantService.niveauSemestres;
+  }
+
 }

@@ -71,7 +71,7 @@
       <div class="modal-body">
         <form>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7" style="margin-left: 140px;">
           <div class="form-group">
             <input   class="form-control" name="reference" placeholder="Reference" [(ngModel)]="exam.reference"
                    ngModel
@@ -87,7 +87,8 @@
             <div class="col-md-6">
           <div class="form-group">
             <input type="datetime-local" id="exam-time"
-                   value="2020-05-12T19:30"
+                    placeholder="dateDepart"
+                   min="2020-01-01T00:00" max="2020-07-01T00:00"
                    class="form-control" name="dateDepart" [(ngModel)]="exam.dateDepart"
                    ngModel
                    required
@@ -101,6 +102,7 @@
             <div class="col-md-6">
           <div class="form-group">
             <input type="datetime-local" id="exam-time"
+                   min="2020-01-01T00:00" max="2020-07-01T00:00"
             value="2020-05-12T19:30" class="form-control" name="dateFin"  [(ngModel)]="exam.dateFin"
                    ngModel
                    required
@@ -142,9 +144,9 @@
           </div></div>
           </div>
 <div class="row">
-<div class="col-md-6">
-            <div class="form-group">
-              <select class=" input-large form-control" name="surveillant" (change)="recupererSurv($event.target.value)"
+<div class="col-md-7" style="margin-left: 140px;">
+            <div class="form-group" >
+              <select class=" input-large form-control" name="surveillant" (change)="recupererPerso($event.target.value)"
                       ngModel
                       required
                       #surveillant="ngModel"
@@ -152,13 +154,13 @@
                 'is-invalid' : !surveillant?.valid && surveillant?.touched,
                   'is-valid' : surveillant?.valid && surveillant?.touched}" >
 
-                <option *ngFor="let surve of surveillants" [value]="surve.nom">{{surve.nom}}</option>
+                <option *ngFor="let surve of personnels" [value]="surve.nom">{{surve.nom}}</option>
               </select>
               <small *ngIf="surveillant?.errors?.required && surveillant?.touched" class="form-text text-danger">champs obligatoire</small>
             </div></div>
 
   <div class="form-group">
-  <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addSurveillant(surveill)"></button>
+  <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addPersonnel(perso);" style="height: 36px; margin-left: -15px; width: 40px;"></button>
   </div>
 
 <!-- debut liste d'ajout des surveillants-->
@@ -192,9 +194,9 @@
           <!-- fin liste d'ajout des surveillants-->
           <br>
 <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-7" style="margin-left: 140px;">
             <div class="form-group">
-              <select class=" input-large form-control" name="salle"  (change)="recupererSalle($event.target.value)"
+              <select class=" input-large form-control" name="salle"  (change)="recupererSalle($event.target.value);"
                       ngModel
                       required
                       #salle="ngModel"
@@ -202,13 +204,13 @@
                 'is-invalid' : !salle?.valid && salle?.touched,
                   'is-valid' : salle?.valid && salle?.touched}" >
 
-                <option *ngFor="let s of salles" [value]="s.designation">{{s.designation}}</option>
+                <option *ngFor="let s of salles" [value]="s.designation" >{{s.designation}}</option>
               </select>
               <small *ngIf="salle?.errors?.required && salle?.touched" class="form-text text-danger">champs obligatoire</small>
             </div>
           </div>
   <div class="form-group">
-              <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addSalle(sal)"></button>
+              <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addSalle(sal)" style="height: 36px; margin-left: -15px; width: 40px;"></button>
             </div>
   <!-- debut liste d'ajout des salles-->
 <div class="col-md-12">
@@ -352,13 +354,15 @@
                   <th>Nom</th>
                   <th>Prenom</th>
                   <th>Email</th>
+                  <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor= "let surve of exam.examSurveillants">
                   <td>{{surve.surveillant.nom}}</td>
                   <td>{{surve.surveillant.prenom}}</td>
-                  <td>{{surve.surveillant.mail}}</td>                <td>
+                  <td>{{surve.surveillant.mail}}</td>
+                  <td>
                   <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modalSu);"></button>
                 </td>
                   <!--Confirmation du suppression-->
@@ -376,7 +380,7 @@
             </div>
           </div>
         </div>
-
+<br>
       <div class="form-group">
         <button class="btn btn-info btn-sm" type="button" (click)="ajoutSalle.show(); ">Ajouter salles</button>
       </div>

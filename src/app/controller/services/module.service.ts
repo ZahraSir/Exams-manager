@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Module} from '../model/module.model';
 import {Semestre} from '../model/semestre';
+import { NiveauSemestre } from '../model/niveau-semestre';
 
 
 @Injectable({
@@ -13,7 +14,8 @@ export class ModuleService {
   private _modules: Array<Module>;
   private _semestres: Array<Semestre>;
   private _urlModule= 'http://localhost:8090/exam-api/modules/';
-  private _urlSemestre= 'http://localhost:8090/exam-api/semestre/find-all';
+  private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
+  private _niveauSemestres: Array<NiveauSemestre>;
 
   constructor(private http: HttpClient) { }
 
@@ -51,9 +53,20 @@ export class ModuleService {
     this._semestres = semestres;
   }
 
+  get niveauSemestres(): Array<NiveauSemestre>{
+    if (this._niveauSemestres == null){
+      this._niveauSemestres = new Array<NiveauSemestre>();
+    }
+    return this._niveauSemestres;
+  }
+
+  set niveauSemestres(niveauSemestres: Array<NiveauSemestre>){
+    this._niveauSemestres = niveauSemestres;
+  }
+
 
   public save(){
-    this.http.post<number>(this._urlModule + '/add-module/', this.module).subscribe(
+    this.http.post<number>(this._urlModule + 'add-module/', this.module).subscribe(
       data => {
         if (data > 0) {
           this.modules.push(this.module);
@@ -72,17 +85,17 @@ export class ModuleService {
     myClone.id = module.id;
     myClone.filiere = module.filiere;
     myClone.libelle = module.libelle;
-    myClone.semestre = module.semestre;
+    myClone.semestre =module.semestre;
     return myClone;
   }
 
   public update(id: number, libelle: string, semestre: string){
     this.http.put(this._urlModule + id + '/' + libelle + '/' + semestre, this.module).subscribe(
-      data => {
-        if (data > 0) {
-          console.log(this.module);
+      data =>{
+        if(data >0) {
+          console.log(this.module)
         }
-      });
+      })
   }
 
   public recuperer(module: Module){
@@ -127,5 +140,15 @@ export class ModuleService {
 
   public vider() {
     this.module = null;
+  }
+  public findByFiliereLibelle(filiere){
+    this.http.get<Array<NiveauSemestre>>(this._urlSemestre + 'find-by-filiere/' + filiere).subscribe(
+      data => {
+        console.log(data);
+        this.niveauSemestres = data;
+        console.log('fbjd ' + this.niveauSemestres);
+
+      }
+    )
   }
 }

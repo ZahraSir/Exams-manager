@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Professeur} from '../model/professeur.model';
 import {Responsabilite} from '../model/responsabilite.model';
 import {Departement} from '../model/departement.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import {Departement} from '../model/departement.model';
 export class ProfesseurService {
 
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router,private toastr: ToastrService) { }
 
   private _professeur: Professeur;
   private _professeurs: Array<Professeur>;
@@ -98,17 +99,16 @@ export class ProfesseurService {
     console.log('haa lien ' + this._urlprof);
     console.log('haa professeur ' + this.professeur);
 
-    this.http.post<number>(this._urlprof+ 'save', this.professeur).subscribe(
+    this.http.post<number>(this._urlprof + 'save', this.professeur).subscribe(
       data => {
-        if (data > 0) {
+        if (data === 1) {
           this.professeurs.push(this.cloneProfesseur(this.professeur));
+          this.toastr.success(this.professeur.nom + 'a été ajouté avec succés', 'Ajout réussi!');
           this.professeur = null;
-
-          this.display = 1;
           console.log(this.professeur);
+        }else if (data === -1){
+          this.toastr.warning(this.professeur.nom + 'existe déja', 'Attention!');
         }
-        else if(data == -1)
-          this.display = -1;
       }, error => {
         console.log(error);
       }
@@ -151,8 +151,8 @@ export class ProfesseurService {
     this.professeur.departement.libelle = professeur.departement.libelle;
     this.professeur.responsabilite.libelle = professeur.responsabilite.libelle;
     console.log(this.professeur.nom);
-        console.log(this.professeur.departement);
-     console.log(this.professeur.responsabilite);
+    console.log(this.professeur.departement);
+    console.log(this.professeur.responsabilite);
   }
 
 
@@ -164,13 +164,13 @@ export class ProfesseurService {
         }}
     ])
   }
-  public update(id: number,nom: string, prenom: string, mail: string, responsabilite: Responsabilite, departement: Departement){
-    this.http.put(this._urlprof +id +'/'+nom +'/' + prenom+ '/' + mail+ '/' + responsabilite+ '/' + departement, this.professeur).subscribe(
-      data =>{
-        if(data >0) {
+  public update(id: number, nom: string, prenom: string, mail: string, responsabilite: Responsabilite, departement: Departement){
+    this.http.put(this._urlprof + id + '/'+ nom + '/' + prenom + '/' + mail + '/' + responsabilite + '/' + departement, this.professeur).subscribe(
+      data => {
+        if(data > 0) {
           console.log('la professeur ');
         }
-      })
+      });
   }
   public getDepartement() {
     this.http.get<Array<Departement>>(this._urldepart+ 'find-all').subscribe(
@@ -180,7 +180,7 @@ export class ProfesseurService {
     );
   }
   public getResponsabilite() {
-    this.http.get<Array<Responsabilite>>(this._urlrespo+ 'find-all').subscribe(
+    this.http.get<Array<Responsabilite>>(this._urlrespo + 'find-all').subscribe(
       data => {
         this._responsabilites = data;
       }

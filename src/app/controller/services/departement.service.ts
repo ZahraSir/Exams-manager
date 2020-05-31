@@ -3,13 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 
 import {Departement} from '../model/departement.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartementService {
 
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
   private _departement: Departement;
   private _departements: Array<Departement>;
@@ -68,16 +69,14 @@ export class DepartementService {
 
     this.http.post<number>(this._urldepart + 'save', this.departement).subscribe(
       data => {
-        if (data > 0) {
+        if (data === 1) {
           this.departements.push(this.cloneDepartement(this.departement));
+          this.toastr.success(this.departement.libelle + 'a été ajouté avec succés', 'Ajout réussi!');
           this.departement = null;
-
-          this.display = 1;
           console.log(this.departement);
+        }else if (data === -1){
+          this.toastr.warning(this.departement.libelle + 'existe déja', 'Attention!');
         }
-        else if (data == -1) {
-          this.display = -1;
- }
       }, error => {
         console.log(error);
       }

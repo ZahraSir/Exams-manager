@@ -6,6 +6,7 @@ import {SemestreService} from '../../../controller/services/semestre.service';
 import {FiliereService} from '../../../controller/services/filiere.service';
 import {Filiere} from '../../../controller/model/filiere';
 import {Module} from '../../../controller/model/module.model';
+import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
 
 @Component({
   selector: 'app-module-create',
@@ -74,4 +75,12 @@ export class ModuleCreateComponent implements OnInit {
     this.moduleService.vider();
   }
 
+  get niveauSemestres(): Array<NiveauSemestre>{
+    return this.moduleService.niveauSemestres;
+  }
+  public findByfiliereLibelle(filiere){
+    console.log(filiere);
+    this.moduleService.findByFiliereLibelle(filiere);
+
+  }
 }
