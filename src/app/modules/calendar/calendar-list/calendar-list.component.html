@@ -1,5 +1,5 @@
 <button class="btn btn-primary float-right" (click)="parentModal2.show();addEvent();">
-  Add new
+  Ajouter exam
 </button>
 <div class="row text-center">
   <div class="col-md-4">
@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    <h3>  {{ viewDate | calendarDate:(view + 'ViewTitle'):locale:weekStartsOn }}</h3>
   </div>
   <div class="col-md-4">
     <div class="btn-group">
@@ -67,6 +67,7 @@
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+    [locale]="locale"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="handleEvent('Clicked', $event.event);show();"
@@ -78,6 +79,7 @@
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+    [locale]="locale"
     (eventClicked)="handleEvent('Clicked', $event.event);"
     (eventTimesChanged)="eventTimesChanged($event)"
   >
@@ -86,7 +88,11 @@
     *ngSwitchCase="CalendarView.Day"
     [viewDate]="viewDate"
     [events]="events"
+    [dayStartHour]="8"
+    [dayEndHour]="19"
+    [hourSegments]="4"
     [refresh]="refresh"
+    [locale]="locale"
     (eventClicked)="handleEvent('Clicked', $event.event);"
     (eventTimesChanged)="eventTimesChanged($event)"
   >
@@ -108,9 +114,9 @@
     <thead>
     <tr>
       <th>Titre</th>
-      <th>Primary color</th>
-      <th>Starts at</th>
-      <th>Ends at</th>
+      <th>Couleur primaire</th>
+      <th>Commence à</th>
+      <th>Fini à</th>
       <th>Action</th>
     </tr>
     </thead>

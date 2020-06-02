@@ -1,10 +1,14 @@
 <div class="card">
-  <div class="card-header">
-    <h3>Liste des Etats</h3>
-
-    <input  type = " text " class = " search-query form-control " placeholder = " Search  "   name = " item " [(ngModel)] = "item"  style="width: 180px;padding-right: 100px;"/>
+  <div class="card-img-overly">
+    <h6 style="text-align: center;">Liste d'Etat</h6>
+    <div class="row">
+      <div class="col-md-4">
+        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
   </div>
-  <div class="card-body" >
+  <div class="table-responsive">
     <table class="table" style="text-align: center;">
       <thead>
 
@@ -27,14 +31,4 @@
   <pagination-controls style="position: center" (pageChange)=" p=$event "></pagination-controls>
 </div>
 </div>
-<!-- restaurer
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Confirmation</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-  </div>
-</ng-template>-->
+

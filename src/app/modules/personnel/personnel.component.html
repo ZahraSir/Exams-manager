@@ -1,12 +1,17 @@
 
 <div class="card">
-  <div class="card-header">
-    <h3>Liste des Personnels</h3>
-
-    <input  type = " text " class = " search-query form-control " placeholder = " Search  "   name = " item " [(ngModel)] = "item"  style="width: 180px;padding-right: 100px;"/>
+  <div class="card-img-overly">
+    <h6 style="text-align: center;">Liste des Personnels</h6>
+    <div class="row">
+      <div class="col-md-4">
+        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
   </div>
-  <div class="card-body" >
+  <div class="table-responsive">
     <table class="table" style="text-align: center;">
+
       <thead>
 
       <th></th>
@@ -35,4 +40,7 @@
   <div class="card-img-overly">
     <pagination-controls style="position: center" (pageChange)=" p=$event "></pagination-controls>
   </div>
-</div>
+  </div>
+
+
+

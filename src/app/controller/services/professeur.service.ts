@@ -165,10 +165,12 @@ export class ProfesseurService {
     ])
   }
   public update(id: number, nom: string, prenom: string, mail: string, responsabilite: Responsabilite, departement: Departement){
-    this.http.put(this._urlprof + id + '/'+ nom + '/' + prenom + '/' + mail + '/' + responsabilite + '/' + departement, this.professeur).subscribe(
+    this.http.put(this._urlprof + id + '/' + nom + '/' + prenom + '/' + mail + '/' + responsabilite + '/' + departement, this.professeur).subscribe(
       data => {
-        if(data > 0) {
-          console.log('la professeur ');
+        if (data > 0) {
+          console.log('la professeur ' + departement);
+          console.log('la professeur ' + responsabilite );
+          console.log('la professeur ' + mail);
         }
       });
   }

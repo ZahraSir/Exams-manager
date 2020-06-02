@@ -216,7 +216,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 .nav-link {
   display: block;
-  padding: 1rem 4rem;
+  padding: 1.4rem 4.4rem;
 }
 .sidebar .nav-item .nav-link {
   width: 18rem;

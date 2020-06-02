@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {Module} from '../model/module.model';
 import {Semestre} from '../model/semestre';
 import { NiveauSemestre } from '../model/niveau-semestre';
+import {Professeur} from '../model/professeur.model';
+import {Surveillant} from '../model/surveillant.model';
 
 
 @Injectable({
@@ -16,6 +18,9 @@ export class ModuleService {
   private _urlModule= 'http://localhost:8090/exam-api/modules/';
   private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
   private _niveauSemestres: Array<NiveauSemestre>;
+  private _professeur: Professeur;
+  private _professeurs: Array<Professeur>;
+  private _urlprof = 'http://localhost:8090/exam-api/professeurs/';
 
   constructor(private http: HttpClient) { }
 
@@ -63,6 +68,16 @@ export class ModuleService {
   set niveauSemestres(niveauSemestres: Array<NiveauSemestre>){
     this._niveauSemestres = niveauSemestres;
   }
+  get professeurs(): Array<Professeur> {
+    if (this._professeurs == null) {
+      this._professeurs = new Array<Professeur>();
+    }
+    return this._professeurs;
+  }
+
+  set professeurs(value: Array<Professeur>) {
+    this._professeurs = value;
+  }
 
 
   public save(){
@@ -85,12 +100,13 @@ export class ModuleService {
     myClone.id = module.id;
     myClone.filiere = module.filiere;
     myClone.libelle = module.libelle;
-    myClone.semestre =module.semestre;
+    myClone.semestre = module.semestre;
+    myClone.professeur = module.professeur;
     return myClone;
   }
 
-  public update(id: number, libelle: string, semestre: string){
-    this.http.put(this._urlModule + id + '/' + libelle + '/' + semestre, this.module).subscribe(
+  public update(id: number, libelle: string, semestre: string, professeur: Professeur){
+    this.http.put(this._urlModule + id + '/' + libelle + '/' + semestre + '/' + professeur , this.module).subscribe(
       data =>{
         if(data >0) {
           console.log(this.module)
@@ -103,7 +119,8 @@ export class ModuleService {
     this.module.libelle = module.libelle;
     this.module.semestre.libelle = module.semestre.libelle;
     this.module.filiere.libelle = module.filiere.libelle;
-    console.log(this.module)
+    this.module.professeur.nom = module.professeur.nom;
+    console.log(this.module);
   }
 
   public getSemestres() {
@@ -149,6 +166,13 @@ export class ModuleService {
         console.log('fbjd ' + this.niveauSemestres);
 
       }
-    )
+    );
+  }
+  public getProfesseur() {
+    this.http.get<Array<Professeur>>(this._urlprof + 'find-all').subscribe(
+      data => {
+        this._professeurs = data;
+      }
+    );
   }
 }

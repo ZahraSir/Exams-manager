@@ -7,6 +7,7 @@ import {Semestre} from '../../controller/model/semestre';
 import {SemestreService} from '../../controller/services/semestre.service';
 import {EtudiantService} from '../../controller/services/etudiant.service';
 import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
+import {Professeur} from '../../controller/model/professeur.model';
 
 @Component({
   selector: 'app-module',
@@ -17,6 +18,7 @@ export class ModuleComponent implements OnInit {
   constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private etudiantService: EtudiantService) { }
 
   ngOnInit(): void {
+    this.moduleService.getProfesseur();
   }
 
   get module(): Module{
@@ -35,9 +37,8 @@ export class ModuleComponent implements OnInit {
     return this.filiereService.filiere;
   }
 
-  public update(id: number, libelle: string, semestre: string){
-    console.log('ha lid '+id);
-    this.moduleService.update(id, libelle, semestre);
+  public update(id: number, libelle: string, semestre: string, professeur: Professeur){
+    this.moduleService.update(id, libelle, semestre, professeur);
   }
 
   public recupererM(module: Module){

@@ -104,12 +104,14 @@ export class SallesService {
   public deleteByDesignation(salle: Salles) {
     this.http.delete<number>(this._urlsalle + 'delete-by-designation/' + salle.designation).subscribe(
       data => {
-        if(data>0){
+        if (data === 1){
           console.log('ha data ' + data);
           this.deleteByDesignationFromView(salle);
+          this.toastr.success('La salle a éjkbnté supprimée avec Succés!');
         }
-        else{
-          console.log('salle occupée');
+        else
+        {
+          this.toastr.warning('La salle/Amphi ' + salle.designation + '" est occupée', 'Attention!');
         }
       }
     );

@@ -1,5 +1,5 @@
-import {Component, OnInit, TemplateRef, ViewChild, Input} from '@angular/core';
-import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView,} from 'angular-calendar';
+import {Component, OnInit, TemplateRef, ViewChild, Input, ChangeDetectionStrategy} from '@angular/core';
+import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, DateFormatterParams, DAYS_OF_WEEK} from 'angular-calendar';
 import {Subject} from 'rxjs';
 import {startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,7 @@ import {ExamSurveillant} from '../../../controller/model/exam-surveillant';
 import {ExamSalle} from '../../../controller/model/exam-salle';
 import {CalendarService} from '../../../controller/services/calendar.service';
 import {Calendar} from '../../../controller/model/calendar';
+import {DatePipe} from '@angular/common';
 
 declare var $: any;
 const colors: any = {
@@ -30,6 +31,7 @@ const colors: any = {
 @Component({
   selector: 'app-calendar-list',
   templateUrl: './calendar-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./calendar-list.component.css']
 })
 export class CalendarListComponent  implements OnInit{
@@ -79,6 +81,19 @@ export class CalendarListComponent  implements OnInit{
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
+
+  locale = 'fr';
+  public dayViewHour({ date, locale }: DateFormatterParams): string {
+    return new DatePipe(locale).transform(date, 'HH:mm', locale);
+  }
+
+  public weekViewHour({ date, locale }: DateFormatterParams): string {
+    return this.dayViewHour({ date, locale });
+  }
+
+  weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
+
+  weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
 
   modalData: {
     action: string;
@@ -144,8 +159,7 @@ export class CalendarListComponent  implements OnInit{
 
   activeDayIsOpen = false;
 
- // @Input() dayStartHour = 8;
- // @Input() dayEndHour: number = 18;
+
   public evented: void;
 
   ngOnInit(): void {

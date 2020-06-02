@@ -12,6 +12,8 @@ import {ExamSalle} from '../../controller/model/exam-salle';
 import {SallesService} from '../../controller/services/salles.service';
 import {Personnel} from '../../controller/model/personnel.model';
 import {SurveillantService} from '../../controller/services/surveillant.service';
+import {ToastrService} from 'ngx-toastr';
+import {Filiere} from '../../controller/model/filiere';
 
 @Component({
   selector: 'app-exam',
@@ -27,18 +29,18 @@ export class ExamComponent implements OnInit {
   p = 1;
 
   constructor(private examService: ExamService,
-              private modalService: BsModalService, private printService: PrintService, private salleService: SallesService,private surveillantService:SurveillantService) { }
+              private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
+              private toastrService: ToastrService) { }
 
 
   ngOnInit(): void {
     this.examService.findAll();
-    this.examService.getProfesseur();
     this.examService.getSalles();
-    this.examService.getModule();
     this.examService.getPersonnel();
     this.examService.getSurveillant();
     this.examService.getExamSurveillant();
     this.examService.getExamSalle();
+    this.examService.getFiliere();
   }
   public save() {
 
@@ -92,6 +94,9 @@ export class ExamComponent implements OnInit {
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
+  get filieres(): Array<Filiere>{
+    return this.examService.filieres;
+  }
 
   confirm(): void {
     this.modalRef.hide();
@@ -100,11 +105,9 @@ export class ExamComponent implements OnInit {
   decline(): void {
     this.modalRef.hide();
   }
-  get display(): number{
-    return this.examService.display;
-  }
-  public update(id: number, reference: string, dateDepart: Date, dateFin: Date, module: Module, prof: Professeur){
-    this.examService.update(id, reference, dateDepart, dateFin, module, prof);
+
+  public update(id: number, reference: string, dateDepart: Date, dateFin: Date, module: Module, prof: Professeur, filiere: Filiere){
+    this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
   }
  public addSurveillant(surveillant: Surveillant){
     this.examService.addSurveillant(surveillant);
@@ -126,6 +129,7 @@ export class ExamComponent implements OnInit {
   }
   recupererSalle( sal) {
     console.log(sal);
+    console.log(this.exam.dateDepart);
     this.examService.findBySallesDesignation(sal);
   }
   recupererPerso(perso) {
@@ -156,5 +160,31 @@ export class ExamComponent implements OnInit {
   }
   public saveSurveillant() {
     this.surveillantService.save();
+  }
+  public  findExamSalle(designation: string, dateDepart: Date, dateFin: Date ){
+    console.log(dateFin);
+    console.log(designation);
+    console.log(dateDepart);
+    this.examService.findExamSalle(designation, dateDepart, dateFin);
+  }
+  public findExamSurveillant(nom: string, dateDepart: Date, dateFin: Date ){
+    this.examService.findExamSurveillant(nom, dateDepart, dateFin);
+  }
+
+  public show() {
+    this.toastrService.success('hellokdkq', 'dkdlkmldkqmlkdm');
+  }
+  public deleteByNomFromView(surveillant: Personnel) {
+    console.log(surveillant+'hvjf');
+    this.examService.deleteByNomFromView(surveillant);
+  }
+  public deleteByDesignationFromView(salle: Salles) {
+    this.examService.deleteByDesignationFromView(salle);
+  }
+  public findModuleByFiliereLibelle(libelle: string) {
+    this.examService.findModuleByFiliereLibelle(libelle);
+  }
+  public findByModuleLibelle(libelle: string ) {
+    this.examService.findByModuleLibelle(libelle);
   }
 }
