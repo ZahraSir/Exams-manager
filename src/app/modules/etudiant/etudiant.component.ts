@@ -76,7 +76,7 @@ export class EtudiantComponent implements OnInit {
     this.etudiantService.deleteByCne(etudiant);
   }
 
-  public findByfiliereLibelle(filiere){
+  public findByFiliereLibelle(filiere){
     console.log(filiere);
     this.etudiantService.findByFiliereLibelle(filiere);
 

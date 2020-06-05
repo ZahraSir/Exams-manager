@@ -1,31 +1,38 @@
-<div class="card">
-
-  <div class="card-img-overly">
-
-    <h6 style="text-align: center;">Liste des modules</h6>
+<div style="margin-top: 180px;">
+  <div class="card-header" style="background-color: #2e3047; color: #fff;">
+    <h4 style="text-align: left;">Liste des modules</h4>
+  </div>
+  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+  background-color: #fff;">
     <div class="row">
-      <div class="col-md-4">
-        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
-      </div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <button class="btn btn-info fa fa-plus" style="float: right !important;" (click)="ajoutModal.show(); vider();">Ajouter</button>
+      <div>
+        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
+        margin-top: -18px;
+        background-color: #f8f6f6;
+        width: 1185;
+        margin-left: -4px;"/>
       </div>
     </div>
-  </div>
-  <div class="table-responsive">
-    <table class="table" style="text-align: center;">
+     
+        <button class="btn btn-info fa fa-plus" style="float: right !important;" (click)="ajoutModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter module</button>
+   
+    
+  
+  <div class="table-responsive ">
+    <table class="table table-bordered" style="text-align: center;">
       <thead>
       <tr>
         <th>Module</th>
+        <th>Professeur</th>
         <th>Filière</th>
         <th>Semestre</th>
         <th>Action</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor= "let module of modules | filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+      <tr *ngFor= "let module of modules | filter: item|paginate: {itemsPerPage:5,currentPage:p}">
         <td>{{module.libelle}}</td>
+        <td>{{module.professeur.nom}}</td>
         <td>{{module.filiere.libelle}}</td>
         <td>{{module.semestre.libelle}}</td>
         <td>
@@ -45,17 +52,17 @@
     </table>
   </div>
   <div class="card-img-overly">
-    <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
+    <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
   </div>
 </div>
-
+</div>
 
 <!--Modifier module-->
 <div class="modal fade" bsModal #modifeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier module</h4>
+      <div class="modal-header" style="background-color: #2e3047;">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" >Modifier module</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modifeModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -127,8 +134,8 @@
 <div class="modal fade" bsModal #ajoutModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter module</h4>
+      <div class="modal-header" style="background-color: #2e3047;">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter module</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="ajoutModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -138,6 +145,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label>Libellé</label>
                 <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="module.libelle"
                        ngModel
                        required
@@ -151,6 +159,27 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
+                <label>Professeur:</label>
+                <select class=" input-large form-control" name="professeur" [(ngModel)]="module.professeur"
+                        ngModel
+                        required
+                        #professeur="ngModel"
+                        [ngClass]="{'form-control' : true,
+                            'is-invalid' : !professeur?.valid && professeur?.touched,
+                              'is-valid' : professeur?.valid && professeur?.touched}">
+                  <option value="" >--Choisir un professeur--</option>
+                  <option *ngFor="let professeur of professeurs" [ngValue]="professeur">{{professeur}}</option>
+                </select>
+                <small *ngIf="professeur?.errors?.required && professeur?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Filière:</label>
                 <select class=" input-large form-control" name="filiere" [(ngModel)]="module.filiere.libelle" (change)="findByfiliereLibelle($event.target.value)"
                         ngModel
                         required
@@ -165,11 +194,9 @@
                        class="form-text text-danger">champs obligatoire</small>
               </div>
             </div>
-
-          </div>
-          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label>Semestre:</label>
                 <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre.libelle"
                         ngModel
                         required

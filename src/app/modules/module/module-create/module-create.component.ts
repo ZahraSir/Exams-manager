@@ -7,6 +7,8 @@ import {FiliereService} from '../../../controller/services/filiere.service';
 import {Filiere} from '../../../controller/model/filiere';
 import {Module} from '../../../controller/model/module.model';
 import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
+import { Professeur } from 'src/app/controller/model/professeur.model';
+import { ProfesseurService } from 'src/app/controller/services/professeur.service';
 
 @Component({
   selector: 'app-module-create',
@@ -15,7 +17,8 @@ import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
 })
 export class ModuleCreateComponent implements OnInit {
 
-  constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private modalService: BsModalService) { }
+  constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private modalService: BsModalService,
+    private professeurService: ProfesseurService) { }
   item: string;
   modalRef: BsModalRef;
   p = 1;
@@ -23,6 +26,7 @@ export class ModuleCreateComponent implements OnInit {
     this.moduleService.getSemestres();
     this.moduleService.findAll();
     this.filiereService.findAll();
+    this.professeurService.findAll();
   }
 
   get module(): Module{
@@ -82,5 +86,9 @@ export class ModuleCreateComponent implements OnInit {
     console.log(filiere);
     this.moduleService.findByFiliereLibelle(filiere);
 
+  }
+
+  get professeurs(): Array<Professeur> {
+    return this.moduleService.professeurs;
   }
 }

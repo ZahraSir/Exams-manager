@@ -4,6 +4,7 @@ import {Semestre} from '../model/semestre';
 import {HttpClient} from '@angular/common/http';
 import {Filiere} from '../model/filiere';
 import { NiveauSemestre } from '../model/niveau-semestre';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class EtudiantService {
   private _niveauSemestres: Array<NiveauSemestre>;
   private _urlEtudiants = 'http://localhost:8090/exam-api/etudiants/';
   private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   get etudiant(): Etudiant{
     if (this._etudiant == null){
@@ -55,9 +56,12 @@ export class EtudiantService {
     this.http.post<number>(this._urlEtudiants + 'save/', this.etudiant).subscribe(
       data => {
         if (data > 0) {
+          this.toastr.success(this.etudiant.nom+ 'a été ajouté dans la liste', 'Ajout réussi');
           this.etudiants.push(this.etudiant);
           this.etudiant = null;
           console.log(this.etudiant);
+        }else if(data === -1){
+          this.toastr.warning(this.etudiant.cne +' existe déja dans la liste', 'Alerte!');
         }
       },
       error => {
