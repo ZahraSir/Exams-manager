@@ -68,7 +68,7 @@ export class ModuleCreateComponent implements OnInit {
   }
 
   public update(module: Module){
-    this.moduleService.update(module.id, module.libelle, module.semestre.libelle);
+    this.moduleService.update(module.id, module.libelle, module.semestre.libelle, module.professeur);
   }
 
   public vider(){

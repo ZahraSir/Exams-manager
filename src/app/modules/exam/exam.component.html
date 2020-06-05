@@ -40,7 +40,7 @@
 
         <td>
           <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
-          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findSalleByExamReference(exam); findSurveillantByExamReference(exam);"></button>
+          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="recuperer(e, e.id); findSalleByExamReference(exam); findSurveillantByExamReference(exam);"></button>
         </td>
 
         <ng-template #template >
@@ -199,7 +199,7 @@
             </div></div>
   <div class="col md-2">
   <div class="form-group">
-  <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addPersonnel(perso);" style="height: 36px;"></button>
+  <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addPersonnel(perso);" [disabled]="!validateSurveillant()" style="height: 36px;"></button>
   </div>
  </div>
 </div>
@@ -261,7 +261,7 @@
           </div>
   <div class="col-md-2">
   <div class="form-group">
-              <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addSalle(sal)" style="height: 36px;"></button>
+              <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" [disabled]="!validate()" (click)="addSalle(sal)" style="height: 36px;"></button>
             </div>
   </div>
 </div>

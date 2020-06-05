@@ -87,8 +87,9 @@ export class SallesComponent implements OnInit {
   }
 
   public imprimer() {
-    this.printService.imprimer();
+    this.salleService.printDocument();
   }
+
 
   public update(id: number, designation: string, etat: string, type: string, capacite: number) {
     this.salleService.update(id, designation, etat, type, capacite);

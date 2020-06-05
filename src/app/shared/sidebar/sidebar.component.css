@@ -59,7 +59,8 @@ a:hover {
   font-size: 1.25rem;
   line-height: inherit;
   white-space: nowrap;
-  background-color: #24C2FF !important;
+  background-color: #CED6DD !important;
+  color: #15173F !important;
   border-radius: .35rem;
 }
 
@@ -88,10 +89,6 @@ a {
   .sidebar .sidebar-brand  {
     display: inline;
   }
-}
-
-.sidebar .sidebar-brand .sidebar-brand-text {
-
 }
 
 .ml-3, .mx-3 {
@@ -194,11 +191,8 @@ address, dl, ol, ul {
 
 .navbar {
   position: absolute;
-  height:230%;
-  padding: .5rem 1rem;
-  background-color:  #15173F !important;
-  padding-top: 50px !important;
-  margin-top: -100px !important;
+  background-color: #BFBFBF !important;
+  margin-top: 20px !important;
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -219,7 +213,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   padding: 1.4rem 4.4rem;
 }
 .sidebar .nav-item .nav-link {
-  width: 18rem;
+  width: 20rem;
   font-size: 1.12rem;
   display: block;
 }
@@ -233,14 +227,14 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 ul li:hover a{
   padding-left: 40px ;
-  background-color: #0D2C51 ;
-  width:20px ;
+  background-color: #8d8c8a ;
+  width:25px ;
   border-radius: 10px 40px 40px 10px !important;
 }
 .active {
   padding-left: 40px;
-  background-color: #0D2C51 ;
-  width:20px;
+  background-color: #8d8c8a ;
+  width:25px;
   border-radius: 10px 40px 40px 10px !important;
 }
 
@@ -273,3 +267,7 @@ overflow: hidden;
   }
 }
 
+.menu{
+  margin-left: 10px;
+  font-size: 20px;
+}

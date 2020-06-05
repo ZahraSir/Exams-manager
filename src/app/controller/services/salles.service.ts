@@ -17,7 +17,7 @@ export class SallesService {
   private _urlsalle = 'http://localhost:8090/exam-api/salles/';
   private isPrinting=false;
   private _display: number;
- //  private _refresh = new Subject<void>();
+ 
 
   get http(): HttpClient {
     return this._http;
@@ -56,14 +56,6 @@ export class SallesService {
     this._display = display;
   }
 
- /* get refresh(): Subject<void> {
-    return this._refresh;
-  }
-
-  set refresh(value: Subject<void>) {
-    this._refresh = value;
-  }*/
-
   public findAll() {
     this.http.get<Array<Salles>>(this._urlsalle + 'findAll').subscribe(
       data => {
@@ -81,10 +73,10 @@ export class SallesService {
       data => {
         if (data === 1) {
           this.salles.push(this.salle);
-          this.toastr.success('la salle "' + this.salle.designation + '" a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success('Salle/Amphi "' + this.salle.designation + '" a été ajouté avec succés', 'Ajout réussi!');
           this.salle = null;
         }else if (data === -1){
-          this.toastr.warning(this.salle.designation + 'existe déja', 'Attention!');
+          this.toastr.warning(this.salle.designation + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -104,14 +96,14 @@ export class SallesService {
   public deleteByDesignation(salle: Salles) {
     this.http.delete<number>(this._urlsalle + 'delete-by-designation/' + salle.designation).subscribe(
       data => {
-        if (data === 1){
+        if (data > 0){
           console.log('ha data ' + data);
           this.deleteByDesignationFromView(salle);
-          this.toastr.success('La salle a éjkbnté supprimée avec Succés!');
+          this.toastr.success('La salle a été supprimée avec Succés!');
         }
         else
         {
-          this.toastr.warning('La salle/Amphi ' + salle.designation + '" est occupée', 'Attention!');
+          this.toastr.warning('Vous ne pouvez pas supprimer cette salle, ' + salle.designation + '" est occupée', 'Attention!');
         }
       }
     );
@@ -137,13 +129,16 @@ export class SallesService {
   public selectedSalle(salle: Salles){
     this.salle = salle;
   }
-  public printDocument(documentName: string, documentData: string[]){
-     this.isPrinting = true;
-     this.router.navigate(['/',
-       {outlets: {
-         'print': ['print', documentName, documentData.join()]
-       }}
-     ]);
+  public printDocument( ){
+    this.http.post<number>(this._urlsalle + 'imprimer', this.salles).subscribe(
+      data => {
+        if (data === 1) {
+          this.toastr.success('la liste a été bien télechargé');
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
   }
   public update(id: number, designation: string, etat: string, type: string, capacite: number){
     this.http.put(this._urlsalle + id + '/' + designation + '/' + etat + '/' + type + '/' + capacite, this.salle).subscribe(

@@ -187,4 +187,11 @@ export class ExamComponent implements OnInit {
   public findByModuleLibelle(libelle: string ) {
     this.examService.findByModuleLibelle(libelle);
   }
+  public validate(): boolean{
+    return this.examService.validate();
+  }
+
+  public validateSurveillant(): boolean{
+    return this.examService.validateSurveillant();
+  }
 }

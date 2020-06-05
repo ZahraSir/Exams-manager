@@ -47,9 +47,8 @@ export class ExamService {
   private _urlperso = 'http://localhost:8090/exam-api/personnels/';
   private _urlFiliere = 'http://localhost:8090/exam-api/filieres/';
   private _filieres: Array<Filiere>;
-
-  private isPrinting = false;
-  private _display: number;
+  public display : number;
+  public surve : number;
 
   get http(): HttpClient {
     return this._http;
@@ -305,15 +304,6 @@ export class ExamService {
 
   }
 
-  public printDocument(documentName: string, documentData: string[]){
-    this.isPrinting = true;
-    this.router.navigate(['/',
-      {outlets: {
-          print: ['print', documentName, documentData.join()]
-        }}
-    ]);
-  }
-
   public update(id: number, reference: string, dateDepart: Date, dateFin: Date, module: Module, prof: Professeur, filiere: Filiere){
     this.http.put(this._urlexam + id + '/' + reference  + '/' + dateDepart + '/' + dateFin + '/' + module + '/' + prof + '/' + filiere , this.exam).subscribe(
       data => {
@@ -480,9 +470,12 @@ public getExamSurveillant() {
     this.http.get<Array<ExamSalle>>(this._urlExSa + 'designation/' + designation + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
          if (data.length == 0){
+          this.display = 1;
+          console.log('display = '+this.display);
           console.log(data + 'hadi khawya');
          }
          else{
+          this.display = -1
            this.toastr.warning('la salle' + designation + 'nest pas disponible a ce moment', 'Alert!');
            console.log(data + 'hadi 3amra matsvihach');
          }
@@ -494,9 +487,11 @@ public getExamSurveillant() {
     this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'nom/' + nom + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
          if (data.length == 0){
-          console.log(data + 'hadi khawya');
+          console.log(data + 'hadi khawya');  
+          this.surve = 1 ;     
          }
          else{
+          this.surve = 1 ; 
            this.toastr.warning('le surveillant' + nom + 'nest pas disponible a ce moment', 'Alert!');
            console.log(data + 'hadi 3amra matsvihach');
          }
@@ -528,6 +523,14 @@ public getExamSurveillant() {
         console.log(data);
       }
     );
+  }
+
+  public validate(): boolean{
+   return this.display == 1;
+  }
+
+  public validateSurveillant(): boolean{
+    return this.surve == 1;
   }
 
 }

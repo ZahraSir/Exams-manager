@@ -1,19 +1,23 @@
 <!--Liste des salles-->
-<div class="card">
-  <div class="card-img-overly">
-    <h6 style="text-align: center;">Liste des Salles</h6>
+<div style="margin-top: 80px;">
+<div class="card-header" style="background-color: #2e3047; color: #fff;">
+  <h4 style="text-align: left;">Liste des Salles</h4>
+</div>
+ <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+ background-color: #fff;">
     <div class="row">
-      <div class="col-md-4">
-        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " designation " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
-      </div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: right !important;">Ajouter</button>
+      <div >
+        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
+        margin-top: -18px;
+        background-color: #f8f6f6;
+        width: 1170;
+        margin-left: -4px;"/>
       </div>
     </div>
-  </div>
+     <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter salle</button>
+ 
   <div class="table-responsive">
-    <table class="table" style="text-align: center;" id="content-excel">
+    <table class="table table-bordered" style="text-align: center;" id="content-excel">
         <thead>
         <th>D&eacute;signation</th>
         <th>Capacit&eacute;</th>
@@ -22,7 +26,7 @@
         <th>Actions</th>
         </thead>
       <tbody>
-      <tr *ngFor="let s of salles|filter: item|paginate: {itemsPerPage:5,currentPage:p}" >
+      <tr *ngFor="let s of salles|filter: item|paginate: {itemsPerPage:10,currentPage:p}" >
         <td>{{s.designation}}</td>
         <td >{{s.capacite}}</td>
         <td>{{s.etat}}</td>
@@ -44,11 +48,12 @@
     </table>
   </div>
   <div class="card-img-overly">
-    <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
+    <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
   </div>
 </div>
-<button  type="button"  class="btn btn-danger " (click)= "imprimer()">Imprimer en PDF</button>
-<button  type="button"  class="btn btn-success" (click)="exportexcel()">Telecharger en Excel</button>
+<br>
+<button  type="button"  class="btn btn-danger fa fa-file-pdf " (click)= "imprimer()" style="margin-bottom: 5px;">PDF</button>
+<button  type="button"  class="btn btn-success fa fa-file-excel" (click)="exportexcel()" >Excel</button>
 
 
 
@@ -57,8 +62,8 @@
 <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter Salle</h4>
+      <div class="modal-header" style="background-color: #2e3047;">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter Salle</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -68,7 +73,8 @@
           <div class="row">
             <div class="col-md-6">
           <div class="form-group">
-            <input class="form-control"  placeholder="D&eacute;signation" name="designation" [(ngModel)]="salle.designation"
+            <label for="labelS" style="color: black;">Désignation:</label>
+            <input class="form-control"  placeholder="D&eacute;signation" name="designation" id="labelS" [(ngModel)]="salle.designation"
                    ngModel
                    required
                    #designation="ngModel"
@@ -80,7 +86,8 @@
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
-            <input class="form-control" placeholder="Capacit&eacute;" name="capacite" [(ngModel)]="salle.capacite"
+            <label for="capaciteS" style="color: black;">Capacité:</label>
+            <input class="form-control" placeholder="Capacit&eacute;" name="capacite" id="capaciteS" [(ngModel)]="salle.capacite"
                    ngModel
                    required
                    min="18"
@@ -94,54 +101,40 @@
             <div class="col-md-6">
           <div class="form-group">
             <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
-              <label style="margin-right: 30px;">Etat:</label>
-              <div><div class="ui-g-12">  <p-radioButton name="etat" value="prevue" label="Prévue" [(ngModel)]="salle.etat" inputId="prevue"></p-radioButton></div>
-                <div class="ui-g-12"><p-radioButton name="etat" value="non prevue" label="Non prévue" [(ngModel)]="salle.etat" inputId="non prevue"></p-radioButton></div>
+              <label style="margin-right: 30px; color: black;">Etat:</label>
+              <div><div class="ui-g-12">  <p-radioButton name="etat" value="Prévue" label="Prévue" [(ngModel)]="salle.etat" inputId="prevue"></p-radioButton></div>
+                <div class="ui-g-12"><p-radioButton name="etat" value="Non prévue" label="Non prévue" [(ngModel)]="salle.etat" inputId="non prevue"></p-radioButton></div>
               </div>
             </div>
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
             <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
-              <label style="margin-right: 26px;">Type:</label>
-              <div>  <div class="ui-g-12"> <p-radioButton  name="type" value="salle" label="Salle" [(ngModel)]="salle.type" inputId="salle"></p-radioButton></div>
-                <div class="ui-g-12"> <p-radioButton  name="type" value=" amphi" label="Amphi" [(ngModel)]="salle.type" inputId="amphi"></p-radioButton></div>
+              <label style="margin-right: 26px; color: black;">Type:</label>
+              <div>  <div class="ui-g-12"> <p-radioButton  name="type" value="Salle" label="Salle" [(ngModel)]="salle.type" inputId="salle"></p-radioButton></div>
+                <div class="ui-g-12"> <p-radioButton  name="type" value=" Amphi" label="Amphi" [(ngModel)]="salle.type" inputId="amphi"></p-radioButton></div>
               </div></div>
           </div></div>
           </div>
         </form>
         <div class="modal-body">
-          <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+          <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
+          <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- alerte-->
-
-<div *ngIf="display==-1; then erreur" ></div>
-<ng-template #erreur >
-  <div class="modal-body text-center alert-danger">
-    Attention! Salle existe déja
-  </div>
-</ng-template>
+</div>
 
 
-<div *ngIf="display==1; then reussi" ></div>
-<ng-template #reussi >
-  <div class="modal-body text-center alert-success">
-    Salle est ajoutée avec succés
-  </div>
-</ng-template>
 
 <!--Modifier salle-->
 <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier salle</h4>
+      <div class="modal-header" style="background-color: #2e3047;">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier salle</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -152,6 +145,7 @@
           <div class="row">
             <div class="col-md-6">
           <div class="form-group">
+            <label for="capaciteS" style="color: black;">Désignation:</label>
             <input class="form-control"  placeholder="D&eacute;signation" name="designation" [(ngModel)]="salle.designation"
                    ngModel
                    required
@@ -164,6 +158,7 @@
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
+            <label for="capacite" style="color: black;">Capacité:</label>
             <input class="form-control" placeholder="Capacit&eacute;" name="capacite" [(ngModel)]="salle.capacite"
                    ngModel
                    required
@@ -178,26 +173,26 @@
             <div class="col-md-6">
           <div class="form-group">
             <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
-              <label style="margin-right: 30px;">Etat:</label>
-              <div><div class="ui-g-12">  <p-radioButton name="etat" value="prevue" label="Prévue" [(ngModel)]="salle.etat" inputId="prevue"></p-radioButton></div>
-                <div class="ui-g-12"><p-radioButton name="etat" value="non prevue" label="Non prévue" [(ngModel)]="salle.etat" inputId="non prevue"></p-radioButton></div>
+              <label style="margin-right: 30px; color: black;">Etat:</label>
+              <div><div class="ui-g-12">  <p-radioButton name="etat" value="Prévue" label="Prévue" [(ngModel)]="salle.etat" inputId="prevue"></p-radioButton></div>
+                <div class="ui-g-12"><p-radioButton name="etat" value="Non prévue" label="Non prévue" [(ngModel)]="salle.etat" inputId="non prevue"></p-radioButton></div>
               </div>
             </div>
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
             <div class="ui-g" style="width:300px;margin-bottom:10px; margin-top: 20px;">
-              <label style="margin-right: 26px;">Type:</label>
-              <div>  <div class="ui-g-12"> <p-radioButton  name="type" value="salle" label="Salle" [(ngModel)]="salle.type" inputId="salle"></p-radioButton></div>
-                <div class="ui-g-12"> <p-radioButton  name="type" value=" amphi" label="Amphi" [(ngModel)]="salle.type" inputId="amphi"></p-radioButton></div>
+              <label style="margin-right: 26px; color: black;">Type:</label>
+              <div>  <div class="ui-g-12"> <p-radioButton  name="type" value="Salle" label="Salle" [(ngModel)]="salle.type" inputId="salle"></p-radioButton></div>
+                <div class="ui-g-12"> <p-radioButton  name="type" value=" Amphi" label="Amphi" [(ngModel)]="salle.type" inputId="amphi"></p-radioButton></div>
               </div></div>
           </div></div>
           </div>
 
         </form>
         <div class="modal-body">
-          <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(salle.id,salle.designation, salle.etat, salle.type, salle.capacite);thirdModal2.show();refresh();">Editer</button>
+          <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(salle.id,salle.designation, salle.etat, salle.type, salle.capacite);thirdModal2.show();refresh();">Editer</button>
         </div>
             </div>
           </div>
