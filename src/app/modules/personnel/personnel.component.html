@@ -1,35 +1,34 @@
 
-<div style="margin-top: 80px;">
-  <div class="card-img-overly">
-    <h6 style="text-align: center;">Liste des Personnels</h6>
-    <div class="row">
-      <div class="col-md-4">
-        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
-      </div>
-      <div class="col-md-4"></div>
-    </div>
+<div style="margin-top: 180px;">
+  <div class="card-header" style="background-color: #2e3047; color: #fff;">
+    <h4 style="text-align: left;">Liste des Personnel</h4>
   </div>
+  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+ background-color: #fff;">
+    <div class="row">
+      <div >
+        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+        margin-top: -18px;
+        background-color: #f8f6f6;
+        width: 1390px;
+        margin-left: -4px;"/>
+      </div>
+    </div>
   <div class="table-responsive">
-    <table class="table" style="text-align: center;">
+    <table class="table table-bordered" style="text-align: center;">
 
       <thead>
-
-      <th></th>
       <th>Nom</th>
-      <th></th>
-      <th></th>
       <th>Prenom</th>
-      <th></th>
       <th>Mail</th>
       </thead>
       <tbody>
-      <tr *ngFor="let p of personnels|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
-      <td></td>
+      <tr *ngFor="let p of personnels|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
+
         <td>{{p.nom}}</td>
-        <td></td>
-        <td></td>
+
         <td>{{p.prenom}}</td>
-        <td></td>
+
         <td>{{p.mail}}</td>
       </tr>
 
@@ -42,5 +41,5 @@
   </div>
   </div>
 
-
+</div>
 

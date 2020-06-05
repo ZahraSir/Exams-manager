@@ -194,8 +194,7 @@ export class ExamComponent implements OnInit {
   public validateSurveillant(): boolean{
     return this.examService.validateSurveillant();
   }
-
-    public deleteExamBySurveillantId(surveillant: Surveillant) {
+  public deleteExamBySurveillantId(surveillant: Surveillant) {
     this.examService.deleteExamBySurveillantId(surveillant);
   }
 }

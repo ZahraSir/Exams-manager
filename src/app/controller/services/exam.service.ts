@@ -232,7 +232,63 @@ export class ExamService {
   set module(value: Module) {
     this._module = value;
   }
+  public getSurveillant() {
+    this.http.get<Array<Surveillant>>(this._urlsurve + 'find-all').subscribe(
+      data => {
+        this._surveillants = data;
 
+      }
+    );
+  }
+  public getFiliere() {
+    this.http.get<Array<Filiere>>(this._urlFiliere + 'find-all').subscribe(
+      data => {
+        this._filieres = data;
+
+      }
+    );
+  }
+  public getModule() {
+    this.http.get<Array<Module>>(this._urlmodule + 'find-all').subscribe(
+      data => {
+        this._modules = data;
+      }
+    );
+  }  public getSalles() {
+    this.http.get<Array<Salles>>(this._urlsalle + 'prevue').subscribe(
+      data => {
+        this._salles = data;
+      }
+    );
+  }
+  public getProfesseur() {
+    this.http.get<Array<Professeur>>(this._urlprof + 'find-all').subscribe(
+      data => {
+        this._professeurs = data;
+      }
+    );
+  }
+  public getPersonnel() {
+    this.http.get<Array<Personnel>>(this._urlperso + 'find-all').subscribe(
+      data => {
+        this._personnels = data;
+      }
+    );
+  }
+  public getExamSurveillant() {
+    this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'find-all').subscribe(
+      data => {
+        this._examSurves = data;
+      }
+    );
+  }
+  public getExamSalle() {
+    this.http.get<Array<ExamSalle>>(this._urlExSa + 'find-all').subscribe(
+      data => {
+        this._examSalles = data;
+      }
+    );
+  }
   public findAll() {
     this.http.get<Array<Exam>>(this._urlexam + 'find-all').subscribe(
       data => {
@@ -312,63 +368,7 @@ export class ExamService {
         }
       });
   }
-  public getSurveillant() {
-    this.http.get<Array<Surveillant>>(this._urlsurve + 'find-all').subscribe(
-      data => {
-        this._surveillants = data;
 
-      }
-    );
-  }
-  public getFiliere() {
-    this.http.get<Array<Filiere>>(this._urlFiliere + 'find-all').subscribe(
-      data => {
-        this._filieres = data;
-
-      }
-    );
-  }
-  public getModule() {
-    this.http.get<Array<Module>>(this._urlmodule + 'find-all').subscribe(
-      data => {
-        this._modules = data;
-      }
-    );
-  }  public getSalles() {
-    this.http.get<Array<Salles>>(this._urlsalle + 'prevue').subscribe(
-      data => {
-        this._salles = data;
-      }
-    );
-  }
-  public getProfesseur() {
-    this.http.get<Array<Professeur>>(this._urlprof + 'find-all').subscribe(
-      data => {
-        this._professeurs = data;
-      }
-    );
-  }
-  public getPersonnel() {
-    this.http.get<Array<Personnel>>(this._urlperso + 'find-all').subscribe(
-      data => {
-        this._personnels = data;
-      }
-    );
-  }
-public getExamSurveillant() {
-  this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'find-all').subscribe(
-    data => {
-      this._examSurves = data;
-    }
-  );
-}
-  public getExamSalle() {
-    this.http.get<Array<ExamSalle>>(this._urlExSa + 'find-all').subscribe(
-      data => {
-        this._examSalles = data;
-      }
-    );
-  }
 
  public addSurveillant(surveillant: Surveillant){
     this.exam.examSurveillants.push(this.clone(surveillant));
@@ -398,9 +398,7 @@ public getExamSurveillant() {
     surve.surveillant.mail = examSurveillant.mail;
     return surve;
   }
-  public vider(){
-    this.exam = null;
-  }
+
 
   public cloneSalle(examSalle: Salles) {
     const sall = new ExamSalle();
@@ -453,19 +451,6 @@ public getExamSurveillant() {
   }
 
 
-  public deleteByDesignationFromView(salle: Salles) {
-    const index = this.salles.findIndex(s => s.designation === salle.designation);
-    if (index !== -1) {
-      this.salles.splice(index, 1);
-    }
-  }
-  public deleteExamBySalleDesignation(salle: Salles) {
-    this.http.delete<number>(this._urlExSa + 'delete-by-designation/' + salle.designation).subscribe(
-      data => {
-        this.deleteByDesignationFromView(salle);
-      }
-    );
-  }
   public  findExamSalle(designation: string, dateDepart: Date, dateFin: Date ){
     this.http.get<Array<ExamSalle>>(this._urlExSa + 'designation/' + designation + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
@@ -487,23 +472,17 @@ public getExamSurveillant() {
     this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'nom/' + nom + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
          if (data.length == 0){
-          console.log(data + 'hadi khawya');  
-          this.surve = 1 ;     
+          console.log(data + 'hadi khawya');
+          this.surve = 1 ;
          }
          else{
-          this.surve = -1 ; 
+          this.surve = -1 ;
            this.toastr.warning('le surveillant' + nom + 'nest pas disponible a ce moment', 'Alert!');
            console.log(data + 'hadi 3amra matsvihach');
          }
 
       }
     );
-  }
- public  deleteByNomFromView(surveillant: Personnel) {
-    const index = this.personnels.findIndex(e => e.nom === surveillant.nom);
-    if (index !== -1) {
-      this.personnels.splice(index, 1);
-    }
   }
 
   public findModuleByFiliereLibelle(libelle: string) {
@@ -524,14 +503,26 @@ public getExamSurveillant() {
       }
     );
   }
-
-  public validate(): boolean{
-   return this.display == 1;
+  public deleteByDesignationFromView(salle: Salles) {
+    const index = this.salles.findIndex(s => s.designation === salle.designation);
+    if (index !== -1) {
+      this.salles.splice(index, 1);
+    }
+  }
+  public deleteExamBySalleDesignation(salle: Salles) {
+    this.http.delete<number>(this._urlExSa + 'delete-by-designation/' + salle.designation).subscribe(
+      data => {
+        this.deleteByDesignationFromView(salle);
+      }
+    );
+  }
+  public  deleteByNomFromView(surveillant: Personnel) {
+    const index = this.personnels.findIndex(e => e.nom === surveillant.nom);
+    if (index !== -1) {
+      this.personnels.splice(index, 1);
+    }
   }
 
-  public validateSurveillant(): boolean{
-    return this.surve == 1;
-  }
 
   public deleteBySurveillantIdFromView(surveillant: Surveillant) {
     const index = this.surveillants.findIndex(s => s.id === surveillant.id);
@@ -548,7 +539,18 @@ public getExamSurveillant() {
       }
     );
   }
+  public validate(): boolean{
+    return this.display == 1;
+  }
+
+  public validateSurveillant(): boolean{
+    return this.surve == 1;
+  }
+  public vider(){
+    this.exam = null;
+  }
 }
+
 
 
 
