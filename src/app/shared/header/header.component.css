@@ -545,3 +545,7 @@ a {
 .mx-5 {
   margin-right: 15rem!important;
 }
+
+header{
+  position: fixed;
+}
