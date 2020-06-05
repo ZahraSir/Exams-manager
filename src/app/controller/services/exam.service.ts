@@ -487,11 +487,11 @@ public getExamSurveillant() {
     this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'nom/' + nom + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
          if (data.length == 0){
-          console.log(data + 'hadi khawya');  
-          this.surve = 1 ;     
+          console.log(data + 'hadi khawya');
+          this.surve = 1 ;
          }
          else{
-          this.surve = 1 ; 
+          this.surve = 1 ;
            this.toastr.warning('le surveillant' + nom + 'nest pas disponible a ce moment', 'Alert!');
            console.log(data + 'hadi 3amra matsvihach');
          }
@@ -532,7 +532,21 @@ public getExamSurveillant() {
   public validateSurveillant(): boolean{
     return this.surve == 1;
   }
-
+  public deleteBySurveillantIdFromView(surveillant: Surveillant) {
+    const index = this.surveillants.findIndex(s => s.id === surveillant.id);
+    console.log('lalalalalal');
+    if (index !== -1) {
+      console.log('tmasshat');
+      this.salles.splice(index, 1);
+    }
+  }
+  public deleteExamBySurveillantId(surveillant: Surveillant) {
+    this.http.delete<number>(this._urlExSu + 'delete-by-id/' + surveillant.id).subscribe(
+      data => {
+        this.deleteBySurveillantIdFromView(surveillant);
+      }
+    );
+  }
 }
 
 
