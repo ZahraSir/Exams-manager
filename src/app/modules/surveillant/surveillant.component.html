@@ -1,33 +1,38 @@
 <!--Liste des surveillant-->
-<div class="card">
-  <div class="card-img-overly">
-    <h6 style="text-align: center;">Liste des surveillants</h6>
+
+<div style="margin-top: 80px;">
+  <div class="card-header" style="background-color: #2e3047; color: #fff;">
+    <h4 style="text-align: left;">Liste des Surveillants</h4>
+  </div>
+  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+ background-color: #fff;">
     <div class="row">
-      <div class="col-md-4">
-        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
-      </div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: right !important;">Ajouter</button>
+      <div >
+        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
+        margin-top: -18px;
+        background-color: #f8f6f6;
+        width: 1170;
+        margin-left: -4px;"/>
       </div>
     </div>
-  </div>
-  <div class="table-responsive">
-    <table class="table" style="text-align: center;">
+    <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter surveillant</button>
+
+    <div class="table-responsive">
+    <table class="table table-bordered" style="text-align: center;">
       <thead>
-      <th></th>
+
       <th>Nom</th>
-      <th></th>
+
       <th>Prenom</th>
 
       <th>Mail</th>
       <th>Actions</th>
       </thead>
       <tbody>
-      <tr *ngFor="let s of surveillants|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
-        <td></td>
+      <tr *ngFor="let s of surveillants|filter: item|paginate: {itemsPerPage:10,currentPage:p}">
+
         <td>{{s.nom}}</td>
-        <td></td>
+
         <td >{{s.prenom}}</td>
         <td>{{s.mail}}</td>
         <td>
@@ -54,21 +59,22 @@
 
 
 <!--Ajouter surveillant-->
-<div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter surveillant</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+  <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #2e3047;">
+          <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter Surveillant</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       <div class="modal-body">
         <form>
           <div class="row">
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" size="30"  placeholder="Nom" name="nom" [(ngModel)]="surveillant.nom"
+            <label for="nom" style="color: black;">Nom:</label>
+            <input id="float-input" type="text" size="30"  id="nom" placeholder="Nom" name="nom" [(ngModel)]="surveillant.nom"
                    ngModel
                    required
                    #nom="ngModel"
@@ -81,7 +87,8 @@
             </div>
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" min="1" size="4"  placeholder="Prenom" name="prenom" [(ngModel)]="surveillant.prenom"
+            <label for="prenom" style="color: black;">Prénom:</label>
+            <input id="float-input" type="text" min="1" size="4" id="prenom" placeholder="Prenom" name="prenom" [(ngModel)]="surveillant.prenom"
                    ngModel
                    required
                    min="18"
@@ -95,7 +102,8 @@
             </div>
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="email" size="30"  placeholder="Mail" name="mail" [(ngModel)]="surveillant.mail"
+            <label for="mail" style="color: black;">Email:</label>
+            <input id="float-input" type="email" size="30"  placeholder="Mail" id="mail" name="mail" [(ngModel)]="surveillant.mail"
                    ngModel
                    required
                    #mail="ngModel"
@@ -109,8 +117,8 @@
           </div>
         </form>
         <div class="modal-body">
-          <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+          <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
+          <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
         </div>
       </div>
     </div>
@@ -118,21 +126,22 @@
 </div>
 
 <!--Modifier Surveillant-->
-<div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier Surveillant</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+  <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #2e3047;">
+          <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier surveillant</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       <div class="modal-body">
         <form>
           <div class="row">
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" size="30"  placeholder="Nom" name="nom" [(ngModel)]="surveillant.nom"
+            <label for="nom" style="color: black;">Nom:</label>
+            <input id="float-input" type="text" size="30" id="nom" placeholder="Nom" name="nom" [(ngModel)]="surveillant.nom"
                    ngModel
                    required
                    #nom="ngModel"
@@ -144,7 +153,8 @@
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" min="1" size="4"  placeholder="Prenom" name="prenom" [(ngModel)]="surveillant.prenom"
+            <label for="prenom" style="color: black;">Prénom:</label>
+            <input id="float-input" type="text" min="1" size="4" id="prenom" placeholder="Prenom" name="prenom" [(ngModel)]="surveillant.prenom"
                    ngModel
                    required
                    min="18"
@@ -157,7 +167,8 @@
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="email" size="30"  placeholder="Mail" name="mail" [(ngModel)]="surveillant.mail"
+            <label for="mail" style="color: black;">Email:</label>
+            <input id="float-input" type="email" size="30"  placeholder="Mail" id="mail" name="mail" [(ngModel)]="surveillant.mail"
                    ngModel
                    required
                    #mail="ngModel"
@@ -170,8 +181,8 @@
           </div>
         </form>
         <div class="modal-body">
-          <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(surveillant.id, surveillant.nom, surveillant.prenom, surveillant.mail );thirdModal2.show();refresh();">Editer</button>
+          <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(surveillant.id, surveillant.nom, surveillant.prenom, surveillant.mail );thirdModal2.show();refresh();">Editer</button>
         </div>
       </div>
     </div>
@@ -187,4 +198,4 @@
     </div>
   </div>
 </div>
-
+</div>

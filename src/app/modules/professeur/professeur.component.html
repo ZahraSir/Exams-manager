@@ -1,19 +1,24 @@
 <!--Liste des Professeurs-->
-<div class="card">
-  <div class="card-img-overly">
-    <h6 style="text-align: center;">Liste des Professeurs</h6>
-    <div class="row">
-      <div class="col-md-4">
-        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
-      </div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: right !important;">Ajouter</button>
-      </div>
+
+  <div style="margin-top: 80px;">
+    <div class="card-header" style="background-color: #2e3047; color: #fff;">
+      <h4 style="text-align: left;">Liste des Professeurs</h4>
     </div>
-  </div>
+    <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+ background-color: #fff;">
+      <div class="row">
+        <div>
+          <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
+        margin-top: -18px;
+        background-color: #f8f6f6;
+        width: 1170;
+        margin-left: -4px;"/>
+        </div>
+      </div>
+      <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter professeur</button>
+
   <div class="table-responsive">
-    <table class="table" style="text-align: center;">
+    <table class="table table-bordered" style="text-align: center;">
       <thead>
       <th>Nom</th>
       <th>Prenom</th>
@@ -23,7 +28,7 @@
       <th>Actions</th>
       </thead>
       <tbody>
-      <tr *ngFor="let p of professeurs|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+      <tr *ngFor="let p of professeurs|filter: item|paginate: {itemsPerPage:10,currentPage:p}">
         <td>{{p.nom}}</td>
         <td >{{p.prenom}}</td>
         <td>{{p.mail}}</td>
@@ -53,21 +58,22 @@
 
 
 <!--Ajouter Professeur-->
-<div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter Professeur</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: #2e3047;">
+            <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter professeur</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
       <div class="modal-body">
         <form>
           <div class="row">
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" size="30"  placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+            <label for="nom" style="color: black;">Nom:</label>
+            <input id="float-input" type="text" size="30" id="nom" placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
                    ngModel
                    required
                    #nom="ngModel"
@@ -79,7 +85,8 @@
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" min="1" size="4"  placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+            <label for="prenom" style="color: black;">Prénom:</label>
+            <input id="float-input" type="text" min="1" size="4" id="prenom"  placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
                    ngModel
                    required
                    min="18"
@@ -93,7 +100,8 @@
             </div>
               <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="email" size="30" placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
+            <label for="mail" style="color: black;">Email:</label>
+            <input id="float-input" type="email" id="mail" size="30" placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
                    ngModel
                    required
                    #mail="ngModel"
@@ -106,7 +114,8 @@
               </div>
             <div class="col-md-6">
           <div class="form-group">
-            <select class=" input-large form-control" name="responsabilite" [(ngModel)]="professeur.responsabilite"
+            <label for="respo" style="color: black;">Responsabilite:</label>
+            <select class=" input-large form-control" name="responsabilite" [(ngModel)]="professeur.responsabilite" id="respo"
                     ngModel
                     required
                     #responsabilite="ngModel"
@@ -121,7 +130,8 @@
             </div>
             <div class="col-md-6">
           <div class="form-group">
-            <select class=" input-large form-control" name="departement" [(ngModel)]="professeur.departement"
+            <label for="depar" style="color: black;">Departement:</label>
+            <select class=" input-large form-control" name="departement" [(ngModel)]="professeur.departement" id="depar"
                     ngModel
                     required
                     #departement="ngModel"
@@ -137,48 +147,32 @@
           </div>
         </form>
         <div class="modal-body">
-          <button class="btn btn-outline-danger pull-right" (click)="parentModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+          <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
+          <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;"(click)="save();parentModal.hide();">Ajouter</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- alerte-->
-
-<div *ngIf="display==-1; then erreur" ></div>
-<ng-template #erreur >
-  <div class="modal-body text-center alert-danger">
-    Attention! Professeur existe déja
-  </div>
-</ng-template>
-
-
-<div *ngIf="display==1; then reussi" ></div>
-<ng-template #reussi >
-  <div class="modal-body text-center alert-success">
-    Professeur est ajoutée avec succés
-  </div>
-</ng-template>
 
 <!--Modifier Professeur-->
-<div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier Professeur</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: #2e3047;">
+            <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier professeur</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
       <div class="modal-body">
-
         <form>
           <div class="row">
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" size="30"  placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+            <label for="nom" style="color: black;">Nom:</label>
+            <input id="float-input" type="text" size="30" id="nom"  placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
                    ngModel
                    required
                    #nom="ngModel"
@@ -190,7 +184,8 @@
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="text" min="1" size="4"  placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+            <label for="prenom" style="color: black;">Prénom:</label>
+            <input id="float-input" type="text" min="1" size="4" id="prenom" placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
                    ngModel
                    required
                    min="18"
@@ -203,7 +198,8 @@
           </div></div>
             <div class="col-md-6">
           <div class="form-group">
-            <input id="float-input" type="email" size="30"  placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
+            <label for="mail" style="color: black;">Email:</label>
+            <input id="float-input" type="email" size="30" id="mail" placeholder="Mail" name="mail" [(ngModel)]="professeur.mail"
                    ngModel
                    required
                    #mail="ngModel"
@@ -215,7 +211,8 @@
           </div></div>
           <div class="col-md-6">
             <div class="form-group">
-              <select class=" input-large form-control" name="responsabilite" [(ngModel)]="professeur.responsabilite"
+              <label for="respo" style="color: black;">Responsabilite:</label>
+              <select class=" input-large form-control" id="respo" name="responsabilite" [(ngModel)]="professeur.responsabilite"
                       ngModel
                       required
                       #responsabilite="ngModel"
@@ -231,7 +228,8 @@
             <div class="col-md-6">
           <div class="form-group">
             <div>
-              <select class=" input-large form-control" name="departement" [(ngModel)]="professeur.departement"
+              <label for="depar" style="color: black;">Departement:</label>
+              <select class=" input-large form-control" id="depar" name="departement" [(ngModel)]="professeur.departement"
                       ngModel
                       required
                       #departement="ngModel"
@@ -247,8 +245,8 @@
           </div>
         </form>
         <div class="modal-body">
-          <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite, professeur.departement);">Editer</button>
+          <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite, professeur.departement);">Editer</button>
         </div>
       </div>
     </div>
@@ -264,7 +262,7 @@
     </div>
   </div>
 </div>
-
+  </div>
 
 
 

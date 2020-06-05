@@ -1,15 +1,22 @@
-<div class="card">
-  <div class="card-img-overly">
-    <h6 style="text-align: center;">Liste d'Etat</h6>
-    <div class="row">
-      <div class="col-md-4">
-        <input  type = " text " class = " search-query form-control " placeholder = " Chercher...  "   name = " item " [(ngModel)] = "item" style="width: 200px; margin-bottom: 5px;"/>
-      </div>
-      <div class="col-md-4"></div>
-    </div>
+<div style="margin-top: 80px;">
+  <div class="card-header" style="background-color: #2e3047; color: #fff;">
+    <h4 style="text-align: left;">Liste d'Etats</h4>
   </div>
-  <div class="table-responsive">
-    <table class="table" style="text-align: center;">
+  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+ background-color: #fff;">
+    <div class="row">
+      <div >
+        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
+        margin-top: -18px;
+        background-color: #f8f6f6;
+        width: 1170;
+        margin-left: -4px;"/>
+      </div>
+    </div>
+
+
+    <div class="table-responsive">
+    <table class="table table-bordered" style="text-align: center;">
       <thead>
 
       <th>Libelle</th>
@@ -17,7 +24,7 @@
       <th>DateAction</th>
       </thead>
       <tbody>
-      <tr *ngFor="let s of etats|filter: item|paginate: {itemsPerPage:4,currentPage:p}">
+      <tr *ngFor="let s of etats|filter: item|paginate: {itemsPerPage:10,currentPage:p}">
         <td>{{s.libelle}}</td>
         <td>{{s.action}}</td>
         <td>{{s.dateAction}}</td>
@@ -32,3 +39,4 @@
 </div>
 </div>
 
+</div>

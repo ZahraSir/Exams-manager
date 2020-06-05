@@ -1,0 +1,22 @@
+
+.card-footer {
+  padding: .5rem 1rem;
+  background-color: rgba(0,0,0,.03);
+  border-top: 1px solid rgba(0,0,0,.125);
+}
+
+.table{
+  border-style: groove !important;
+  background-color: #fff;
+}
+.btn-primary{
+  color: #2e3047;
+  background-color: #3bba9c;
+  border-color: #24C2FF;
+}
+
+.btn-close{
+  color: #41403f;
+  background-color: #8d8c8a;
+  border-color: #636261;
+}
