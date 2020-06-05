@@ -10,7 +10,7 @@
         <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
         margin-top: -18px;
         background-color: #f8f6f6;
-        width: 1170;
+        width: 1390px;
         margin-left: -4px;"/>
       </div>
     </div>
@@ -26,7 +26,7 @@
         <th>Actions</th>
         </thead>
       <tbody>
-      <tr *ngFor="let s of salles|filter: item|paginate: {itemsPerPage:10,currentPage:p}" >
+      <tr *ngFor="let s of salles|filter: item|paginate: {itemsPerPage:5,currentPage:p}" >
         <td>{{s.designation}}</td>
         <td >{{s.capacite}}</td>
         <td>{{s.etat}}</td>
