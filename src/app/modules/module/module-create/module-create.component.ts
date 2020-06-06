@@ -26,7 +26,7 @@ export class ModuleCreateComponent implements OnInit {
     this.moduleService.getSemestres();
     this.moduleService.findAll();
     this.filiereService.findAll();
-    this.professeurService.findAll();
+    this.moduleService.getProfesseur();
   }
 
   get module(): Module{

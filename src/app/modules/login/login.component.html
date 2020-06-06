@@ -1,0 +1,39 @@
+<!--<div class="card">
+  <div class="card-body">
+      <form>
+        <div class="form-group">
+          <label ><i class="	fas fa-user-tie"></i> Nom d'utilisateur</label>
+          <input  class="form-control"  placeholder="Nom d'utilisateur" [(ngModel)]="user.login" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="form-group">
+          <label ><i class="fa fa-lock"></i> Mot De passe</label>
+          <input type="password" class="form-control"  placeholder="***********" [(ngModel)]="user.pwd" [ngModelOptions]="{standalone: true}">
+        </div>
+      </form>
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-outline btn-block  bouton" (click)="seConnecter()" >Se connecter</button>
+    </div>
+  </div>-->
+
+  <div class="container-fluid bg">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-12"></div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <form class="form-container">
+          <h1>Connexion</h1>
+          <div class="form-group">
+            <label for="exampleInputEmail1" style="color: black;">Mail:</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Exemple@exemple.com">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1" style="color: black;">Mot de passe:</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="***************">
+          </div>
+          <button type="submit" class="btn btn-success btn-block" (click)="seConnecter()">Se connecter</button>
+        </form>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12"></div>
+     
+    </div>
+  </div>

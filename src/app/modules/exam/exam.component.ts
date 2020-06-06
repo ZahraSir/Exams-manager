@@ -14,6 +14,8 @@ import {Personnel} from '../../controller/model/personnel.model';
 import {SurveillantService} from '../../controller/services/surveillant.service';
 import {ToastrService} from 'ngx-toastr';
 import {Filiere} from '../../controller/model/filiere';
+import { ProfesseurComponent } from '../professeur/professeur.component';
+import { ProfesseurService } from 'src/app/controller/services/professeur.service';
 
 @Component({
   selector: 'app-exam',

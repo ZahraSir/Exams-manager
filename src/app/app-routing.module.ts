@@ -14,11 +14,13 @@ import {CalendarComponent} from './modules/calendar/calendar.component';
 import {EtudiantComponent} from './modules/etudiant/etudiant.component';
 import {ModuleCreateComponent} from './modules/module/module-create/module-create.component';
 import {PersonnelComponent} from './modules/personnel/personnel.component';
+import { LoginComponent } from './modules/login/login.component';
 
 
 
 const routes: Routes = [
-  {path: '', component: AdminComponent,
+  {path:'', component: LoginComponent},
+  {path: 'admin', component: AdminComponent,
        children: [
          {path: 'salles', component: SallesComponent},
          {path: 'departements', component: DepartementComponent},

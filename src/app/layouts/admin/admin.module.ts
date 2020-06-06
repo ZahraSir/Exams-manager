@@ -37,6 +37,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {PersonnelComponent} from '../../modules/personnel/personnel.component';
 import { ToastrModule } from 'ngx-toastr';
+import { LoginComponent } from 'src/app/modules/login/login.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ToastrModule } from 'ngx-toastr';
     ModuleCreateComponent,
     CalendarCreateComponent,
     CalendarListComponent,
-    PersonnelComponent
+    PersonnelComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

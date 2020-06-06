@@ -159,26 +159,6 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label>Professeur:</label>
-                <select class=" input-large form-control" name="professeur" [(ngModel)]="module.professeur"
-                        ngModel
-                        required
-                        #professeur="ngModel"
-                        [ngClass]="{'form-control' : true,
-                            'is-invalid' : !professeur?.valid && professeur?.touched,
-                              'is-valid' : professeur?.valid && professeur?.touched}">
-                  <option value="" >--Choisir un professeur--</option>
-                  <option *ngFor="let professeur of professeurs" [ngValue]="professeur">{{professeur}}</option>
-                </select>
-                <small *ngIf="professeur?.errors?.required && professeur?.touched"
-                       class="form-text text-danger">champs obligatoire</small>
-              </div>
-            </div>
-
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
                 <label>Filière:</label>
                 <select class=" input-large form-control" name="filiere" [(ngModel)]="module.filiere.libelle" (change)="findByfiliereLibelle($event.target.value)"
                         ngModel
@@ -191,6 +171,26 @@
                   <option *ngFor="let filiere of filieres" [value]="filiere.libelle">{{filiere.libelle}}</option>
                 </select>
                 <small *ngIf="filiere?.errors?.required && filiere?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Professeur:</label>
+                <select class=" input-large form-control" name="professeur" [(ngModel)]="module.professeur"
+                        ngModel
+                        required
+                        #professeur="ngModel"
+                        [ngClass]="{'form-control' : true,
+                            'is-invalid' : !professeur?.valid && professeur?.touched,
+                              'is-valid' : professeur?.valid && professeur?.touched}">
+                  <option value="" >--Choisir un professeur--</option>
+                  <option *ngFor="let professeur of professeurs" [ngValue]="professeur">{{professeur.nom}}</option>
+                </select>
+                <small *ngIf="professeur?.errors?.required && professeur?.touched"
                        class="form-text text-danger">champs obligatoire</small>
               </div>
             </div>
