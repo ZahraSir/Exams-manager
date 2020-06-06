@@ -1,4 +1,6 @@
-<div style="margin-top: 180px;">
+<div style="margin-top: 100px;
+    margin-left: 40px;
+    width: 1355px;">
   <div class="card-header" style="background-color: #2e3047; color: #fff;">
     <h4 style="text-align: left;">Liste des modules</h4>
   </div>
@@ -6,18 +8,19 @@
   background-color: #fff;">
     <div class="row">
       <div>
-        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
-        margin-top: -18px;
-        background-color: #f8f6f6;
-        width: 1185;
-        margin-left: -4px;"/>
+        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+      margin-top: -18px;
+      background-color: #f8f6f6;
+     /* width: 1390px;*/
+     width: 1347px;
+      margin-left: -4px;"/>
       </div>
     </div>
-     
+
         <button class="btn btn-info fa fa-plus" style="float: right !important;" (click)="ajoutModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter module</button>
-   
-    
-  
+
+
+
   <div class="table-responsive ">
     <table class="table table-bordered" style="text-align: center;">
       <thead>
@@ -59,7 +62,7 @@
 
 <!--Modifier module-->
 <div class="modal fade" bsModal #modifeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #2e3047;">
         <h4 id="dialog-nested-name1" class="modal-title pull-left" >Modifier module</h4>
@@ -72,6 +75,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label style="color: black;">Libellé</label>
                 <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="module.libelle"
                        ngModel
                        required
@@ -85,6 +89,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
+                <label style="color: black;">Filière:</label>
                 <select class=" input-large form-control" name="filiere" [(ngModel)]="module.filiere.libelle"
                         ngModel
                         required
@@ -103,6 +108,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label style="color: black;">Semestre:</label>
                 <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre"
                         ngModel
                         required
@@ -110,7 +116,8 @@
                         [ngClass]="{'form-control' : true,
                       'is-invalid' : !s?.valid && s?.touched,
                         'is-valid' : s?.valid && s?.touched}">
-                  <option value="module.semestre.libelle" [selected]="module.semestre.libelle">{{module.semestre.libelle}}</option>
+
+                  <option [ngValue]="module.semestre.libelle" [selected]="module.semestre.libelle">{{module.semestre.libelle}}</option>
                   <option  *ngFor="let niveauSemestre of niveauSemestres" [ngValue]="niveauSemestre.semestre">{{niveauSemestre.semestre.libelle}}</option>
                 </select>
                 <small *ngIf="s?.errors?.required && s?.touched"
@@ -132,7 +139,7 @@
 
 <!--Ajouter module-->
 <div class="modal fade" bsModal #ajoutModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #2e3047;">
         <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter module</h4>
@@ -145,7 +152,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label>Libellé</label>
+                <label style="color: black;">Libellé</label>
                 <input class="form-control" name="libelle" placeholder="Libell&eacute;" [(ngModel)]="module.libelle"
                        ngModel
                        required
@@ -159,7 +166,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label>Filière:</label>
+                <label style="color: black;">Filière:</label>
                 <select class=" input-large form-control" name="filiere" [(ngModel)]="module.filiere.libelle" (change)="findByfiliereLibelle($event.target.value)"
                         ngModel
                         required
@@ -179,7 +186,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label>Professeur:</label>
+                <label style="color: black;">Professeur:</label>
                 <select class=" input-large form-control" name="professeur" [(ngModel)]="module.professeur"
                         ngModel
                         required
@@ -196,7 +203,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label>Semestre:</label>
+                <label style="color: black;">Semestre:</label>
                 <select class=" input-large form-control" name="semestre" [(ngModel)]="module.semestre.libelle"
                         ngModel
                         required

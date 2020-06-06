@@ -1,5 +1,7 @@
 <!--Liste des filieres-->
-<div style="margin-top: 180px;">
+<div style="margin-top: 100px;
+    margin-left: 40px;
+    width: 1355px;">
   <div class="card-header" style="background-color: #2e3047; color: #fff;">
     <h4 style="text-align: left;">Liste des filières</h4>
   </div>
@@ -8,16 +10,17 @@
   background-color: #fff;">
 <div class="row">
   <div >
-    <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46;
-    margin-top: -18px;
-    background-color: #f8f6f6;
-    width: 1185;
-    margin-left: -4px;"/>
+    <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+      margin-top: -18px;
+      background-color: #f8f6f6;
+     /* width: 1390px;*/
+     width: 1347px;
+      margin-left: -4px;"/>
   </div>
 </div>
         <button class="btn btn-info fa fa-plus" (click)="parentModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter filière</button>
-     
-  
+
+
   <div class="table-responsive">
     <table class="table table-bordered" style="text-align: center;">
       <thead>
@@ -59,7 +62,7 @@
 
 <!--Ajouter filiere-->
 <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #2e3047;">
         <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter filière</h4>
@@ -192,7 +195,7 @@
 
 <!--Modifier filiere-->
 <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header"  style="background-color: #2e3047;">
         <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier filière</h4>

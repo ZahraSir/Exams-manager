@@ -19,7 +19,7 @@ import { LoginComponent } from './modules/login/login.component';
 
 
 const routes: Routes = [
-  {path:'', component: LoginComponent},
+  {path: '', component: LoginComponent},
   {path: 'admin', component: AdminComponent,
        children: [
          {path: 'salles', component: SallesComponent},
