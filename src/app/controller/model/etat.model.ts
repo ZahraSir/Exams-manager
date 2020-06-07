@@ -3,4 +3,5 @@ export class Etat {
 public libelle: string;
   public  action: string;
   public  dateAction: Date;
+  public type: string;
 }

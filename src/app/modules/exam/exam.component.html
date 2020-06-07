@@ -1,6 +1,6 @@
 
 <!--Liste des Exams-->
-<div style="margin-top: 180px;">
+<div >
   <div class="card-header" style="background-color: #2e3047; color: #fff;">
     <h4 style="text-align: left;">Liste des Exams</h4>
   </div>
@@ -12,7 +12,7 @@ background-color: #fff;">
       margin-top: -18px;
       background-color: #f8f6f6;
      /* width: 1390px;*/
-     width: 1185;
+     width: 1347px;
       margin-left: -4px;"/>
       </div>
     </div>
@@ -70,7 +70,7 @@ background-color: #fff;">
 
 <!--Ajouter exam-->
   <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #2e3047;">
           <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter Exams</h4>
@@ -320,7 +320,7 @@ background-color: #fff;">
 
   <!--Modifier exam-->
   <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #2e3047;">
           <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier Exam</h4>
@@ -513,7 +513,7 @@ background-color: #fff;">
         </div>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(exam.id,exam.reference,exam.dateDepart,exam.dateFin,exam.module,exam.prof, exam.filiere);thirdModal2.show();refresh();">Editer</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(exam.id,exam.reference,exam.dateDepart,exam.dateFin,exam.module,exam.prof, exam.filiere);refresh();">Editer</button>
         </div>
       </div>
     </div>
@@ -527,7 +527,7 @@ background-color: #fff;">
       <div class="modal-content">
         <div class="modal-body">
           <div class="card">
-            <div class="card-body">
+
               <div class="card-header"><h6>La liste des Surveillants</h6></div>
               <div class="table-responsive">
                 <table class="table table-bordered" style="text-align: center;">
@@ -547,7 +547,7 @@ background-color: #fff;">
                   </tbody>
                 </table>
               </div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -561,7 +561,7 @@ background-color: #fff;">
   <div class="modal fade" bsModal #ModalSalle="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-body">
+
           <div class="card">
             <div class="card-body">
               <div class="card-header"><h6>La liste des Salles</h6></div>
@@ -585,13 +585,13 @@ background-color: #fff;">
                 </table>
               </div>
             </div>
-          </div>
+
         </div>
       </div>
     </div>
   </div>
 
-  <!-- confirmaton de l'edit-->
+  <!-- confirmaton de l'edit
   <div class="modal fade" bsModal #thirdModal2="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name3" >
     <div class="modal-dialog modal-sm">
       <div class="modal-content" id="thirdModal2">
@@ -601,7 +601,7 @@ background-color: #fff;">
       </div>
     </div>
   </div>
-
+  -->
   <!-- ajouter surveillant dans l'édit-->
   <div class="modal fade" bsModal #ajoutSurveillant="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
     <div class="modal-dialog modal-lg">

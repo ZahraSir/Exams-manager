@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -7,19 +8,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
-
-
   constructor() { }
-  ngOnInit() { }
+  ngOnInit() {  }
 
-  toggleSideBar() {
-    this.toggleSideBarForMe.emit();
-    setTimeout(() => {
-      window.dispatchEvent(
-        new Event('resize')
-      );
-    }, 300);
-  }
 
 }

@@ -168,6 +168,7 @@ export class ProfesseurService {
     this.http.put(this._urlprof + id + '/' + nom + '/' + prenom + '/' + mail + '/' + responsabilite + '/' + departement, this.professeur).subscribe(
       data => {
         if (data > 0) {
+          console.log(data);
           console.log('la professeur ' + departement);
           console.log('la professeur ' + responsabilite );
           console.log('la professeur ' + mail);

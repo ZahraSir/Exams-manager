@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   }
 
   get user(): User{
-    return this.userService.user
+    return this.userService.user;
   }
 
   public seConnecter(){

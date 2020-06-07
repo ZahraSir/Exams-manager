@@ -19,7 +19,7 @@ import { LoginComponent } from './modules/login/login.component';
 
 
 const routes: Routes = [
-  {path:'', component: LoginComponent},
+  {path: '', component: LoginComponent},
   {path: 'admin', component: AdminComponent,
        children: [
          {path: 'salles', component: SallesComponent},
@@ -34,8 +34,7 @@ const routes: Routes = [
          {path: 'calendars', component: CalendarComponent},
          {path: 'etudiants', component: EtudiantComponent},
          {path: 'personnels', component: PersonnelComponent}
-       ]},
-   {path: 'print', component: PrintComponent}
+       ]}
 ];
 
 @NgModule({

@@ -29,7 +29,7 @@ private _urlUser: 'http://localhost:8090/exam-api/user/';
       data => {
         if(data === 1){
           console.log(this.user)
-          sessionStorage.setItem(this.user.login, this.login);
+          //sessionStorage.setItem(this.user.login, this.login);
           this.router.navigateByUrl('/admin')
 
         }
