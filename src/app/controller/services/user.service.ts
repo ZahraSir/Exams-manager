@@ -28,6 +28,7 @@ private _urlUser: 'http://localhost:8090/exam-api/user/';
     this.http.put<number>('http://localhost:8090/exam-api/user/se-connecter', this.user).subscribe(
       data => {
         if(data === 1){
+          console.log(this.user)
           sessionStorage.setItem(this.user.login, this.login);
           this.router.navigateByUrl('/admin')
 

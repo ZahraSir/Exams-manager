@@ -76,7 +76,7 @@ export class CalendarListComponent  implements OnInit{
   modalRef: BsModalRef;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
+  view: CalendarView = CalendarView.Day;
 
   CalendarView = CalendarView;
 
