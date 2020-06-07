@@ -14,28 +14,21 @@ import {CalendarComponent} from './modules/calendar/calendar.component';
 import {EtudiantComponent} from './modules/etudiant/etudiant.component';
 import {ModuleCreateComponent} from './modules/module/module-create/module-create.component';
 import {PersonnelComponent} from './modules/personnel/personnel.component';
-import { LoginComponent } from './modules/login/login.component';
+
+import {HomeComponent} from './home';
+import {RegisterComponent} from './register';
+import {AuthGuard} from './_helpers';
+import {LoginComponent} from './login';
 
 
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'admin', component: AdminComponent,
-       children: [
-         {path: 'salles', component: SallesComponent},
-         {path: 'departements', component: DepartementComponent},
-         {path: 'professeurs', component: ProfesseurComponent},
-         {path: 'surveillants', component: SurveillantComponent},
-         {path: 'responsabilites', component: ResponsabiliteComponent},
-         {path: 'exams', component: ExamComponent},
-         {path: 'modules', component: ModuleCreateComponent},
-         {path: 'etat', component: EtatComponent},
-         {path: 'fillieres', component: FiliereComponent},
-         {path: 'calendars', component: CalendarComponent},
-         {path: 'etudiants', component: EtudiantComponent},
-         {path: 'personnels', component: PersonnelComponent}
-       ]},
-   {path: 'print', component: PrintComponent}
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
@@ -43,3 +36,20 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+/*{path: '', component: LoginComponent},
+{path: 'admin', component: AdminComponent,
+  children: [
+  {path: 'salles', component: SallesComponent},
+  {path: 'departements', component: DepartementComponent},
+  {path: 'professeurs', component: ProfesseurComponent},
+  {path: 'surveillants', component: SurveillantComponent},
+  {path: 'responsabilites', component: ResponsabiliteComponent},
+  {path: 'exams', component: ExamComponent},
+  {path: 'modules', component: ModuleCreateComponent},
+  {path: 'etat', component: EtatComponent},
+  {path: 'fillieres', component: FiliereComponent},
+  {path: 'calendars', component: CalendarComponent},
+  {path: 'etudiants', component: EtudiantComponent},
+  {path: 'personnels', component: PersonnelComponent}
+]},
+{path: 'print', component: PrintComponent}*/
