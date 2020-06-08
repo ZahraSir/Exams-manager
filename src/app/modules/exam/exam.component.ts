@@ -14,8 +14,8 @@ import {Personnel} from '../../controller/model/personnel.model';
 import {SurveillantService} from '../../controller/services/surveillant.service';
 import {ToastrService} from 'ngx-toastr';
 import {Filiere} from '../../controller/model/filiere';
-import { ProfesseurComponent } from '../professeur/professeur.component';
-import { ProfesseurService } from 'src/app/controller/services/professeur.service';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-exam',
@@ -28,6 +28,8 @@ export class ExamComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   item: string;
+  dateDebut :Date;
+  dateFin: string;
   p = 1;
 
   constructor(private examService: ExamService,
@@ -108,7 +110,7 @@ export class ExamComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  public update(id: number, reference: string, dateDepart: Date, dateFin: Date, module: Module, prof: Professeur, filiere: Filiere){
+  public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
     this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
   }
  public addSurveillant(surveillant: Surveillant){
@@ -163,13 +165,13 @@ export class ExamComponent implements OnInit {
   public saveSurveillant() {
     this.surveillantService.save();
   }
-  public  findExamSalle(designation: string, dateDepart: Date, dateFin: Date ){
+  public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
     console.log(dateFin);
     console.log(designation);
     console.log(dateDepart);
     this.examService.findExamSalle(designation, dateDepart, dateFin);
   }
-  public findExamSurveillant(nom: string, dateDepart: Date, dateFin: Date ){
+  public findExamSurveillant(nom: string, dateDepart: string, dateFin: string ){
     this.examService.findExamSurveillant(nom, dateDepart, dateFin);
   }
 
@@ -198,5 +200,13 @@ export class ExamComponent implements OnInit {
   }
   public deleteExamBySurveillantId(surveillant: Surveillant) {
     this.examService.deleteExamBySurveillantId(surveillant);
+  }
+  public ajouter(value){
+    console.log(value);
+    this.dateDebut = new Date(value);
+   this.dateDebut.setHours(this.dateDebut.getHours() + 2);
+   console.log(this.dateDebut);
+   this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
+   this.exam.dateFin = this.dateFin;
   }
 }

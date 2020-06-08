@@ -360,7 +360,7 @@ export class ExamService {
 
   }
 
-  public update(id: number, reference: string, dateDepart: Date, dateFin: Date, module: Module, prof: Professeur, filiere: Filiere){
+  public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
     this.http.put(this._urlexam + id + '/' + reference  + '/' + dateDepart + '/' + dateFin + '/' + module + '/' + prof + '/' + filiere , this.exam).subscribe(
       data => {
         if (data > 0) {
@@ -451,7 +451,7 @@ export class ExamService {
   }
 
 
-  public  findExamSalle(designation: string, dateDepart: Date, dateFin: Date ){
+  public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
     this.http.get<Array<ExamSalle>>(this._urlExSa + 'designation/' + designation + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
          if (data.length == 0){
@@ -468,7 +468,7 @@ export class ExamService {
       }
     );
   }
-  public findExamSurveillant(nom: string, dateDepart: Date, dateFin: Date ){
+  public findExamSurveillant(nom: string, dateDepart: string, dateFin: string ){
     this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'nom/' + nom + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
          if (data.length == 0){

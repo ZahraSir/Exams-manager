@@ -13,12 +13,14 @@ import localeFr from '@angular/common/locales/fr';
 import {registerLocaleData} from '@angular/common';
 import {CalendarDateFormatter} from 'angular-calendar';
 import {CalendarCreateComponent} from './modules/calendar/calendar-create/calendar-create.component';
-import {HomeComponent} from './home';
-import {RegisterComponent} from './register';
-import {AlertComponent} from './_components';
-import {LoginComponent} from './login';
+
 import {ReactiveFormsModule} from '@angular/forms';
-import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from './_helpers';
+import {HomeComponent} from './modules/home';
+import {LoginComponent} from './modules/login';
+import {RegisterComponent} from './modules/register';
+import {AlertComponent} from './modules/_components';
+import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from './modules/_helpers';
+
 registerLocaleData(localeFr);
 
 

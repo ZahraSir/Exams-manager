@@ -4,8 +4,6 @@ import {Module} from '../model/module.model';
 import {Semestre} from '../model/semestre';
 import { NiveauSemestre } from '../model/niveau-semestre';
 import {Professeur} from '../model/professeur.model';
-import {Surveillant} from '../model/surveillant.model';
-import { ProfesseurService } from './professeur.service';
 
 
 @Injectable({

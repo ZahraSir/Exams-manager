@@ -1,7 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
-import {User} from '../_models';
-import {AuthenticationService, UserService} from '../_services';
+import {AuthenticationService, UserService} from '../../controller/services';
+import {User} from '../../controller/model';
+
 
 
 

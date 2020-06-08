@@ -1,6 +1,6 @@
 
 <!--Liste des Exams-->
-<div >
+<div style="margin-top: 180px;margin-left: -90px; width: 1420px;">
   <div class="card-header" style="background-color: #2e3047; color: #fff;">
     <h4 style="text-align: left;">Liste des Exams</h4>
   </div>
@@ -11,8 +11,8 @@ background-color: #fff;">
         <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
-     /* width: 1390px;*/
-     width: 1347px;
+      width: 1411px;
+    /* width: 1347px;*/
       margin-left: -4px;"/>
       </div>
     </div>
@@ -24,8 +24,9 @@ background-color: #fff;">
     <th>R&eacute;f&eacute;rence</th>
     <th>Filière</th>
     <th>Module</th>
-    <th>DateDepart</th>
-    <th>DateFin</th>
+    <th>Date</th>
+    <th>Heure départ</th>
+    <th>Heure fin</th>
     <th>Professeur</th>
     <th>Surveillants</th>
     <th>Salles</th>
@@ -36,8 +37,9 @@ background-color: #fff;">
       <td>{{e.reference}}</td>
       <td>{{e.filiere.libelle}}</td>
       <td >{{e.module.libelle}}</td>
-      <td>{{e.dateDepart }}</td>
-      <td>{{e.dateFin }}</td>
+      <td>{{e.dateDepart | date: 'dd-MM-yyyy'}}</td>
+      <td>{{e.dateDepart | date: 'HH:mm'}}</td>
+      <td>{{e.dateFin | date: 'HH:mm'}}</td>
       <td>{{e.prof.nom}}</td>
       <td> <button class="btn btn-success btn-sm " style="margin-left: 5px;"  (click)=" ModalSurveillant.show();recuperer(e, e.id);findSurveillantByExamReference(exam);">Liste Surve</button></td>
       <td> <button class="btn btn-success btn-sm " style="margin-left: 5px;"  (click)=" ModalSalle.show();recuperer(e, e.id);findSalleByExamReference(exam);">Liste Salle</button></td>
@@ -132,7 +134,7 @@ background-color: #fff;">
           <div class="col-md-6">
           <div class="form-group">
             <label for="dateDepart" style="color: black;">Date départ</label>
-            <input type="datetime-local" id="dateDepart"
+            <input type="datetime-local" id="dateDepart" (change)="ajouter($event.target.value)"
                    placeholder="dateDepart"
                    min="2020-01-01T00:00" max="2020-07-01T00:00"
                    class="form-control" name="dateDepart" [(ngModel)]="exam.dateDepart"

@@ -1,40 +1,48 @@
-<div class="card">
-  <div class="card-body">
-      <form>
-        <div class="form-group">
-          <label ><i class="	fas fa-user-tie"></i> Nom d'utilisateur</label>
-          <input  class="form-control"  placeholder="Nom d'utilisateur" [(ngModel)]="user.login" [ngModelOptions]="{standalone: true}">
+﻿
+<div class="form">
+
+  <ul class="tab-group">
+    <li class="tab active"><a href="#signup">S'identifier</a></li>
+    <li class="tab"><a routerLink="/register" >S'inscrire</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="signup">
+      <h1>Gestion des examens</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="field-wrap">
+          <div class="form-group">
+
+            <input class="input" type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur *" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">champs obligatoire</div>
+            </div>
+          </div>
         </div>
+
+        <div class="field-wrap">
+          <div class="form-group">
+
+
+            <input class="input" type="password" formControlName="password" placeholder="Mot de passe *"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">champs obligatoire</div>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group">
-          <label ><i class="fa fa-lock"></i> Mot De passe</label>
-          <input type="password" class="form-control"  placeholder="***********" [(ngModel)]="user.pwd" [ngModelOptions]="{standalone: true}">
+          <button type="submit" [disabled]="loading" class="button button-block">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+           Se connecter
+          </button>
         </div>
       </form>
-    </div>
-    <div class="card-footer">
-      <button type="submit" class="btn btn-outline btn-block  bouton" (click)="seConnecter()" >Se connecter</button>
-    </div>
-  </div>
-<!--
-  <div class="container-fluid bg">
-    <div class="row">
-      <div class="col-md-4 col-sm-4 col-xs-12"></div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <form class="form-container">
-          <h1>Connexion</h1>
-          <div class="form-group">
-            <label for="exampleInputEmail1" style="color: black;">Mail:</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Exemple@exemple.com">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1" style="color: black;">Mot de passe:</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="***************">
-          </div>
-          <button type="button" class="btn btn-success btn-block" (click)="seConnecter()">Se connecter</button>
-        </form>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-12"></div>
 
     </div>
-  </div>
--->
+
+
+  </div><!-- tab-content -->
+
+</div> <!-- /form -->
