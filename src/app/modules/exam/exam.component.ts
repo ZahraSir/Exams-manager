@@ -53,9 +53,11 @@ export class ExamComponent implements OnInit {
   get exams(): Array<Exam> {
     return this.examService.exams;
   }
+ 
   get surveillants(): Array<Surveillant> {
     return this.examService.surveillants;
   }
+  
   get professeurs(): Array<Professeur> {
     return this.examService.professeurs;
   }
@@ -76,6 +78,9 @@ export class ExamComponent implements OnInit {
   }
   get examSalles(): Array<ExamSalle> {
     return this.examService.examSalles;
+  }
+  get examSalle(): ExamSalle {
+    return this.examService.examSalle;
   }
   get personnels(): Array<Personnel> {
     return this.examService.personnels;
@@ -133,12 +138,10 @@ export class ExamComponent implements OnInit {
   }
   recupererSalle( sal) {
     console.log(sal);
-    console.log(this.exam.dateDepart);
     this.examService.findBySallesDesignation(sal);
   }
   recupererPerso(perso) {
-    console.log(perso);
-    this.examService.findByPersonnelNom(perso);
+    this.examService.findByPersonnelNom(perso);    
   }
   get surveill(): Surveillant {
     return this.examService.surveill;
@@ -166,9 +169,6 @@ export class ExamComponent implements OnInit {
     this.surveillantService.save();
   }
   public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
-    console.log(dateFin);
-    console.log(designation);
-    console.log(dateDepart);
     this.examService.findExamSalle(designation, dateDepart, dateFin);
   }
   public findExamSurveillant(nom: string, dateDepart: string, dateFin: string ){
@@ -208,5 +208,23 @@ export class ExamComponent implements OnInit {
    console.log(this.dateDebut);
    this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
    this.exam.dateFin = this.dateFin;
+  
+  }
+  get examSa(): Array<ExamSalle>{
+    return this.examService.examSa;
+  }
+
+  public addExamSalle(personnel: Personnel){
+    const surveillant = new Surveillant();
+    surveillant.mail = personnel.mail;
+    surveillant.nom = personnel.nom;
+    surveillant.prenom = personnel.prenom;
+    surveillant.examSalle.salle = this.examSalle.salle;
+    console.log(surveillant)
+    this.examService.addExamSalle(surveillant);
+  }
+  
+  get surveillant(): Surveillant {
+    return this.examService.surveillant;
   }
 }

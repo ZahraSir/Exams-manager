@@ -125,6 +125,10 @@ export class SallesComponent implements OnInit {
   refresh(): void {
     window.location.reload();
   }
+
+  public validate(){
+    return this.salleService.validate();
+  }
 }
 
 

@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Surveillant} from '../model/surveillant.model';
 import {ToastrService} from 'ngx-toastr';
+import { ExamSalle } from '../model/exam-salle';
 
 
 @Injectable({
@@ -18,6 +19,7 @@ export class SurveillantService {
   private _display: number;
   private _urlsurve = 'http://localhost:8090/exam-api/surveillants/';
   private isPrinting = false;
+  private _examSalle = new ExamSalle();
 
   get http(): HttpClient {
     return this._http;
@@ -38,7 +40,16 @@ export class SurveillantService {
   set surveillant(value: Surveillant) {
     this._surveillant = value;
   }
+  get examSalle(): ExamSalle {
+    if (this._examSalle == null) {
+      this._examSalle = new ExamSalle();
+    }
+    return this._examSalle;
+  }
 
+  set examSalle(value: ExamSalle) {
+    this._examSalle = value;
+  }
   get surveillants(): Array<Surveillant> {
     if (this._surveillants == null) {
       this._surveillants = new Array<Surveillant>();

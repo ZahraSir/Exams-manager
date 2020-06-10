@@ -26,7 +26,6 @@ export class ModuleCreateComponent implements OnInit {
     this.moduleService.getSemestres();
     this.moduleService.findAll();
     this.filiereService.findAll();
-    this.moduleService.getProfesseur();
   }
 
   get module(): Module{
@@ -72,7 +71,7 @@ export class ModuleCreateComponent implements OnInit {
   }
 
   public update(module: Module){
-    this.moduleService.update(module.id, module.libelle, module.semestre.libelle, module.professeur);
+    this.moduleService.update(module.id, module.libelle, module.semestre.libelle, module.professeur.nom);
   }
 
   public vider(){
@@ -90,5 +89,13 @@ export class ModuleCreateComponent implements OnInit {
 
   get professeurs(): Array<Professeur> {
     return this.moduleService.professeurs;
+  }
+
+  public findByDepartementLibelle(libelle){
+    console.log(libelle)
+    this.moduleService.findByDepartementLibelle(libelle);
+  }
+  public findByLibelle(libelle){
+    this.moduleService.findByLibelle(libelle)
   }
 }

@@ -261,8 +261,6 @@ export class CalendarListComponent  implements OnInit{
     this.handleEvent('Dropped or resized', this.event);
   }
 
-  color(color: string){
-
-  }
+ 
 
 }

@@ -184,7 +184,159 @@ background-color: #fff;">
         </div>
           </div>
     </div>
+    <div class="row">
+      <div class="col-md-12"> <label for="salle" style="color: black;" >Salles ou Amphis</label>
+      </div>
+    </div>
 
+<div class="row">
+
+    <div class="col-md-10" >
+      <div class="form-group">
+
+        <select class=" input-large form-control" name="salle" id="salle"  (change)="recupererSalle($event.target.value);findExamSalle($event.target.value, exam.dateDepart, exam.dateFin);"
+                ngModel
+                required
+                #salle="ngModel"
+                [ngClass]="{'form-control' : true,
+          'is-invalid' : !salle?.valid && salle?.touched,
+            'is-valid' : salle?.valid && salle?.touched}" >
+
+          <option *ngFor="let s of salles" [value]="s.designation" >{{s.designation}}</option>
+        </select>
+        <small *ngIf="salle?.errors?.required && salle?.touched" class="form-text text-danger">champs obligatoire</small>
+      </div>
+    </div>
+<div class="col-md-2">
+<div class="form-group">
+        <button class="btn btn-block" type="button" [disabled]="!validate()" (click)="addSalle(sal)" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
+      </div>
+</div>
+</div>
+<!-- debut liste d'ajout des salles-->
+<div class="row">
+<div class="col-md-12">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header"><h6>La liste des Salles</h6></div>
+        <div class="table-responsive">
+          <table class="table table-bordered" style="text-align: center;">
+            <thead>
+            <tr>
+              <th>Désignation</th>
+              <th>Capacité</th>
+              <th>Etat</th>
+              <th>Supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor= "let sa of exam.examSalles">
+              <td>{{sa.salle.designation}}</td>
+              <td>{{sa.salle.capacite}}</td>
+              <td>{{sa.salle.etat}}</td>
+              <td><button class="btn btn-danger btn-sm fa fa-trash"  (click)="deleteByDesignationFromView(sa.salle)"></button></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>
+    <div class="card">
+      <div class="card-header">
+        Affectation des surveillants aux salles
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-12" >
+            <div class="form-group">
+              <label>Salle:</label>
+              <select class=" input-large form-control" name="salle" id="salle"  [(ngModel)]="examSalle.salle"
+                      ngModel
+                      required
+                      #salle="ngModel"
+                      [ngClass]="{'form-control' : true,
+                'is-invalid' : !salle?.valid && salle?.touched,
+                  'is-valid' : salle?.valid && salle?.touched}" >
+  
+                <option *ngFor="let examSalle of exam.examSalles" [ngValue]="examSalle.salle" >{{examSalle.salle.designation}}</option>
+              </select>
+              <small *ngIf="salle?.errors?.required && salle?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div>
+          </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+    <label for="surveillant" style="color: black;">Surveillants</label>
+    </div>
+  </div>
+  <div class="row">
+  <div class="col-md-10">
+            <div class="form-group" >
+              <select class=" input-large form-control" name="surveillant" id="surveillant" (change)="recupererPerso($event.target.value); "
+                      ngModel
+                      required
+                      #surveillant="ngModel"
+                      [ngClass]="{'form-control' : true,
+                'is-invalid' : !surveillant?.valid && surveillant?.touched,
+                  'is-valid' : surveillant?.valid && surveillant?.touched}" >
+  
+                <option *ngFor="let surve of personnels" [value]="surve.nom">{{surve.nom}}</option>
+              </select>
+              <small *ngIf="surveillant?.errors?.required && surveillant?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div></div>
+  <div class="col-md-2">
+  <div class="form-group">
+  <button class="btn btn-block" type="button" (click)="addExamSalle(perso);" style="height: 36px;background-color: #2e3047;border-color: #2e3047;" [disabled]="!validate()"><i class="fa fa-plus" style="color: #fff !important"></i></button>
+  </div>
+  </div>
+  </div>
+  <div class="row">
+    <!-- debut liste d'ajout des surveillants-->
+    <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="card-header"><h6>La liste des Surveillants</h6></div>
+                <div class="table-responsive">
+                  <table class="table table-bordered" style="text-align: center;">
+                    <thead>
+                      <tr>
+                        
+                        <th colspan="3">Surveillant</th>
+                        <th>Salle</th>
+                   
+                      </tr>
+                    <tr>
+                      <th>Nom</th>
+                      <th>Prénom</th>
+                      <th>Email</th>
+                      <th>Désignation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor= "let surveillant of examSalle.surveillants" >
+                        <td>{{surveillant.nom}}</td>
+                        <td>{{surveillant.prenom}}</td>
+                        <td>{{surveillant.mail}}</td>
+                        <td>{{surveillant.examSalle.salle.designation}}</td>
+                      
+                     </tr>
+                   
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+    </div>
+    </div>
+      </div>
+    </div>
+   
+
+<!--
 <div class="row">
   <div class="col-md-12">
   <label for="surveillant" style="color: black;">Surveillants</label>
@@ -210,10 +362,10 @@ background-color: #fff;">
 <button class="btn btn-block" type="button" (click)="addPersonnel(perso);" [disabled]="!validateSurveillant()" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
 </div>
 </div>
-</div>
-        <div class="row">
+</div>-->
+       <!-- <div class="row">-->
 <!-- debut liste d'ajout des surveillants-->
-<div class="col-md-12">
+<!--<div class="col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="card-header"><h6>La liste des Surveillants</h6></div>
@@ -241,10 +393,10 @@ background-color: #fff;">
           </div>
         </div>
 </div>
-</div>
+</div>-->
         <br>
         <!-- fin liste d'ajout des surveillants-->
-        <div class="row">
+      <!--  <div class="row">
           <div class="col-md-12"> <label for="salle" style="color: black;" >Salles ou Amphis</label>
           </div>
         </div>
@@ -273,9 +425,9 @@ background-color: #fff;">
           </div>
 </div>
 </div>
-
+-->
 <!-- debut liste d'ajout des salles-->
-<div class="row">
+<!--<div class="row">
 <div class="col-md-12">
 
         <div class="card">
@@ -304,7 +456,7 @@ background-color: #fff;">
           </div>
         </div>
         </div>
-</div>
+</div>-->
         <!-- fin liste d'ajout des salles-->
       </form>
       <div class="modal-body">

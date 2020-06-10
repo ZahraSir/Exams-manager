@@ -18,7 +18,7 @@ export class ModuleComponent implements OnInit {
   constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private etudiantService: EtudiantService) { }
 
   ngOnInit(): void {
-    this.moduleService.getProfesseur();
+    
   }
 
   get module(): Module{
@@ -37,11 +37,12 @@ export class ModuleComponent implements OnInit {
     return this.filiereService.filiere;
   }
 
-  public update(id: number, libelle: string, semestre: string, professeur: Professeur){
+  public update(id: number, libelle: string, semestre: string, professeur: string){
     this.moduleService.update(id, libelle, semestre, professeur);
   }
 
   public recupererM(module: Module){
+    console.log('nahno honaa'+this.professeurs)
     this.moduleService.recuperer(module);
   }
 
@@ -55,5 +56,8 @@ export class ModuleComponent implements OnInit {
   get niveauSemestres(): Array<NiveauSemestre>{
     return this.filiereService.niveauSemestres;
   }
-
+  
+  get professeurs(): Array<Professeur> {
+    return this.filiereService.professeurs;
+  }
 }

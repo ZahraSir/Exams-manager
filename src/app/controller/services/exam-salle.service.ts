@@ -4,6 +4,7 @@ import {Salles} from '../model/salles';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ExamSalle} from '../model/exam-salle';
+import { Surveillant } from '../model/surveillant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class ExamSalleService {
   private _exams: Array<Exam>;
   private _urlexam = 'http://localhost:8090/exam-api/exams/';
   private _salle: Salles;
+  private _surveillant: Surveillant;
   private _salles: Array<Salles>;
   private _urlsalle = 'http://localhost:8090/exam-api/salles/';
 
@@ -46,6 +48,9 @@ export class ExamSalleService {
   }
 
   get examSalles(): Array<ExamSalle> {
+    if(this._examSalles == null){
+      this._examSalles = new Array<ExamSalle>();
+    }
     return this._examSalles;
   }
 
@@ -54,6 +59,9 @@ export class ExamSalleService {
   }
 
   get salle(): Salles {
+    if(this._salle == null){
+      this._salle = new Salles();
+    }
     return this._salle;
   }
 
@@ -86,10 +94,24 @@ export class ExamSalleService {
   }
 
   get examSalle(): ExamSalle {
+    if(this._examSalle == null){
+      this._examSalle = new ExamSalle();
+    }
     return this._examSalle;
   }
 
   set examSalle(value: ExamSalle) {
     this._examSalle = value;
   }
+  get surveillant(): Surveillant {
+    if(this._surveillant == null){
+      this._surveillant = new Surveillant();
+    }
+    return this._surveillant;
+  }
+
+  set surveillant(value: Surveillant) {
+    this._surveillant = value;
+  }
+
 }

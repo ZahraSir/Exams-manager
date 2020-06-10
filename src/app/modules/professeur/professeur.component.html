@@ -247,7 +247,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite, professeur.departement);">Editer</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite.libelle, professeur.departement.libelle);">Editer</button>
         </div>
       </div>
     </div>

@@ -102,7 +102,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label style="color: black; font-size: 20px;" >Département:</label>
-                <select class=" input-large form-control" name="departement" [(ngModel)]="filiere.departement"
+                <select class=" input-large form-control" name="departement" [(ngModel)]="filiere.departement.libelle" (change)="findByDepartementLibelle($event.target.value)"
                         ngModel
                         required
                         #departement="ngModel"
@@ -110,7 +110,7 @@
                 'is-invalid' : !departement?.valid && departement?.touched,
                   'is-valid' : departement?.valid && departement?.touched}">
                   <option selected>--Choisir un d&eacute;partement--</option>
-                  <option *ngFor="let departement of departements" [ngValue]="departement" >{{departement.libelle}}</option>
+                  <option *ngFor="let departement of departements" [value]="departement.libelle" >{{departement.libelle}}</option>
                 </select>
                 <small *ngIf="departement?.errors?.required && departement?.touched" class="form-text text-danger">champs obligatoire</small>
               </div>
@@ -152,6 +152,25 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label style="color: black;">Professeur:</label>
+                    <select class=" input-large form-control" name="professeur" [(ngModel)]="module.professeur"
+                            ngModel
+                            required
+                            #professeur="ngModel"
+                            [ngClass]="{'form-control' : true,
+                                'is-invalid' : !professeur?.valid && professeur?.touched,
+                                  'is-valid' : professeur?.valid && professeur?.touched}">
+                      <option value="" >--Choisir un professeur--</option>
+                      <option *ngFor="let professeur of professeurs" [ngValue]="professeur">{{professeur.nom}}</option>
+                    </select>
+                    <small *ngIf="professeur?.errors?.required && professeur?.touched"
+                           class="form-text text-danger">champs obligatoire</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                   <div class="form-group">
@@ -167,12 +186,14 @@
                     <tr>
                       <th>Libell&eacute;</th>
                       <th>Semestre</th>
+                      <th>Professeur</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let module of filiere.modules">
                       <td>{{module.libelle}}</td>
                       <td>{{module.semestre.libelle}}</td>
+                      <td>{{module.professeur.nom}}</td>
                     </tr>
                     </tbody>
                   </table>
@@ -223,13 +244,13 @@
                 <label style="color: black; font-size: 20px;">Département:</label>
                 <select class=" input-large form-control" name="departement" [(ngModel)]="filiere.departement">
                   <option [ngValue]="departement" [selected]="filiere.departement.libelle">{{filiere.departement.libelle}}</option>
-                  <option *ngFor="let departement of departements" [ngValue]="departement">{{departement.libelle}}</option>
+                 
                 </select>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="ajoutModal.show(); findByNiveauLibelle(filiere.niveau.libelle)">Ajouter modules</button>
+            <button class="btn btn-info btn-sm" type="button" (click)="ajoutModal.show(); findByNiveauLibelle(filiere.niveau.libelle); findByDepartementLibelle(filiere.departement.libelle);">Ajouter modules</button>
           </div>
         </form>
 
@@ -243,6 +264,7 @@
                 <thead>
                 <tr>
                   <th>Module</th>
+                  <th>Professeur</th>
                   <th>Semestre</th>
                   <th>Action</th>
                 </tr>
@@ -250,10 +272,11 @@
                 <tbody>
                 <tr *ngFor= "let module of filiere.modules">
                   <td>{{module.libelle}}</td>
+                  <td>{{module.professeur.nom}}</td>
                   <td>{{module.semestre.libelle}}</td>
                   <td>
                     <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal2);"></button>
-                    <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="modifeModal.show();recupererM(module); findByNiveauLibelle(module.filiere.niveau.libelle)"></button>
+                    <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="modifeModal.show();recupererM(module); findByNiveauLibelle(module.filiere.niveau.libelle); findByDepartementLibelle(module.filiere.departement.libelle)"></button>
                   </td>
                   <!--Confirmation du suppression-->
                   <ng-template #modal2>
@@ -337,6 +360,25 @@
                   <option *ngFor="let niveauSemestre of niveauSemestres" [value]="niveauSemestre.semestre.libelle">{{niveauSemestre.semestre.libelle}}</option>
                 </select>
                 <small *ngIf="se?.errors?.required && se?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label style="color: black;">Professeur:</label>
+                <select class=" input-large form-control" name="professeur" [(ngModel)]="module.professeur"
+                        ngModel
+                        required
+                        #professeur="ngModel"
+                        [ngClass]="{'form-control' : true,
+                            'is-invalid' : !professeur?.valid && professeur?.touched,
+                              'is-valid' : professeur?.valid && professeur?.touched}">
+                  <option value="" >--Choisir un professeur--</option>
+                  <option *ngFor="let professeur of professeurs" [ngValue]="professeur">{{professeur.nom}}</option>
+                </select>
+                <small *ngIf="professeur?.errors?.required && professeur?.touched"
                        class="form-text text-danger">champs obligatoire</small>
               </div>
             </div>

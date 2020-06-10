@@ -10,6 +10,7 @@ import {EtudiantService} from '../../controller/services/etudiant.service';
 import {Module} from '../../controller/model/module.model';
 import { Departement } from 'src/app/controller/model/departement.model';
 import { NiveauSemestre } from 'src/app/controller/model/niveau-semestre';
+import { Professeur } from 'src/app/controller/model/professeur.model';
 
 @Component({
   selector: 'app-filiere',
@@ -34,7 +35,7 @@ export class FiliereComponent implements OnInit {
     this.filiereService.findAll();
     this.filiereService.getNiveaux();
     this.filiereService.getDepartements();
-    // this.etudiantService.getSemestres();
+   
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -155,5 +156,14 @@ export class FiliereComponent implements OnInit {
     console.log(niveau);
     this.filiereService.findByNiveauLibelle(niveau);
 
+  }
+  
+  get professeurs(): Array<Professeur> {
+    return this.filiereService.professeurs;
+  }
+  
+  public findByDepartementLibelle(libelle){
+    console.log(libelle)
+    this.filiereService.findByDepartementLibelle(libelle);
   }
 }

@@ -80,7 +80,9 @@ import { LoginComponent } from 'src/app/modules/login/login.component';
     FullCalendarModule,
     NgbModalModule,
     FlatpickrModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 5000
+    }),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,

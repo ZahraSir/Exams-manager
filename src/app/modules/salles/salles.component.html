@@ -120,7 +120,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
-          <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();">Ajouter</button>
+          <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="save();parentModal.hide();" [disabled]="!validate()">Ajouter</button>
         </div>
       </div>
     </div>

@@ -64,7 +64,7 @@ export class ProfesseurComponent implements OnInit {
     return this.professeurService.display;
   }
 
-  public update(id: number, nom: string, prenom: string, mail: string, responsabilite: Responsabilite, departement: Departement){
+  public update(id: number, nom: string, prenom: string, mail: string, responsabilite: string, departement: string){
     this.professeurService.update(id, nom, prenom, mail, responsabilite, departement);
   }
   public vider(){

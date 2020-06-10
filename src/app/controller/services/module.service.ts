@@ -4,8 +4,7 @@ import {Module} from '../model/module.model';
 import {Semestre} from '../model/semestre';
 import { NiveauSemestre } from '../model/niveau-semestre';
 import {Professeur} from '../model/professeur.model';
-import {Surveillant} from '../model/surveillant.model';
-import { ProfesseurService } from './professeur.service';
+import { Filiere } from '../model/filiere';
 
 
 @Injectable({
@@ -19,7 +18,6 @@ export class ModuleService {
   private _urlModule= 'http://localhost:8090/exam-api/modules/';
   private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
   private _niveauSemestres: Array<NiveauSemestre>;
-  private _professeur: Professeur;
   private _professeurs: Array<Professeur>;
   private _urlprof = 'http://localhost:8090/exam-api/professeurs/';
 
@@ -106,10 +104,14 @@ export class ModuleService {
     return myClone;
   }
 
-  public update(id: number, libelle: string, semestre: string, professeur: Professeur){
+  public update(id: number, libelle: string, semestre: string, professeur: string){
+    console.log('hana tani'+professeur);
     this.http.put(this._urlModule + id + '/' + libelle + '/' + semestre + '/' + professeur , this.module).subscribe(
       data =>{
         if(data >0) {
+          this.module.libelle = libelle;
+          this.module.professeur.nom = professeur;
+          this.module.semestre.libelle = semestre;
           console.log(this.module)
         }
       })
@@ -176,4 +178,22 @@ export class ModuleService {
       }
     );
   }
-}
+  
+  public findByDepartementLibelle(libelle){
+    this.http.get<Array<Professeur>>('http://localhost:8090/exam-api/professeurs/find-by-departement/'+ libelle).subscribe(
+      data => {
+        this._professeurs = data;
+        console.log(data)
+      }
+    );
+  }
+  public findByLibelle(libelle){
+    this.http.get<Filiere>('http://localhost:8090/exam-api/filieres/find-by-libelle/'+ libelle).subscribe(
+      data => {
+        console.log(data)
+         this.findByDepartementLibelle(data.departement.libelle);
+      }
+    );
+  }
+  }
+

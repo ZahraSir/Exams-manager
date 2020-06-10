@@ -46,9 +46,11 @@ export class ExamService {
   private _personnels: Array<Personnel>;
   private _urlperso = 'http://localhost:8090/exam-api/personnels/';
   private _urlFiliere = 'http://localhost:8090/exam-api/filieres/';
+  private _examSa : Array<ExamSalle>;
   private _filieres: Array<Filiere>;
   public display : number;
   public surve : number;
+  
 
   get http(): HttpClient {
     return this._http;
@@ -59,6 +61,9 @@ export class ExamService {
   }
 
   get perso(): Personnel {
+    if(this._perso == null){
+      this._perso = new Personnel();
+    }
     return this._perso;
   }
 
@@ -109,6 +114,9 @@ export class ExamService {
     this._personnel = value;
   }
   get surveillant(): Surveillant {
+    if(this._surveillant == null){
+      this._surveillant = new Surveillant();
+    }
     return this._surveillant;
   }
 
@@ -150,6 +158,9 @@ export class ExamService {
   }
 
   get salle(): Salles {
+    if(this._salle == null){
+      this._salle = new Salles();
+    }
     return this._salle;
   }
 
@@ -180,6 +191,9 @@ export class ExamService {
   }
 
   get examSalle(): ExamSalle {
+    if(this._examSalle == null){
+      this._examSalle = new ExamSalle()
+    }
     return this._examSalle;
   }
 
@@ -202,13 +216,26 @@ export class ExamService {
     this._examSurves = value;
   }
   get examSalles(): Array<ExamSalle> {
+    if(this._examSalles == null){
+      this._examSalles = new Array<ExamSalle>();
+    }
     return this._examSalles;
+  }
+
+  set examSa(value: Array<ExamSalle>) {
+    this._examSa = value;
+  }
+
+  get examSa(): Array<ExamSalle> {
+    if(this._examSa == null){
+      this._examSa= new Array<ExamSalle>();
+    }
+    return this._examSa;
   }
 
   set examSalles(value: Array<ExamSalle>) {
     this._examSalles = value;
   }
-
   get surveill(): Surveillant {
     return this._surveill;
   }
@@ -298,6 +325,9 @@ export class ExamService {
     );
   }
   public save() {
+    this.examSa.push(this.examSalle)
+    console.log('hvbcdjh'+this.examSa);
+   this.exam.examSalles = this.examSa;
     console.log('haa lien ' + this._urlsalle);
     console.log('haa salle ' + this.exam);
     this.http.post<number>(this._urlexam + 'save', this.exam).subscribe(
@@ -421,14 +451,29 @@ export class ExamService {
     this.http.get<Personnel>(this._urlperso + 'find-by-nom/' + personnel).subscribe(
       data => {
         this.perso = data;
-        console.log(data);
+        //this.examSalle.surveillants.push(this.cloneSurveillant(this.perso));
+        //this.exam.examSalles.push(this.examSalle)
+        console.log(this.examSalle) 
       }
     );
+  }
+
+  cloneSurveillant(perso: Personnel){
+    const personnel = new Personnel();
+    personnel.nom = perso.nom;
+    personnel.prenom = perso.prenom;
+    personnel.mail = perso.mail;
+    return personnel;
   }
   public findBySallesDesignation(sal) {
     this.http.get<Salles>(this._urlsalle + 'find-by-designation/' + sal).subscribe(
       data => {
         this.sal = data;
+        this.examSalle.salle.designation = this.sal.designation;
+        this.surveillant.examSalle.salle.capacite = this.sal.capacite;
+        this.surveillant.examSalle.salle.type = this.sal.type;
+        this.surveillant.examSalle.salle.etat = this.sal.etat;
+        console.log('hahowa'+this.examSalle.salle.designation);
         console.log(data);
       }
     );
@@ -549,6 +594,25 @@ export class ExamService {
   public vider(){
     this.exam = null;
   }
+
+  public addExamSalle(surveillant: Surveillant){
+    console.log(surveillant);
+    this.examSalle.surveillants.push(this.cloneSurve(this.perso));
+    this.exam.examSalles.push(this.examSalle)
+    //this.surveillants.push(this.cloneSurve(surveillant));
+  }
+  public cloneSurve(surveillant){
+    console.log('hahowa'+surveillant)
+    const SurveillantClone = new Surveillant();
+    SurveillantClone.nom= surveillant.nom;
+    SurveillantClone.prenom= surveillant.prenom;
+    SurveillantClone.mail= surveillant.mail;
+    SurveillantClone.examSalle.salle.designation = this.examSalle.salle.designation;
+    console.log('hada clone'+SurveillantClone)
+    return SurveillantClone;
+  }
+
+
 }
 
 

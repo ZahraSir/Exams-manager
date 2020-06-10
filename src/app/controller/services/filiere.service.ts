@@ -6,6 +6,7 @@ import {Filiere} from '../model/filiere';
 import {Module} from '../model/module.model';
 import { NiveauSemestre } from '../model/niveau-semestre';
 import { Departement } from '../model/departement.model';
+import { Professeur } from '../model/professeur.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class FiliereService {
   private _urlNiveau = 'http://localhost:8090/exam-api/niveaux/';
   private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
   private _niveauSemestres: Array<NiveauSemestre>;
+  private _professeurs: Array<Professeur>;
 
   constructor(private http: HttpClient) { }
 
@@ -109,6 +111,17 @@ export class FiliereService {
       this._modules = new Array<Module>();
     }
     return this._modules;
+  }
+
+  get professeurs(): Array<Professeur> {
+    if (this._professeurs == null) {
+      this._professeurs = new Array<Professeur>();
+    }
+    return this._professeurs;
+  }
+
+  set professeurs(value: Array<Professeur>) {
+    this._professeurs = value;
   }
 
   set modules(modules: Array<Module>){
@@ -279,6 +292,17 @@ export class FiliereService {
       data => {
         this.departements = data;
         console.log(data);
+      }
+    );
+  }
+
+  
+
+  public findByDepartementLibelle(libelle){
+    this.http.get<Array<Professeur>>('http://localhost:8090/exam-api/professeurs/find-by-departement/'+ libelle).subscribe(
+      data => {
+        this._professeurs = data;
+        console.log(data)
       }
     );
   }

@@ -103,11 +103,11 @@ export class ProfesseurService {
       data => {
         if (data === 1) {
           this.professeurs.push(this.cloneProfesseur(this.professeur));
-          this.toastr.success(this.professeur.nom + 'a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.professeur.nom + this.professeur.nom + ' a été ajouté avec succés', 'Ajout réussi!');
           this.professeur = null;
           console.log(this.professeur);
         }else if (data === -1){
-          this.toastr.warning(this.professeur.nom + 'existe déja', 'Attention!');
+          this.toastr.warning(this.professeur.nom + this.professeur.nom + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -164,7 +164,7 @@ export class ProfesseurService {
         }}
     ])
   }
-  public update(id: number, nom: string, prenom: string, mail: string, responsabilite: Responsabilite, departement: Departement){
+  public update(id: number, nom: string, prenom: string, mail: string, responsabilite: string, departement: string){
     this.http.put(this._urlprof + id + '/' + nom + '/' + prenom + '/' + mail + '/' + responsabilite + '/' + departement, this.professeur).subscribe(
       data => {
         if (data > 0) {

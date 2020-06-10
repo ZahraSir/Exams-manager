@@ -159,5 +159,9 @@ export class SallesService {
       }
     );
   }
+
+  public validate(){
+    return this.salle.designation != null && this.salle.capacite > 0 && this.salle.etat != null && this.salle.type !=null;
+  }
 }
 

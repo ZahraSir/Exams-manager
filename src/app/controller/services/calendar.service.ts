@@ -169,4 +169,13 @@ export class CalendarService {
     );
   }
 }*/
+
+public findAllExam() {
+  this.http.get<Array<Exam>>(this._urlexam + 'find-all').subscribe(
+    data => {
+      this.exams = data;
+      console.log(data);
+    }
+  );
+}
 }
