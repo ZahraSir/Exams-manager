@@ -133,6 +133,7 @@ textarea {
 .field-wrap {
   position: relative;
   margin-bottom: 40px;
+  height: 45px;
 }
 
 .top-row:after {

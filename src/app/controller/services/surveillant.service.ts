@@ -77,7 +77,7 @@ export class SurveillantService {
           this.surveillant = null;
           console.log(this.surveillant);
         }else if (data === -1){
-          this.toastr.warning(this.surveillant.nom + 'existe déja', 'Attention!');
+          this.toastr.error(this.surveillant.nom + 'existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);

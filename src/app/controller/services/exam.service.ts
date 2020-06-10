@@ -304,11 +304,11 @@ export class ExamService {
       data => {
         if (data === 1) {
           this.exams.push(this.cloneExam(this.exam));
-          this.toastr.success(this.exam.reference + 'a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.exam.reference + ' a été ajouté avec succés ', 'Ajout réussi!');
           this.exam = null;
           console.log(this.exam);
         }else if (data === -1){
-          this.toastr.warning(this.exam.reference + 'existe déja', 'Attention!');
+          this.toastr.error(this.exam.reference + ' existe déja ', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -456,12 +456,12 @@ export class ExamService {
       data => {
          if (data.length == 0){
           this.display = 1;
-          console.log('display = '+this.display);
+          console.log('display = ' + this.display);
           console.log(data + 'hadi khawya');
          }
          else{
           this.display = -1
-           this.toastr.warning('la salle' + designation + 'nest pas disponible a ce moment', 'Alert!');
+           this.toastr.error(' la salle ' + designation + ' n\'est pas disponible a ce moment', 'Alert!');
            console.log(data + 'hadi 3amra matsvihach');
          }
 
@@ -477,7 +477,7 @@ export class ExamService {
          }
          else{
           this.surve = -1 ;
-           this.toastr.warning('le surveillant' + nom + 'nest pas disponible a ce moment', 'Alert!');
+           this.toastr.error('le surveillant' + nom + ' n\'est pas disponible a ce moment ', 'Alert!');
            console.log(data + 'hadi 3amra matsvihach');
          }
 

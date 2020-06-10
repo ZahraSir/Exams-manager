@@ -76,7 +76,7 @@ export class ResponsabiliteService {
           this.responsabilite = null;
           console.log(this.responsabilite);
         }else if (data === -1){
-          this.toastr.warning(this.responsabilite.libelle + 'existe déja', 'Attention!');
+          this.toastr.error(this.responsabilite.libelle + 'existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);

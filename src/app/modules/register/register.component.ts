@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {AlertService, AuthenticationService, UserService} from '../../controller/services';
+import {ToastrService} from 'ngx-toastr';
 
 
 
@@ -15,11 +16,12 @@ export class RegisterComponent implements OnInit {
     submitted = false;
 
     constructor(
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private authenticationService: AuthenticationService,
-        private userService: UserService,
-        private alertService: AlertService
+       private toastr: ToastrService,
+       private formBuilder: FormBuilder,
+       private router: Router,
+       private authenticationService: AuthenticationService,
+       private userService: UserService,
+       private alertService: AlertService
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -55,11 +57,12 @@ export class RegisterComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.alertService.success('Registration successful', true);
-                    this.router.navigate(['/']);
+                  this.toastr.success( 'inscription réussi');
+                  this.router.navigate(['/']);
                 },
                 error => {
                     this.alertService.error(error);
+                    this.toastr.warning('error', 'Le nom d\'utilisateur est déjà pris!');
                     this.loading = false;
                 });
     }

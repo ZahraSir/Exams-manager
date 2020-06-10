@@ -71,11 +71,11 @@ export class DepartementService {
       data => {
         if (data === 1) {
           this.departements.push(this.cloneDepartement(this.departement));
-          this.toastr.success(this.departement.libelle + 'a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.departement.libelle + ' a été ajouté avec succés', 'Ajout réussi!');
           this.departement = null;
           console.log(this.departement);
         }else if (data === -1){
-          this.toastr.warning(this.departement.libelle + 'existe déja', 'Attention!');
+          this.toastr.error(this.departement.libelle + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {AlertService, AuthenticationService} from '../../controller/services';
+import {ToastrService} from 'ngx-toastr';
 
 
 
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService
+        private alertService: AlertService,private toastr: ToastrService
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
                 },
                 error => {
                     this.alertService.error(error);
+                    this.toastr.error( 'Attention!', 'L\'identifiant ou le mot de passe est incorrect');
                     this.loading = false;
                 });
     }

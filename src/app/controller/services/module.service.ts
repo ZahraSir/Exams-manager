@@ -4,7 +4,7 @@ import {Module} from '../model/module.model';
 import {Semestre} from '../model/semestre';
 import { NiveauSemestre } from '../model/niveau-semestre';
 import {Professeur} from '../model/professeur.model';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class ModuleService {
   private _professeurs: Array<Professeur>;
   private _urlprof = 'http://localhost:8090/exam-api/professeurs/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   get module(): Module{
     if(this._module == null){
@@ -83,9 +83,12 @@ export class ModuleService {
     this.http.post<number>(this._urlModule + 'add-module/', this.module).subscribe(
       data => {
         if (data > 0) {
+          this.toastr.success(this.module.libelle + 'a été ajouté dans la liste', 'Ajout réussi');
           this.modules.push(this.module);
           this.module = null;
           console.log(this.module);
+        }else if (data === -1){
+          this.toastr.error(this.module.libelle  + ' existe déja dans la liste', 'Alerte!');
         }},
       error => {
         console.log(error);

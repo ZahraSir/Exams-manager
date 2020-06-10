@@ -24,11 +24,10 @@ import {RegisterComponent} from './modules/register';
 
 const routes: Routes = [
 
-
+  { path: 'home', component: HomeComponent },
   { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  // otherwise redirect to home
   {path: 'admin', component: AdminComponent,
     children: [
       {path: 'salles', component: SallesComponent},

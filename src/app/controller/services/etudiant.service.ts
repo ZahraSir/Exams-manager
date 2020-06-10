@@ -60,8 +60,8 @@ export class EtudiantService {
           this.etudiants.push(this.etudiant);
           this.etudiant = null;
           console.log(this.etudiant);
-        }else if(data === -1){
-          this.toastr.warning(this.etudiant.cne +' existe déja dans la liste', 'Alerte!');
+        }else if (data === -1){
+          this.toastr.error(this.etudiant.cne + ' existe déja dans la liste', 'Alerte!');
         }
       },
       error => {
