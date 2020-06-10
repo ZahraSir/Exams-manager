@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild, Input, ChangeDetectionStrategy} from '@angular/core';
 import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, DateFormatterParams, DAYS_OF_WEEK} from 'angular-calendar';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
@@ -15,8 +15,13 @@ import {ExamSalle} from '../../../controller/model/exam-salle';
 import {CalendarService} from '../../../controller/services/calendar.service';
 import {Calendar} from '../../../controller/model/calendar';
 import {DatePipe} from '@angular/common';
-
+import {Color} from 'colors';
+import {ColorPicker} from 'primeng';
+import {HttpClient} from '@angular/common/http';
 declare var $: any;
+
+
+
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -27,6 +32,22 @@ const colors: any = {
   yellow: {
     primary: '#e3bc08',
   },
+  green: {
+    primary: '#49A12F',
+  },
+  black: {
+    primary: '#000000',
+  },
+  aqua: {
+    primary: '#28C1EE',
+  },
+  fuchsia: {
+    primary: '#EE28DC',
+  },
+  gray: {
+    primary: '#808080',
+  }
+
 };
 @Component({
   selector: 'app-calendar-list',
@@ -35,7 +56,7 @@ const colors: any = {
   styleUrls: ['./calendar-list.component.css']
 })
 export class CalendarListComponent  implements OnInit{
-  constructor(private calendarService: CalendarService, private modal: NgbModal, private modalService: BsModalService, private examService: ExamService) {}
+  constructor(private calendarService: CalendarService, private modal: NgbModal, private modalService: BsModalService, private examService: ExamService, private _http: HttpClient) {}
   get calendars(): Array<Calendar> {
     return this.calendarService.calendars;
   }
@@ -120,9 +141,9 @@ export class CalendarListComponent  implements OnInit{
   refresh: Subject<any> = new Subject();
   event: CalendarEvent = {
     title: 'New event',
-    start: startOfDay(new Date()),
-    end: endOfDay(new Date()),
-    color: colors.red,
+    start: startOfDay(new Date(this.exam.dateDepart)),
+    end: endOfDay(new Date(this.exam.dateFin)),
+    color: colors,
     draggable: true,
     resizable: {
       beforeStart: true,
@@ -142,19 +163,7 @@ export class CalendarListComponent  implements OnInit{
         afterEnd: true,
       },
       draggable: true
-},
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow
-     /* actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,*/
-    },
+}
   ];
 
   activeDayIsOpen = false;
@@ -171,13 +180,31 @@ export class CalendarListComponent  implements OnInit{
    this.examService.getExamSurveillant();
    this.examService.getExamSalle();
    this.calendarService.findAll();
+  /* this.events = this.http
+      .get('URL')
+      .map(res => {
+          return this.getSessionFromResponse(res.json());
+        }
+      );*/
   }
+ /* getSessionFromResponse(response) {
+    let sessionEvents = [];
+    for (let session of response[0].sessions) {
+      sessionEvents.push({
+        title: session.titre,
+        start: new Date(session.dateEffet),
+        end: new Date(session.dateEffet),
+        color: colors.yellow,
+      });
+    }
+    return sessionEvents;
+  }*/
   public save() {
     this.examService.save();
-    this.event.title = this.exam.module.libelle;
-    this.event.start =   startOfDay(new Date());
-    this.event.end =  endOfDay(new Date()),
-    this.event.color = colors.red;
+    this.event.title = this.exam.reference;
+    this.event.start =   startOfDay(new Date(this.exam.dateDepart));
+    this.event.end =  endOfDay(new Date(this.exam.dateFin));
+    this.event.color = colors.gray;
     this.event.draggable = true;
     this.event.resizable = {
       beforeStart: true,
@@ -263,4 +290,18 @@ export class CalendarListComponent  implements OnInit{
 
  
 
+  get http(): HttpClient {
+    return this._http;
+  }
+
+  set http(value: HttpClient) {
+    this._http = value;
+  }
+  /*  refreshView(): void {
+      this.refresh.next();
+
+   /* byMonth(month: string): Observable<ResponseWrapper> {
+      return this.http.get(`api/points-by-month/${month}`)
+        .map((res: any) => this.convertResponse(res));
+    }*/
 }

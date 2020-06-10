@@ -6,8 +6,12 @@ import {Filiere} from '../model/filiere';
 import {Module} from '../model/module.model';
 import { NiveauSemestre } from '../model/niveau-semestre';
 import { Departement } from '../model/departement.model';
+<<<<<<< HEAD
 import { Professeur } from '../model/professeur.model';
 
+=======
+import { ToastrService } from 'ngx-toastr';
+>>>>>>> 3d0aa29b11fe6dd1d2e94000732399dbb4c9a38a
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +32,7 @@ export class FiliereService {
   private _niveauSemestres: Array<NiveauSemestre>;
   private _professeurs: Array<Professeur>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   get filiere(): Filiere{
     if (this._filiere == null){
@@ -170,6 +174,7 @@ export class FiliereService {
     this.http.post<number>(this._urlFiliere + selectedNiveau + '/save/' , this.filiere).subscribe(
       data => {
         if (data > 0) {
+          this.toastr.success(this.filiere.libelle + 'a  été  ajouté dans la liste', 'Ajout réussi');
           this.filieres.push(this.filiere);
 
           this.filiere = null;
@@ -177,7 +182,7 @@ export class FiliereService {
           console.log(this.filiere);
         }
         else if (data == -1) {
-          this.display = -1;
+          this.toastr.error(this.filiere.libelle + ' existe déja dans la liste', 'Alerte!');
         }
       },
       error => {

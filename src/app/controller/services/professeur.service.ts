@@ -107,7 +107,11 @@ export class ProfesseurService {
           this.professeur = null;
           console.log(this.professeur);
         }else if (data === -1){
+<<<<<<< HEAD
           this.toastr.warning(this.professeur.nom + this.professeur.nom + ' existe déja', 'Attention!');
+=======
+          this.toastr.error(this.professeur.nom + 'existe déja', 'Attention!');
+>>>>>>> 3d0aa29b11fe6dd1d2e94000732399dbb4c9a38a
         }
       }, error => {
         console.log(error);

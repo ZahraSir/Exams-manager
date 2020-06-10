@@ -3,6 +3,8 @@ import {Module} from './module.model';
 import {ExamSalle} from './exam-salle';
 import {ExamSurveillant} from './exam-surveillant';
 import {Filiere} from './filiere';
+import {Color} from 'colors';
+
 
 export class Exam {
   public id: number;

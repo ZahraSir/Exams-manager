@@ -141,7 +141,7 @@ export class PersonnelService {
           this.toastr.success(this.personnel.nom + 'a été ajouté avec succés', 'Ajout réussi!');
           this.personnel = null;
         }else if (data === -1){
-          this.toastr.warning(this.personnel.nom + 'existe déja', 'Attention!');
+          this.toastr.error(this.personnel.nom + 'existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);

@@ -17,7 +17,7 @@ export class SallesService {
   private _urlsalle = 'http://localhost:8090/exam-api/salles/';
   private isPrinting=false;
   private _display: number;
- 
+
 
   get http(): HttpClient {
     return this._http;
@@ -103,7 +103,7 @@ export class SallesService {
         }
         else
         {
-          this.toastr.warning('Vous ne pouvez pas supprimer cette salle, ' + salle.designation + '" est occupée', 'Attention!');
+          this.toastr.error('Vous ne pouvez pas supprimer cette salle, ' + salle.designation + '" est occupée', 'Attention!');
         }
       }
     );

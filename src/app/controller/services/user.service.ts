@@ -1,50 +1,26 @@
-import { Injectable } from '@angular/core';
-import { User } from '../model/user';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import {User} from '../model';
 
-@Injectable({
-  providedIn: 'root'
-})
+
+
+
+
+
+
+@Injectable({ providedIn: 'root' })
 export class UserService {
-private _user: User;
-private login: string;
-private _urlUser: 'http://localhost:8090/exam-api/user/';
+    constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient, private router: Router) { }
-
-  get user(): User {
-    if (this._user == null) {
-      this._user = new User();
+    getAll() {
+        return this.http.get<User[]>(`/users`);
     }
-    return this._user;
-  }
 
-  set user(value: User) {
-    this._user = value;
-  }
+    register(user: User) {
+        return this.http.post(`/users/register`, user);
+    }
 
-  public seConnecter(){
-    this.http.put<number>('http://localhost:8090/exam-api/user/se-connecter', this.user).subscribe(
-      data => {
-        if(data === 1){
-          console.log(this.user)
-          //sessionStorage.setItem(this.user.login, this.login);
-          this.router.navigateByUrl('/admin')
-
-        }
-      }
-    )
-  }
-
-  public isUserLoggedIn () {
-    let user = sessionStorage.getItem (this.user.login)
-    console.log (! (user === null))
-    return! (user === null)
-  }
-
- public logout() {
-    sessionStorage.remo.veItem (this.user.login)
-  }
-
+    delete(id: number) {
+        return this.http.delete(`/users/${id}`);
+    }
 }
