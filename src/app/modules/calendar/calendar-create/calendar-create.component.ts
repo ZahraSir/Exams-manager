@@ -3,7 +3,7 @@ import {Calendar} from '../../../controller/model/calendar';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {DayPilot} from 'daypilot-pro-angular';
+
 
 declare var $: any;
 
@@ -67,7 +67,7 @@ export class CalendarCreateComponent implements OnInit {
     }, 100);
   /*  $('.fc-prev').css('background-color', '#f9c66a');  */
   }
-  getEvents(from: DayPilot.Date, to: DayPilot.Date): Observable<any[]> {
+  /*getEvents(from: DayPilot.Date, to: DayPilot.Date): Observable<any[]> {
 
 
     return new Observable(observer => {
@@ -77,7 +77,7 @@ export class CalendarCreateComponent implements OnInit {
     });
 
     // return this.http.get("/api/events?from=" + from.toString() + "&to=" + to.toString());
-  }
+  }*/
 
   getResources(): Observable<any[]> {
 

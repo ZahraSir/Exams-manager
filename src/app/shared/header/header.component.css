@@ -450,7 +450,6 @@ header {
   }*/
   
   
-  }
   a {
     color:#fff !important;
   }
@@ -476,9 +475,9 @@ header {
     position: fixed;
   }
 .menu {
-  margin-left: -190px;
+  margin-left: -400px;
   position: relative;
-  width: 1300px;
+  width: 1000px;
   height: 50px;
   background-color: #2e3047;
   border-radius: 8px;
@@ -752,7 +751,7 @@ height: 18px !important;
   }
 }
 @media (max-width: 952px) {
-a.active, a:hover {
+  .nav-a.active, .nav-a:hover {
   background: none;
   color: #2e3047 !important;
 }
@@ -760,4 +759,8 @@ a.active, a:hover {
     left:0px !important;
   }
 
+}
+
+.btn-group{
+  margin-right: 90px !important;
 }
