@@ -83,7 +83,7 @@ export class ModuleService {
     this.http.post<number>(this._urlModule + 'add-module/', this.module).subscribe(
       data => {
         if (data > 0) {
-          this.toastr.success(this.module.libelle + 'a été ajouté dans la liste', 'Ajout réussi');
+          this.toastr.success(this.module.libelle + ' a été ajouté dans la liste', 'Ajout réussi');
           this.modules.push(this.module);
           this.module = null;
           console.log(this.module);
@@ -117,7 +117,8 @@ export class ModuleService {
           this.module.semestre.libelle = semestre;
           console.log(this.module)
         }
-      })
+        this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
+      });
   }
 
   public recuperer(module: Module){

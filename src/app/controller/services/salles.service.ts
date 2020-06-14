@@ -99,11 +99,11 @@ export class SallesService {
         if (data > 0){
           console.log('ha data ' + data);
           this.deleteByDesignationFromView(salle);
-          this.toastr.success('La salle a été supprimée avec Succés!');
+          this.toastr.success(' La salle a été supprimée avec Succés!');
         }
         else
         {
-          this.toastr.error('Vous ne pouvez pas supprimer cette salle, ' + salle.designation + '" est occupée', 'Attention!');
+          this.toastr.error(' Vous ne pouvez pas supprimer cette salle, ' + salle.designation + '" est occupée', 'Attention!');
         }
       }
     );
@@ -133,7 +133,7 @@ export class SallesService {
     this.http.post<number>(this._urlsalle + 'imprimer', this.salles).subscribe(
       data => {
         if (data === 1) {
-          this.toastr.success('la liste a été bien télechargé');
+          this.toastr.success(' la liste a été bien télechargé');
         }
       }, error => {
         console.log(error);
@@ -146,6 +146,7 @@ export class SallesService {
         if (data > 0) {
           window.location.reload();
         }
+        this.toastr.success(designation + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
   public vider(){

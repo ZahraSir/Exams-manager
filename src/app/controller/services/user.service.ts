@@ -23,4 +23,8 @@ export class UserService {
     delete(id: number) {
         return this.http.delete(`/users/${id}`);
     }
+    update(id: number ) {
+      return this.http.get<User>('/users');
+    }
 }
+

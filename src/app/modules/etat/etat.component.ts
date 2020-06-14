@@ -5,6 +5,9 @@ import {EtatService} from '../../controller/services/etat.service';
 import {SallesService} from '../../controller/services/salles.service';
 import {Salles} from '../../controller/model/salles';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {User} from '../../controller/model';
+import {AuthenticationService, UserService} from '../../controller/services';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-etat',
@@ -15,12 +18,19 @@ export class EtatComponent implements OnInit {
   modalRef: BsModalRef;
   item: string;
   p = 1;
+  currentUser: User;
+  users = [];
   constructor(private etatService: EtatService,
               private salleService: SallesService,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService, private authenticationService: AuthenticationService, private userService: UserService)
+  { this.currentUser = this.authenticationService.currentUserValue; }
+
+
+
 
   ngOnInit() {
     this.etatService.findAll();
+    this.loadAllUsers();
   }
   get etats(): Array<Etat> {
     return this.etatService.etats;
@@ -31,7 +41,11 @@ export class EtatComponent implements OnInit {
   get salle(): Salles {
     return this.salleService.salle;
   }
-
+  private loadAllUsers() {
+    this.userService.getAll()
+      .pipe(first())
+      .subscribe(users => this.users = users);
+  }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }

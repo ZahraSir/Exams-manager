@@ -231,4 +231,7 @@ export class ExamComponent implements OnInit {
   public findByExam(id : number){
     this.examService.findByExam(id);
   }
+  public deleteExamSallesByDesignationFromView(examSalle: ExamSalle) {
+    this.examService.deleteExamSallesByDesignationFromView(examSalle);
+  }
 }

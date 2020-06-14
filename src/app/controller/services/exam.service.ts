@@ -394,6 +394,7 @@ export class ExamService {
         if (data > 0) {
           console.log('exam ');
         }
+        this.toastr.success(reference + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
 
@@ -550,11 +551,22 @@ export class ExamService {
       }
     );
   }
+  public deleteExamSallesByDesignationFromView(examSalle: ExamSalle) {
+    const index = this.examSalles.findIndex(s => s.salle.designation === examSalle.salle.designation);
+    if (index !== -1) {
+      this.examSalles.splice(index, 1);
+      console.log('non');
+    }
+    this.examSalles.splice(index, 1);
+    console.log('oui');
+  }
   public deleteByDesignationFromView(salle: Salles) {
     const index = this.salles.findIndex(s => s.designation === salle.designation);
     if (index !== -1) {
       this.salles.splice(index, 1);
     }
+    this.salles.splice(index, 1);
+    console.log('oui');
   }
   public deleteExamBySalleDesignation(salle: Salles) {
     this.http.delete<number>(this._urlExSa + 'delete-by-designation/' + salle.designation).subscribe(

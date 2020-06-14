@@ -128,6 +128,7 @@ export class DepartementService {
           window.location.reload();
          
         }
+        this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
   public vider(){

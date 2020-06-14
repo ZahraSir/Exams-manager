@@ -1,6 +1,7 @@
 <!--Liste des surveillant-->
 
-<div style="margin-top: 180px;">
+<div style="margin-top: 180px;margin-left: 100px; width: 1420px;">
+  <div class="respo">
   <div class="card-header" style="background-color: #2e3047; color: #fff;">
     <h4 style="text-align: left;">Liste des Surveillants</h4>
   </div>
@@ -8,7 +9,7 @@
  background-color: #fff;">
     <div class="row">
       <div >
-        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+        <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
       width: 1411px;
@@ -56,7 +57,7 @@
     <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
   </div>
 </div>
-
+  </div>
 
 
 <!--Ajouter surveillant-->
@@ -190,13 +191,4 @@
   </div>
 </div>
 
-<div class="modal fade" bsModal #thirdModal2="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name3" >
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content" id="thirdModal2">
-      <div class="modal-body">
-        le surveillant est editee .
-      </div>
-    </div>
-  </div>
-</div>
 </div>

@@ -56,7 +56,7 @@ export class EtudiantService {
     this.http.post<number>(this._urlEtudiants + 'save/', this.etudiant).subscribe(
       data => {
         if (data > 0) {
-          this.toastr.success(this.etudiant.nom+ 'a été ajouté dans la liste', 'Ajout réussi');
+          this.toastr.success(this.etudiant.nom + ' a été ajouté dans la liste', 'Ajout réussi');
           this.etudiants.push(this.etudiant);
           this.etudiant = null;
           console.log(this.etudiant);
@@ -86,6 +86,7 @@ export class EtudiantService {
         if (data > 0) {
           console.log(this.etudiant);
         }
+        this.toastr.success(nom + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
 
@@ -143,7 +144,7 @@ export class EtudiantService {
       data => {
         console.log(data);
         this.niveauSemestres = data;
-        console.log('fbjd '+ this.niveauSemestres);
+        console.log('fbjd ' + this.niveauSemestres);
 
       }
     );

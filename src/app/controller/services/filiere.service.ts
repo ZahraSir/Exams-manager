@@ -171,7 +171,7 @@ export class FiliereService {
     this.http.post<number>(this._urlFiliere + selectedNiveau + '/save/' , this.filiere).subscribe(
       data => {
         if (data > 0) {
-          this.toastr.success(this.filiere.libelle + 'a  été  ajouté dans la liste', 'Ajout réussi');
+          this.toastr.success(this.filiere.libelle + ' a  été  ajouté dans la liste', 'Ajout réussi');
           this.filieres.push(this.filiere);
 
           this.filiere = null;

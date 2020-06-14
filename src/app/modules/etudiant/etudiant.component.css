@@ -3,9 +3,25 @@
     background-color: #3bba9c;
     border-color: #24C2FF;
   }
-  
+
   .btn-close{
     color: #41403f;
     background-color: #8d8c8a;
     border-color: #636261;
   }
+@media (max-width: 952px) {
+  .respo {
+    width: 552px !important;
+    height: 300px !important;
+    margin-top: 10px !important;
+    margin-left: -170px !important;
+  }
+  #cherche {
+    width: 542px !important;
+    height: 15px;
+  }
+  .btn-info {
+    width: 220px !important;
+    height: 40px !important;
+  }
+}

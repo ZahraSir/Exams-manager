@@ -34,6 +34,7 @@
     "colors": "^1.4.0",
     "date-fns": "^2.14.0",
     "file-saver": "^2.0.2",
+    "daypilot-pro-angular": "https://npm.daypilot.org/daypilot-pro-angular/trial/2020.2.4481.tar.gz",
     "flatpickr": "^4.6.3",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.10.2",

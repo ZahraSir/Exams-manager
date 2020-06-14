@@ -173,10 +173,11 @@ export class ProfesseurService {
           console.log('la professeur ' + responsabilite );
           console.log('la professeur ' + mail);
         }
+        this.toastr.success(nom + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
   public getDepartement() {
-    this.http.get<Array<Departement>>(this._urldepart+ 'find-all').subscribe(
+    this.http.get<Array<Departement>>(this._urldepart + 'find-all').subscribe(
       data => {
         this._departements = data;
       }

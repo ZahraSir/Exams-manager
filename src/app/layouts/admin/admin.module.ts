@@ -30,16 +30,15 @@ import {CalendarCreateComponent} from '../../modules/calendar/calendar-create/ca
 import {CalendarListComponent} from '../../modules/calendar/calendar-list/calendar-list.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
-import { FullCalendarModule } from '@fullcalendar/angular'; 
-import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {PersonnelComponent} from '../../modules/personnel/personnel.component';
 import { ToastrModule } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
 import { SessionComponent } from 'src/app/modules/session/session.component';
 import { ProfilComponent } from 'src/app/modules/profil/profil.component';
+import {FullCalendarModule} from 'ng-fullcalendar';
+
 
 
 
@@ -96,8 +95,6 @@ import { ProfilComponent } from 'src/app/modules/profil/profil.component';
       useFactory: adapterFactory,
     }),*/
     FullCalendarModule
-
-
-  ]
+    ]
 })
 export class AdminModule { }
