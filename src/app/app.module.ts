@@ -15,8 +15,6 @@ import {LoginComponent} from './modules/login';
 import {RegisterComponent} from './modules/register';
 import {AlertComponent} from './modules/_components';
 import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from './modules/_helpers';
-import { ChangeComponent } from './modules/change/change.component';
-import { ResetComponent } from './modules/reset/reset.component';
 
 registerLocaleData(localeFr);
 
