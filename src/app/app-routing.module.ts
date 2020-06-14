@@ -17,6 +17,7 @@ import {PersonnelComponent} from './modules/personnel/personnel.component';
 import {HomeComponent} from './modules/home';
 import {LoginComponent} from './modules/login';
 import {RegisterComponent} from './modules/register';
+import {AuthGuard} from './modules/_helpers';
 
 
 
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  {path: 'admin', component: AdminComponent,
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard],
     children: [
       {path: 'salles', component: SallesComponent},
       {path: 'departements', component: DepartementComponent},

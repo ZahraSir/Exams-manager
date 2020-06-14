@@ -103,11 +103,11 @@ export class ProfesseurService {
       data => {
         if (data === 1) {
           this.professeurs.push(this.cloneProfesseur(this.professeur));
-          this.toastr.success(this.professeur.nom + 'a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.professeur.nom + ' a été ajouté avec succés', 'Ajout réussi!');
           this.professeur = null;
           console.log(this.professeur);
         }else if (data === -1){
-          this.toastr.error(this.professeur.nom + 'existe déja', 'Attention!');
+          this.toastr.error(this.professeur.nom + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -173,10 +173,11 @@ export class ProfesseurService {
           console.log('la professeur ' + responsabilite );
           console.log('la professeur ' + mail);
         }
+        this.toastr.success(nom + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
   public getDepartement() {
-    this.http.get<Array<Departement>>(this._urldepart+ 'find-all').subscribe(
+    this.http.get<Array<Departement>>(this._urldepart + 'find-all').subscribe(
       data => {
         this._departements = data;
       }

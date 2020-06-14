@@ -83,7 +83,7 @@ export class ModuleService {
     this.http.post<number>(this._urlModule + 'add-module/', this.module).subscribe(
       data => {
         if (data > 0) {
-          this.toastr.success(this.module.libelle + 'a été ajouté dans la liste', 'Ajout réussi');
+          this.toastr.success(this.module.libelle + ' a été ajouté dans la liste', 'Ajout réussi');
           this.modules.push(this.module);
           this.module = null;
           console.log(this.module);
@@ -109,11 +109,12 @@ export class ModuleService {
 
   public update(id: number, libelle: string, semestre: string, professeur: Professeur){
     this.http.put(this._urlModule + id + '/' + libelle + '/' + semestre + '/' + professeur , this.module).subscribe(
-      data =>{
-        if(data >0) {
-          console.log(this.module)
+      data => {
+        if (data > 0) {
+          console.log(this.module);
         }
-      })
+        this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
+      });
   }
 
   public recuperer(module: Module){

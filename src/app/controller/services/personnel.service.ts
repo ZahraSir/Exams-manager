@@ -138,10 +138,10 @@ export class PersonnelService {
       data => {
         if (data === 1) {
           this.personnels.push(this.clonePersonnel(this.personnel));
-          this.toastr.success(this.personnel.nom + 'a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.personnel.nom + ' a été ajouté avec succés', 'Ajout réussi!');
           this.personnel = null;
         }else if (data === -1){
-          this.toastr.error(this.personnel.nom + 'existe déja', 'Attention!');
+          this.toastr.error(this.personnel.nom + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -153,6 +153,7 @@ export class PersonnelService {
     myClone.nom = personnel.nom;
     myClone.prenom = personnel.prenom;
     myClone.mail = personnel.mail;
+    myClone.fonction = personnel.fonction;
 
 
     return myClone;
@@ -189,23 +190,26 @@ export class PersonnelService {
       }
     );
   }
-  public update(id: number, nom: string, prenom: string, mail: string){
-    this.http.put(this._urlperso + id + '/' + nom + '/' + prenom + '/' + mail , this.personnel).subscribe(
+  public update(id: number, nom: string, prenom: string, mail: string, fonction: string){
+    this.http.put(this._urlperso + id + '/' + nom + '/' + prenom + '/' + mail + '/' + fonction, this.personnel).subscribe(
       data => {
         if (data > 0) {
           console.log('la personnel ');
         }
+        this.toastr.success(nom + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
 
   public recuperer(personnel: Personnel, id: number) {
     console.log(personnel);
-    this.professeur.id = personnel.id
-    this.professeur.nom = personnel.nom;
-    this.professeur.prenom = personnel.prenom;
-    this.professeur.mail = personnel.mail;
+    this.personnel.id = personnel.id
+    this.personnel.nom = personnel.nom;
+    this.personnel.prenom = personnel.prenom;
+    this.personnel.mail = personnel.mail;
+    this.personnel.fonction = personnel.fonction;
 
     console.log(this.personnel.nom);
 
   }
+
 }

@@ -72,11 +72,11 @@ export class ResponsabiliteService {
       data => {
         if (data === 1) {
           this.responsabilites.push(this.cloneResponsabilite(this.responsabilite));
-          this.toastr.success(this.responsabilite.libelle + 'a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.responsabilite.libelle + ' a été ajouté avec succés', 'Ajout réussi!');
           this.responsabilite = null;
           console.log(this.responsabilite);
         }else if (data === -1){
-          this.toastr.error(this.responsabilite.libelle + 'existe déja', 'Attention!');
+          this.toastr.error(this.responsabilite.libelle + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -128,6 +128,7 @@ export class ResponsabiliteService {
         if (data > 0) {
           console.log('le responsabilite est modifie ');
         }
+        this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
   public vider(){

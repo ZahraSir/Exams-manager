@@ -1,0 +1,38 @@
+#calendar .fc-widget-header{
+  background-color: black !important;
+}
+#calendar .fc-next .fc-prev, .fc-right .fc-next-button{
+  background-color: red !important;
+  background-image: none;
+}
+#calendar  .fc-header-title  {
+  color: #0F0;
+}
+.fc-day-number {
+  font-size: 1.5em;
+  color: #5c005c;
+}
+
+/* override day title color and size */
+#calendar .fc-day-header {
+  font-size: 1.5em;
+  color: #00b294;
+}
+/* override day number color and size */
+.fc-day-number {
+  font-size: 1.5em;
+  color: #5c005c;
+}
+
+/* override day title color and size */
+.fc-day-header {
+  font-size: 1.5em;
+  color: #00b294;
+}
+#calendar {
+  margin: 0 auto;
+  width: 900px;
+  background-color: #FFFFFF;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px #C3C3C3;
+}

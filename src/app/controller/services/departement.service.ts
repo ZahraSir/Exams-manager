@@ -127,6 +127,7 @@ export class DepartementService {
         if (data > 0) {
           console.log('le departement est modifie ');
         }
+        this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
   public vider(){

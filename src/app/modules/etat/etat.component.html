@@ -1,4 +1,5 @@
-<div style="margin-top: 180px;margin-left: -90px; width: 1420px;">
+<div style="margin-top: 180px;margin-left: 100px; width: 1420px;">
+  <div class="respo">
   <div class="card-header" style="background-color: #2e3047; color: #fff;">
     <h4 style="text-align: left;">Liste d'Etats</h4>
   </div>
@@ -6,7 +7,7 @@
  background-color: #fff;">
     <div class="row">
       <div >
-        <input  type = " text " class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+        <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
       width: 1411px;
@@ -24,6 +25,7 @@
       <th>Type</th>
       <th>Action</th>
       <th>DateAction</th>
+      <th>Username</th>
       </thead>
       <tbody>
       <tr *ngFor="let s of etats|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
@@ -31,6 +33,7 @@
         <td>{{s.type}}</td>
         <td>{{s.action}}</td>
         <td>{{s.dateAction}}</td>
+        <td>{{currentUser.firstName}}</td>
       </tr>
 
       </tbody>
@@ -42,4 +45,5 @@
 </div>
 </div>
 
+</div>
 </div>

@@ -30,13 +30,14 @@ import {CalendarCreateComponent} from '../../modules/calendar/calendar-create/ca
 import {CalendarListComponent} from '../../modules/calendar/calendar-list/calendar-list.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
-import {FullCalendarModule} from 'ng-fullcalendar';
+
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {PersonnelComponent} from '../../modules/personnel/personnel.component';
 import { ToastrModule } from 'ngx-toastr';
+import {FullCalendarModule} from 'ng-fullcalendar';
 
 
 
@@ -58,7 +59,7 @@ import { ToastrModule } from 'ngx-toastr';
     ModuleCreateComponent,
     CalendarCreateComponent,
     CalendarListComponent,
-    PersonnelComponent,
+    PersonnelComponent
 
   ],
   imports: [
@@ -84,7 +85,7 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
-      useFactory: adapterFactory,
+      useFactory: adapterFactory
     }),
 
   ]

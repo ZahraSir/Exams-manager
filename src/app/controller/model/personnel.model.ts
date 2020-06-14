@@ -6,5 +6,6 @@ export class Personnel {
   public nom: string;
   public prenom: string;
   public  mail: string;
+  public fonction: string;
 
 }

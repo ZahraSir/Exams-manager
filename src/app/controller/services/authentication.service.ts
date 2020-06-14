@@ -30,6 +30,14 @@ export class AuthenticationService {
                 return user;
             }));
     }
+    changePassword(username, password, npassword) {
+      return this.http.post<any>('/users/authenticate', {username, password, npassword})
+        .pipe(map( user => {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          return user;
+        }));
+    }
 
     logout() {
         // remove user from local storage and set current user to null

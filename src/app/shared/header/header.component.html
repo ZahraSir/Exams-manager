@@ -4,7 +4,8 @@
   <div id="content-wrapper" class="d-flex-column">
     <div id="content">
       <nav class="navbar navbar-light navbar-expand shadow mb-4 topbar static-top">
-        <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0 ">
+        <input type="checkbox" id="check">
+        <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0 " style="margin-left: 210px !important;">
           <div class="sidebar-brand-icon rotate-n-15">
             <i class="fa fa-calendar-check-o header"></i>
           </div>
@@ -12,11 +13,26 @@
             <h4>Gestion des examens</h4>
           </div>
         </a>
-        <div>
+        <div class="menu">
+          <a routerLink= "/admin/salles" routerLinkActive="active" class="nav-item">Salles</a>
+          <a routerLink= "/admin/departements" routerLinkActive="active" class="nav-item">Departement</a>
+          <a  routerLink= "/admin/responsabilites"  routerLinkActive="active" class="nav-item">Responsabilite</a>
+          <a  routerLink= "/admin/personnels"  routerLinkActive="active" class="nav-item">Personnel</a>
+          <a routerLink= "/admin/professeurs"  routerLinkActive="active" class="nav-item">Professeur</a>
+          <a routerLink= "/admin/surveillants"  routerLinkActive="active" class="nav-item">Surveillant</a>
+          <a routerLink= "/admin/etudiants"  routerLinkActive="active" class="nav-item">Etudiant</a>
+          <a routerLink= "/admin/modules"  routerLinkActive="active" class="nav-item">Module</a>
+          <a routerLink= "/admin/fillieres"  routerLinkActive="active" class="nav-item">Filiere</a>
+          <a routerLink= "/admin/exams"  routerLinkActive="active" class="nav-item">Exam</a>
+          <a routerLink= "/admin/calendars"  routerLinkActive="active" class="nav-item">Calendrier</a>
+          <a routerLink= "/admin/etat"  routerLinkActive="active" class="nav-item">Etat</a>
+          <div class="animation start-home"></div>
+        </div>
+        <div class="boutton">
           <button class="btn btn-primary btn-connecte" type="button" style="
             margin-left: -134px;" (click)="logout()" >Se Déconnecter</button>
         </div>
-
+        <label for="check" class="checkbtn"><i class="fa fa-bars" style="font-size: 20px !important; color: #E7E9F0 !important; transform: none !important;"></i></label>
       </nav>
     </div>
   </div>

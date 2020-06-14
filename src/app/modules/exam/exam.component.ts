@@ -209,4 +209,7 @@ export class ExamComponent implements OnInit {
    this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
    this.exam.dateFin = this.dateFin;
   }
+  public deleteExamSallesByDesignationFromView(examSalle: ExamSalle) {
+    this.examService.deleteExamSallesByDesignationFromView(examSalle);
+  }
 }

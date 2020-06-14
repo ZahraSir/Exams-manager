@@ -73,11 +73,11 @@ export class SurveillantService {
       data => {
         if (data === 1) {
           this.surveillants.push(this.cloneSurveillant(this.surveillant));
-          this.toastr.success(this.surveillant.nom + 'a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.surveillant.nom + ' a été ajouté avec succés', 'Ajout réussi!');
           this.surveillant = null;
           console.log(this.surveillant);
         }else if (data === -1){
-          this.toastr.error(this.surveillant.nom + 'existe déja', 'Attention!');
+          this.toastr.error(this.surveillant.nom + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -135,10 +135,11 @@ export class SurveillantService {
         if (data > 0) {
           console.log('la surveillant ');
         }
+        this.toastr.success(nom + ' a été modifié avec succés', 'Modification réussi!');
       });
   }
   public vider(){
-    this.surveillant= null;
+    this.surveillant = null;
   }
 }
 

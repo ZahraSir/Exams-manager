@@ -1,15 +1,10 @@
-﻿
+<!--
 <div class="form">
-
-  <ul class="tab-group">
-    <li class="tab active"><a href="#signup">S'identifier</a></li>
-    <li class="tab"><a routerLink="/register" >S'inscrire</a></li>
-  </ul>
 
   <div class="tab-content">
     <div id="signup">
       <h1>Gestion des examens</h1>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm" (ngSubmit)="changePassword()">
         <div class="field-wrap">
           <div class="form-group">
 
@@ -23,9 +18,17 @@
 
         <div class="field-wrap">
           <div class="form-group">
+            <input class="input" type="password" formControlName="password" placeholder="Mot de passe actuel *"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">champs obligatoire</div>
+            </div>
+          </div>
+          <p>vous avez oublie votre mot de passe</p>
+        </div>
 
-
-            <input class="input" type="password" formControlName="password" placeholder="Mot de passe *"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div class="field-wrap">
+          <div class="form-group">
+            <input class="input" type="password" formControlName="password" placeholder="Nouveau Mot de passe *"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
               <div *ngIf="f.password.errors.required">champs obligatoire</div>
             </div>
@@ -35,7 +38,7 @@
         <div class="form-group">
           <button type="submit" [disabled]="loading" class="button button-block">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-           Se connecter
+            Se connecter
           </button>
         </div>
       </form>
@@ -46,3 +49,4 @@
   </div>
 
 </div>
+-->

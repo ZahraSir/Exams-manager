@@ -55,8 +55,8 @@ export class PersonnelComponent implements OnInit {
   decline(): void {
     this.modalRef.hide();
   }
-  public update(id: number, nom: string, prenom: string, mail: string){
-    this.personnelService.update(id, nom, prenom, mail);
+  public update(id: number, nom: string, prenom: string, mail: string, fonction: string){
+    this.personnelService.update(id, nom, prenom, mail, fonction);
   }
   public recuperer(personnel: Personnel, id: number) {
     this.personnelService.recuperer(personnel, id);
