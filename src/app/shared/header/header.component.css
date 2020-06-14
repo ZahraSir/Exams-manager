@@ -519,15 +519,13 @@ header {
     }
   }
 
-
+/*
   .dropdown-toggle {
-    padding:0 !important;
     margin-top: 38px;
     margin-right: -60px;
-  }
-  a {
-    color:#15173F !important;
-  }
+  }*/
+  
+  
 
    .sidebar-brand-icon i {
     font-size: 2rem;

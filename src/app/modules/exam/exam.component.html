@@ -21,31 +21,24 @@ background-color: #fff;">
     <div class="table-responsive">
   <table class="table table-bordered" style="text-align: center;" >
     <thead>
-    <th>R&eacute;f&eacute;rence</th>
-    <th>Filière</th>
     <th>Module</th>
+    <th>Filière</th>
     <th>Date</th>
     <th>Heure départ</th>
     <th>Heure fin</th>
     <th>Professeur</th>
-    <th>Surveillants</th>
-    <th>Salles</th>
+    <th>Salles & Surveillants</th>
     <th>Actions</th>
     </thead>
     <tbody>
     <tr *ngFor="let e of exams|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
-      <td>{{e.reference}}</td>
-      <td>{{e.filiere.libelle}}</td>
       <td >{{e.module.libelle}}</td>
+      <td>{{e.filiere.libelle}}</td>
       <td>{{e.dateDepart | date: 'dd-MM-yyyy'}}</td>
       <td>{{e.dateDepart | date: 'HH:mm'}}</td>
       <td>{{e.dateFin | date: 'HH:mm'}}</td>
       <td>{{e.prof.nom}}</td>
-      <td> <button class="btn btn-success btn-sm " style="margin-left: 5px;"  (click)=" ModalSurveillant.show();recuperer(e, e.id);findSurveillantByExamReference(exam);">Liste Surve</button></td>
-      <td> <button class="btn btn-success btn-sm " style="margin-left: 5px;"  (click)=" ModalSalle.show();recuperer(e, e.id);findSalleByExamReference(exam);">Liste Salle</button></td>
-   <td *ngFor="let examSurveillant of e.examSurveillants ">{{examSurveillant.surveillant.nom}}</td>
-      <td *ngFor="let examSalle of e.examSalles">{{examSalle.salle.designation}}</td>
-
+      <td> <button class="btn btn-success btn-sm " style="margin-left: 5px;"  (click)=" ModalSalle.show();findByExam(e.id)">Liste Salle</button></td>
       <td>
         <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
         <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findSalleByExamReference(exam); findSurveillantByExamReference(exam);"></button>
@@ -178,13 +171,113 @@ background-color: #fff;">
               'is-invalid' : !prof?.valid && prof?.touched,
                 'is-valid' : prof?.valid && prof?.touched}">
             <option [ngValue]="exam.prof"> {{exam.prof.nom}}</option>
-            <!--<option *ngFor="let prof of professeurs" [ngValue]="prof">{{prof.nom}}</option>-->
           </select>
           <small *ngIf="prof?.errors?.required && prof?.touched" class="form-text text-danger">champs obligatoire</small>
         </div>
           </div>
     </div>
-    <div class="row">
+    <div class="card">
+<div class="card-header" style="color: black;">Affectation des salles et des surveillants</div>
+<div class="card-body">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+      <label style="color: black;">Salle/Amphi:</label>
+      <select class=" input-large form-control" name="salle" id="salle"  (change)="recupererSalle($event.target.value);findExamSalle($event.target.value, exam.dateDepart, exam.dateFin);" [(ngModel)]="examSalle.salle.designation"
+                ngModel
+                required
+                #salle="ngModel"
+                [ngClass]="{'form-control' : true,
+          'is-invalid' : !salle?.valid && salle?.touched,
+            'is-valid' : salle?.valid && salle?.touched}" >
+
+          <option *ngFor="let s of salles" [value]="s.designation" >{{s.designation}}</option>
+        </select>
+        <small *ngIf="salle?.errors?.required && salle?.touched" class="form-text text-danger">champs obligatoire</small>
+    </div>
+    </div>
+    <div class="col-md-5">
+      <div class="form-group">
+        <label style="color: black;">Surveillants:</label>
+        <select class=" input-large form-control" name="surveillant" id="surveillant" (change)="recupererPerso($event.target.value); "
+        ngModel
+        required
+        #surveillant="ngModel"
+        [ngClass]="{'form-control' : true,
+  'is-invalid' : !surveillant?.valid && surveillant?.touched,
+    'is-valid' : surveillant?.valid && surveillant?.touched}" >
+
+  <option *ngFor="let surve of personnels" [value]="surve.nom">{{surve.nom}}</option>
+</select>
+<small *ngIf="surveillant?.errors?.required && surveillant?.touched" class="form-text text-danger">champs obligatoire</small>
+
+      </div>
+    </div>
+    
+    <div class="col-md-2">
+      <br>
+      <div class="form-group" style="margin-top: 10px;">
+              <button class="btn btn-block" type="button" [disabled]="!validate()" (click)="addSurve(perso)" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
+      </div>
+      </div>
+  </div>
+  
+    <div class="card">
+      <div class="card-header">La liste des surveillants</div>
+      <div class="card-body">
+    <div class="table-rasponsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Mail</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor= "let surveillant of examSalle.surveillants">
+            <td>{{surveillant.nom}}</td>
+            <td>{{surveillant.prenom}}</td>
+            <td>{{surveillant.mail}}</td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+  <div class="form-group">
+    <button class="btn btn-block" type="button" (click)="addExamSalle()"  style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header">La liste des Affectations</div>
+  <div class="card-body">
+<div class="table-responsive">
+  <table class="table table-bordered">
+   
+      <thead>
+        <tr>
+          <th>Salle</th>
+          <th>Surveillants</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor= "let examSalle of exam.examSalles">
+          <td>{{examSalle.salle.designation}}</td>
+          <td ><span *ngFor= "let surveillant of examSalle.surveillants">{{surveillant.nom}} {{surveillant.prenom}} <br></span> </td>
+          </tr>
+        </tbody>
+    
+  </table>
+</div>
+  </div>
+</div>
+  <!--  <div class="row">
       <div class="col-md-12"> <label for="salle" style="color: black;" >Salles ou Amphis</label>
       </div>
     </div>
@@ -212,9 +305,9 @@ background-color: #fff;">
         <button class="btn btn-block" type="button" [disabled]="!validate()" (click)="addSalle(sal)" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
       </div>
 </div>
-</div>
+</div>-->
 <!-- debut liste d'ajout des salles-->
-<div class="row">
+<!--<div class="row">
 <div class="col-md-12">
 
     <div class="card">
@@ -294,9 +387,9 @@ background-color: #fff;">
   </div>
   </div>
   </div>
-  <div class="row">
+  <div class="row">-->
     <!-- debut liste d'ajout des surveillants-->
-    <div class="col-md-12">
+   <!-- <div class="col-md-12">
             <div class="card">
               <div class="card-body">
                 <div class="card-header"><h6>La liste des Surveillants</h6></div>
@@ -335,7 +428,7 @@ background-color: #fff;">
       </div>
     </div>
    
-
+-->
 <!--
 <div class="row">
   <div class="col-md-12">
@@ -721,17 +814,14 @@ background-color: #fff;">
                 <table class="table table-bordered" style="text-align: center;">
                   <thead>
                   <tr>
-                    <th>Designation</th>
-                    <th>Capacite</th>
-                    <th>Etat</th>
+                    <th>Salle</th>
+                    <th>Surveillants</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor= "let sal of exam.examSalles">
-                    <td>{{sal.salle.designation}}</td>
-                    <td>{{sal.salle.capacite}}</td>
-                    <td>{{sal.salle.etat}}</td>
-
+                  <tr *ngFor= "let surveillant of examSalle.surveillants">
+                    <td>{{surveillant.examSalle.salle.designation}}</td>
+                    <td>{{surveillant.nom}} {{surveillant.prenom}} </td>
                   </tr>
                   </tbody>
                 </table>

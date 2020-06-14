@@ -118,6 +118,7 @@ export class ExamComponent implements OnInit {
   public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
     this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
   }
+  
  public addSurveillant(surveillant: Surveillant){
     this.examService.addSurveillant(surveillant);
   }
@@ -202,10 +203,8 @@ export class ExamComponent implements OnInit {
     this.examService.deleteExamBySurveillantId(surveillant);
   }
   public ajouter(value){
-    console.log(value);
-    this.dateDebut = new Date(value);
+   this.dateDebut = new Date(value);
    this.dateDebut.setHours(this.dateDebut.getHours() + 2);
-   console.log(this.dateDebut);
    this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
    this.exam.dateFin = this.dateFin;
   
@@ -214,17 +213,22 @@ export class ExamComponent implements OnInit {
     return this.examService.examSa;
   }
 
-  public addExamSalle(personnel: Personnel){
-    const surveillant = new Surveillant();
-    surveillant.mail = personnel.mail;
-    surveillant.nom = personnel.nom;
-    surveillant.prenom = personnel.prenom;
-    surveillant.examSalle.salle = this.examSalle.salle;
-    console.log(surveillant)
-    this.examService.addExamSalle(surveillant);
+  public addExamSalle(){
+    console.log(this.examSalle);
+    this.examService.addExamSalle(this.examSalle);
+    
   }
   
   get surveillant(): Surveillant {
     return this.examService.surveillant;
+  }
+
+  public addSurve(surve: Personnel){
+    console.log(surve)
+    this.examService.addSurve(surve);
+  }
+
+  public findByExam(id : number){
+    this.examService.findByExam(id);
   }
 }

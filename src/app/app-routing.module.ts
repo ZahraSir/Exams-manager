@@ -17,6 +17,10 @@ import {PersonnelComponent} from './modules/personnel/personnel.component';
 import {HomeComponent} from './modules/home';
 import {LoginComponent} from './modules/login';
 import {RegisterComponent} from './modules/register';
+import { AuthGuard } from './modules/_helpers/auth.guard';
+import { SessionComponent } from './modules/session/session.component';
+import { ProfilComponent } from './modules/profil/profil.component';
+
 
 
 
@@ -28,7 +32,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  {path: 'admin', component: AdminComponent,
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard],
     children: [
       {path: 'salles', component: SallesComponent},
       {path: 'departements', component: DepartementComponent},
@@ -41,7 +45,9 @@ const routes: Routes = [
       {path: 'fillieres', component: FiliereComponent},
       {path: 'calendars', component: CalendarComponent},
       {path: 'etudiants', component: EtudiantComponent},
-      {path: 'personnels', component: PersonnelComponent}
+      {path: 'personnels', component: PersonnelComponent},
+      {path: 'sessions', component: SessionComponent},
+      {path: 'profil', component: ProfilComponent}
     ]},
   {path: 'print', component: PrintComponent}
 ];

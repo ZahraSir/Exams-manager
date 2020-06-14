@@ -11,6 +11,7 @@ import {ExamSurveillant} from '../model/exam-surveillant';
 import {Filiere} from '../model/filiere';
 import {Personnel} from '../model/personnel.model';
 import {ToastrService} from 'ngx-toastr';
+import * as moment from 'moment';
 
 
 @Injectable({
@@ -50,6 +51,7 @@ export class ExamService {
   private _filieres: Array<Filiere>;
   public display : number;
   public surve : number;
+  public examS = new ExamSalle();
   
 
   get http(): HttpClient {
@@ -319,16 +321,12 @@ export class ExamService {
   public findAll() {
     this.http.get<Array<Exam>>(this._urlexam + 'find-all').subscribe(
       data => {
-        this.exams = data;
-        console.log(data);
+        this._exams = data;
+  
       }
     );
   }
   public save() {
-    this.examSa.push(this.examSalle)
-    console.log('hvbcdjh'+this.examSa);
-   this.exam.examSalles = this.examSa;
-    console.log('haa lien ' + this._urlsalle);
     console.log('haa salle ' + this.exam);
     this.http.post<number>(this._urlexam + 'save', this.exam).subscribe(
       data => {
@@ -386,7 +384,7 @@ export class ExamService {
     this.exam.examSurveillants = exam.examSurveillants;
     this.exam.module.libelle = exam.module.libelle;
     this.exam.filiere.libelle = exam.module.libelle;
-    console.log(this.exam.reference);
+    console.log(this.exam.examSalles); 
 
   }
 
@@ -450,10 +448,7 @@ export class ExamService {
   public findByPersonnelNom(personnel) {
     this.http.get<Personnel>(this._urlperso + 'find-by-nom/' + personnel).subscribe(
       data => {
-        this.perso = data;
-        //this.examSalle.surveillants.push(this.cloneSurveillant(this.perso));
-        //this.exam.examSalles.push(this.examSalle)
-        console.log(this.examSalle) 
+        this.perso = data; 
       }
     );
   }
@@ -469,12 +464,8 @@ export class ExamService {
     this.http.get<Salles>(this._urlsalle + 'find-by-designation/' + sal).subscribe(
       data => {
         this.sal = data;
-        this.examSalle.salle.designation = this.sal.designation;
-        this.surveillant.examSalle.salle.capacite = this.sal.capacite;
-        this.surveillant.examSalle.salle.type = this.sal.type;
-        this.surveillant.examSalle.salle.etat = this.sal.etat;
-        console.log('hahowa'+this.examSalle.salle.designation);
-        console.log(data);
+        this.examSalle.salle = data;
+        console.log(this.examSalle)
       }
     );
   }
@@ -482,9 +473,20 @@ export class ExamService {
     this.http.get<Array<ExamSalle>>(this._urlExSa + 'exam/find-by-reference/' + exam.reference).subscribe(
       data => {
         this.exam.examSalles = data;
-        console.log(data + 'hani');
+        console.log(this.exam.examSalles)
       }
     );
+    return this.exam.examSalles;
+  }
+
+  public findBySalleDesignationDatedepartDateFin(designation: string, dateDepart: string, dateFin: string){
+    this.http.get<Array<Surveillant>>( 'http://localhost:8090/exam-api/surveillants/' + designation + '/' + moment(dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/' + moment(dateFin).format("YYYY-MM-DD[T]HH:mm")).subscribe(
+      data => {
+         this.examS.surveillants = data;
+      }
+    );
+    console.log(this.examS.surveillants)
+    
   }
   public findSurveillantByExamReference(exam: Exam){
     this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'exam/find-by-reference/' + exam.reference).subscribe(
@@ -595,23 +597,43 @@ export class ExamService {
     this.exam = null;
   }
 
-  public addExamSalle(surveillant: Surveillant){
-    console.log(surveillant);
-    this.examSalle.surveillants.push(this.cloneSurve(this.perso));
-    this.exam.examSalles.push(this.examSalle)
-    //this.surveillants.push(this.cloneSurve(surveillant));
+  public addExamSalle(examSalle: ExamSalle){
+    this.exam.examSalles.push(this.cloneExamSalle(this.examSalle));
+    this.examSalle = null;
+  }
+  public cloneExamSalle(examSalle: ExamSalle){
+    const examSalleClone = new ExamSalle();
+    examSalleClone.salle.designation = examSalle.salle.designation;
+    examSalleClone.surveillants = examSalle.surveillants;
+    return examSalleClone;
   }
   public cloneSurve(surveillant){
-    console.log('hahowa'+surveillant)
     const SurveillantClone = new Surveillant();
     SurveillantClone.nom= surveillant.nom;
     SurveillantClone.prenom= surveillant.prenom;
     SurveillantClone.mail= surveillant.mail;
     SurveillantClone.examSalle.salle.designation = this.examSalle.salle.designation;
-    console.log('hada clone'+SurveillantClone)
     return SurveillantClone;
   }
+  public addSurve(surve: Personnel){
+    const surveillant = new Surveillant();
+    surveillant.nom = surve.nom;
+    surveillant.prenom = surve.prenom;
+    surveillant.mail = surve.mail;
+    this.examSalle.surveillants.push(surveillant);
+  }
 
+  public findByExam(id: number){
+    this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/find-by-exam/' + id).subscribe(
+      data => {
+        this.examSalle.surveillants = data;
+        for(let surveillant of this.examSalle.surveillants){
+          console.log(surveillant.examSalle.salle.designation)
+        }
+        
+      }
+    );
+  }
 
 }
 

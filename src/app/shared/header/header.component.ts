@@ -3,7 +3,7 @@ import {MenuItem} from 'primeng/api';
 
 import {Router} from '@angular/router';
 import {User} from '../../controller/model';
-import {AuthenticationService} from '../../controller/services';
+import {AuthenticationService, UserService} from '../../controller/services';
 
 @Component({
   selector: 'app-header',
@@ -16,9 +16,11 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
   ) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.currentUser = this.authenticationService.currentUserValue;
   }
 
   logout() {

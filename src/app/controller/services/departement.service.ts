@@ -125,7 +125,8 @@ export class DepartementService {
     this.http.put(this._urldepart + id + '/' + libelle , this.departement).subscribe(
       data => {
         if (data > 0) {
-          console.log('le departement est modifie ');
+          window.location.reload();
+         
         }
       });
   }

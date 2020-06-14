@@ -8,7 +8,7 @@ import { SallesComponent } from 'src/app/modules/salles/salles.component';
 import { DepartementComponent } from 'src/app/modules/departement/departement.component';
 import { HttpClientModule } from '@angular/common/http';
 import {ModalModule} from 'ngx-bootstrap/modal';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {ProfesseurComponent} from '../../modules/professeur/professeur.component';
@@ -30,14 +30,16 @@ import {CalendarCreateComponent} from '../../modules/calendar/calendar-create/ca
 import {CalendarListComponent} from '../../modules/calendar/calendar-list/calendar-list.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
-import {FullCalendarModule} from 'ng-fullcalendar';
+import { FullCalendarModule } from '@fullcalendar/angular'; 
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {PersonnelComponent} from '../../modules/personnel/personnel.component';
 import { ToastrModule } from 'ngx-toastr';
-
+import { TableModule } from 'primeng/table';
+import { SessionComponent } from 'src/app/modules/session/session.component';
+import { ProfilComponent } from 'src/app/modules/profil/profil.component';
 
 
 
@@ -59,7 +61,9 @@ import { ToastrModule } from 'ngx-toastr';
     CalendarCreateComponent,
     CalendarListComponent,
     PersonnelComponent,
-
+    SessionComponent,
+    ProfilComponent
+   
   ],
   imports: [
     CommonModule,
@@ -80,14 +84,19 @@ import { ToastrModule } from 'ngx-toastr';
     NgMultiSelectDropDownModule.forRoot(),
     FullCalendarModule,
     NgbModalModule,
+    ReactiveFormsModule,
+    TableModule,
     FlatpickrModule.forRoot(),
+    
     ToastrModule.forRoot({
       timeOut: 5000
     }),
-    CalendarModule.forRoot({
+   /* CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),
+    }),*/
+    FullCalendarModule
+
 
   ]
 })

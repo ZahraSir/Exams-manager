@@ -6,12 +6,9 @@ import {Filiere} from '../model/filiere';
 import {Module} from '../model/module.model';
 import { NiveauSemestre } from '../model/niveau-semestre';
 import { Departement } from '../model/departement.model';
-<<<<<<< HEAD
 import { Professeur } from '../model/professeur.model';
 
-=======
 import { ToastrService } from 'ngx-toastr';
->>>>>>> 3d0aa29b11fe6dd1d2e94000732399dbb4c9a38a
 @Injectable({
   providedIn: 'root'
 })

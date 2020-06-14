@@ -144,7 +144,7 @@ export class SallesService {
     this.http.put(this._urlsalle + id + '/' + designation + '/' + etat + '/' + type + '/' + capacite, this.salle).subscribe(
       data => {
         if (data > 0) {
-          console.log('la salle ');
+          window.location.reload();
         }
       });
   }
@@ -163,5 +163,11 @@ export class SallesService {
   public validate(){
     return this.salle.designation != null && this.salle.capacite > 0 && this.salle.etat != null && this.salle.type !=null;
   }
+
+  refresh(): void {
+    window.location.reload();
+  }
+
+  
 }
 

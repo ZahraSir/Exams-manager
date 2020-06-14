@@ -53,7 +53,7 @@
   </div>
 </div>
 <br>
-<button  type="button"  class="btn btn-danger fa fa-file-pdf " (click)= "imprimer()" style="margin-bottom: 5px;">PDF</button>
+<button  type="button"  class="btn btn-danger fa fa-file-pdf " (click)= "exportPdf()" style="margin-bottom: 5px;">PDF</button>
 <button  type="button"  class="btn btn-success fa fa-file-excel" (click)="exportexcel()" >Excel</button>
 
 
@@ -193,7 +193,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-primary pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(salle.id,salle.designation, salle.etat, salle.type, salle.capacite);refresh();">Editer</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;" (click)="editModal.hide();update(salle.id,salle.designation, salle.etat, salle.type, salle.capacite);">Editer</button>
         </div>
             </div>
           </div>

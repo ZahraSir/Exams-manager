@@ -1,0 +1,12 @@
+a{
+    color: blue;
+    font-size: 18px;
+}
+
+a :hover{
+    color: darkblue;
+}
+
+a :focus{
+    color: darkblue;
+}

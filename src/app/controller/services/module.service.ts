@@ -4,12 +4,8 @@ import {Module} from '../model/module.model';
 import {Semestre} from '../model/semestre';
 import { NiveauSemestre } from '../model/niveau-semestre';
 import {Professeur} from '../model/professeur.model';
-<<<<<<< HEAD
-import { Filiere } from '../model/filiere';
-
-=======
 import { ToastrService } from 'ngx-toastr';
->>>>>>> 3d0aa29b11fe6dd1d2e94000732399dbb4c9a38a
+import { Filiere } from '../model/filiere';
 
 @Injectable({
   providedIn: 'root'

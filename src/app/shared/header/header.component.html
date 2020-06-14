@@ -12,9 +12,20 @@
             <h4>Gestion des examens</h4>
           </div>
         </a>
-        <div>
-          <button class="btn btn-primary btn-connecte" type="button" style="
-            margin-left: -134px;" (click)="logout()" >Se Déconnecter</button>
+        
+        <div class="btn-group" dropdown style="margin-right: 100px;">
+          <a id="button-basic" dropdownToggle class="btn btn-primary dropdown-toggle"
+                  aria-controls="dropdown-basic" style="font-size: 20px;">
+                  {{currentUser.firstName}}<span class="caret"></span>
+        </a>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item" routerLink= "/admin/profil"><i class="fa fa-user" aria-hidden="true"></i>Profil</a></li>
+            <li role="menuitem"><a class="dropdown-item" routerLink= "/admin/sessions"> <i class="fa fa-plus" aria-hidden="true"></i>Créer une session</a></li>
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i>Se déconnecter</a></li>
+
+          </ul>
         </div>
 
       </nav>

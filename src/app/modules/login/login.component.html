@@ -1,14 +1,10 @@
 ﻿
 <div class="form">
-
-  <ul class="tab-group">
-    <li class="tab active"><a href="#signup">S'identifier</a></li>
-    <li class="tab"><a routerLink="/register" >S'inscrire</a></li>
-  </ul>
-
   <div class="tab-content">
     <div id="signup">
       <h1>Gestion des examens</h1>
+      <i class="fa fa-user-circle-o" aria-hidden="true" style="width: 1000px;"></i>
+
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="field-wrap">
           <div class="form-group">
