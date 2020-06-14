@@ -820,8 +820,9 @@ background-color: #fff;">
                   </thead>
                   <tbody>
                   <tr *ngFor= "let surveillant of examSalle.surveillants">
-                    <td>{{surveillant.examSalle.salle.designation}}</td>
                     <td>{{surveillant.nom}} {{surveillant.prenom}} </td>
+                    <td>{{surveillant.examSalle.salle.designation}}</td>
+                   
                   </tr>
                   </tbody>
                 </table>

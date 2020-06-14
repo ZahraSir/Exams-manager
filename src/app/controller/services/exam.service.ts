@@ -626,11 +626,7 @@ export class ExamService {
   public findByExam(id: number){
     this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/find-by-exam/' + id).subscribe(
       data => {
-        this.examSalle.surveillants = data;
-        for(let surveillant of this.examSalle.surveillants){
-          console.log(surveillant.examSalle.salle.designation)
-        }
-        
+        this.examSalle.surveillants = data;       
       }
     );
   }
