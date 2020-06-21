@@ -35,6 +35,7 @@ export class SessionComponent implements OnInit {
           firstName: ['', Validators.required],
           lastName: ['', Validators.required],
           username: ['', Validators.required],
+         email: ['', Validators.required],
           password: ['', [Validators.required, Validators.minLength(6)]]
       });
       this.loadAllUsers();
@@ -45,9 +46,6 @@ export class SessionComponent implements OnInit {
 
   onSubmit() {
       this.submitted = true;
-
-      // reset alerts on submit
-      this.alertService.clear();
 
       // stop here if form is invalid
       if (this.registerForm.invalid) {
@@ -69,15 +67,17 @@ export class SessionComponent implements OnInit {
                   this.loading = false;
               });
   }
+  deleteUser(id: number) {
+    this.authenticationService.delete(id)
+      .pipe(first())
+      .subscribe(() => {
+        this.users = this.users.filter(x => x.id !== id);
+      });
+  }
+
   private loadAllUsers() {
     this.userService.getAll()
-        .pipe(first())
-        .subscribe(users => this.users = users);
-}
-
-deleteUser(id: number) {
-    this.userService.delete(id)
-        .pipe(first())
-        .subscribe(() => this.loadAllUsers());
-}
+      .pipe(first())
+      .subscribe(users => this.users = users);
+  }
 }

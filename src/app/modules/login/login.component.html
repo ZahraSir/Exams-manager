@@ -27,11 +27,12 @@
             </div>
           </div>
         </div>
+        <p><a (click)="resetModal.show();">Oublié mot de passe</a></p>
 
         <div class="form-group">
           <button type="submit" [disabled]="loading" class="button button-block">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-           Se connecter
+            Se connecter
           </button>
         </div>
       </form>
@@ -41,4 +42,40 @@
 
   </div>
 
+</div>
+
+<div class="modal fade" bsModal #resetModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #2e3047;">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Oublié mot de passe</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="resetModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="errorMsg" *ngIf="errorMessage">
+          <span>{{errorMessage}}</span>
+        </div>
+        <div id="successMsg" *ngIf="successMessage">
+          <span>{{successMessage}}</span>
+        </div>
+
+        <div class="form-group">
+          <input class="form-control" name="mail" placeholder="exemple@gmail.com"
+                 ngModel
+                 required
+                 #mail="ngModel"
+                 [ngClass]="{'form-control' : true,
+                  'is-invalid' : !mail?.valid && mail?.touched,
+                    'is-valid' : mail?.valid && mail?.touched}">
+          <small *ngIf="mail?.errors?.required && mail?.touched"class="form-text text-danger">champs obligatoire</small>
+        </div>
+        <div>
+          <button  class="button button-block" (click)="sendSimpleMessage();">Réinitialiser le mot de passe</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>

@@ -182,7 +182,7 @@ export class ModuleService {
       }
     );
   }
-  
+
   public findByDepartementLibelle(libelle){
     this.http.get<Array<Professeur>>('http://localhost:8090/exam-api/professeurs/find-by-departement/'+ libelle).subscribe(
       data => {
@@ -195,9 +195,9 @@ export class ModuleService {
     this.http.get<Filiere>('http://localhost:8090/exam-api/filieres/find-by-libelle/'+ libelle).subscribe(
       data => {
         console.log(data)
-         this.findByDepartementLibelle(data.departement.libelle);
+        this.findByDepartementLibelle(data.departement.libelle);
       }
     );
   }
-  }
+}
 

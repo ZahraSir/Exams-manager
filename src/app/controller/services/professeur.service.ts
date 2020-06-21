@@ -57,8 +57,8 @@ export class ProfesseurService {
 
   get professeur(): Professeur {
     if (this._professeur == null) {
-    this._professeur = new Professeur();
-  }
+      this._professeur = new Professeur();
+    }
     return this._professeur;
   }
 
@@ -103,11 +103,13 @@ export class ProfesseurService {
       data => {
         if (data === 1) {
           this.professeurs.push(this.cloneProfesseur(this.professeur));
-          this.toastr.success(this.professeur.nom + this.professeur.nom + ' a été ajouté avec succés', 'Ajout réussi!');
+          this.toastr.success(this.professeur.nom + ' a été ajouté avec succés', 'Ajout réussi!');
           this.professeur = null;
+          this.display = 1;
           console.log(this.professeur);
         }else if (data === -1){
-          this.toastr.warning(this.professeur.nom + this.professeur.nom + ' existe déja', 'Attention!');
+          this.display = -1;
+          this.toastr.warning(this.professeur.nom + ' existe déja', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -124,6 +126,9 @@ export class ProfesseurService {
     myClone.departement = professeur.departement;
 
     return myClone;
+  }
+  public validate(): boolean{
+    return this.professeur.nom != null && this.professeur.responsabilite.libelle != null && this.professeur.prenom != null && this.professeur.mail != null && this.professeur.departement.libelle != null;
   }
 
   public deleteByNom(professeur: Professeur) {

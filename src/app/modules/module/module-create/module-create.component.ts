@@ -18,7 +18,7 @@ import { ProfesseurService } from 'src/app/controller/services/professeur.servic
 export class ModuleCreateComponent implements OnInit {
 
   constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private modalService: BsModalService,
-    private professeurService: ProfesseurService) { }
+              private professeurService: ProfesseurService) { }
   item: string;
   modalRef: BsModalRef;
   p = 1;

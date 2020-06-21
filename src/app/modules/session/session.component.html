@@ -1,84 +1,101 @@
-<div class="row">
-  <div class="col-md-6">
-<div style="margin-top: 200px; background-color: white; padding: 50px; width: 600px;">
-  <h2 style="text-align: center; color: #2e3047;">Créer une session</h2>
-<div class="tab-content" >
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" style="width: 500px;">
-      <div class="field-wrap">
-        <div class="form-group">
 
-            <input type="text" formControlName="firstName" placeholder="Prénom *" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-              <div *ngIf="f.firstName.errors.required">champs obligatoire</div>
+<div class="row" style="    margin-top: -60px;">
+  <div class="col-md-6 ">
+    <div class="form" style="margin-top: 200px; background-color: #2e3047; padding: 50px; width: 600px;">
+      <h2 style="text-align: center; color: white;     margin-top: 10px;
+    margin-bottom: 40px;">Créer une session</h2>
+      <div class="tab-content" >
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" style="width: 500px;">
+          <div class="field-wrap">
+            <div class="form-group">
+              <input type="text" formControlName="firstName" placeholder="Prénom *" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+              <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">champs obligatoire</div>
+              </div>
             </div>
-</div>
-      </div>
-      <div class="field-wrap">
-        <div class="form-group">
-          <input type="text" formControlName="lastName" class="form-control" placeholder="Nom *" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-          <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback" >
-              <div *ngIf="f.firstName.errors.required">champs obligatoire</div>
-            </div>
-      </div>
-      </div>
-    <div class="field-wrap">
-        <div class="form-group">
-          <input type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur *" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-              <div *ngIf="f.firstName.errors.required">champs obligatoire</div>
-            </div>
-      </div>
-      </div>
-      <div class="field-wrap">
-        <div class="form-group">
-          <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe *" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">champs obligatoire</div>
-            <div *ngIf="f.password.errors.minlength">Le mot de passe doit être au moins de 6 caractères</div>
           </div>
-        </div>
-      </div>
-<div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4"> <div class="form-group">
-        <button type="submit" [disabled]="loading" class="btn btn-primary" style="font-size: 20px; width: 150px;">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-         Créer
-        </button>
-      </div></div>
-      <div class="col-md-4"></div>
-    </div>
-    </form>
+          <div class="field-wrap">
+            <div class="form-group">
+              <input type="text" formControlName="lastName" class="form-control" placeholder="Nom *" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+              <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback" >
+                <div *ngIf="f.firstName.errors.required">champs obligatoire</div>
+              </div>
+            </div>
+          </div>
+          <div class="field-wrap">
+            <div class="form-group">
 
+              <input type="text" formControlName="email" placeholder="Email *" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">champs obligatoire</div>
+              </div>
+            </div>
+          </div>
+          <div class="field-wrap">
+            <div class="form-group">
+              <input type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur *" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">champs obligatoire</div>
+              </div>
+            </div>
+          </div>
+          <div class="field-wrap">
+            <div class="form-group">
+              <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe *" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">champs obligatoire</div>
+                <div *ngIf="f.password.errors.minlength">Le mot de passe doit être au moins de 6 caractères</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <button type="submit" [disabled]="loading" class="button button-block" >
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  Créer
+                </button>
+              </div></div>
+            <div class="col-md-4"></div>
+          </div>
+        </form>
+
+      </div>
+    </div>
   </div>
-</div>
-</div>
-<div class="col-md-6" style="margin-top: 250px;">
-  <div class="card">
-    <div class="card-header">La liste des utilisateurs</div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
+  <div class="col-md-6" style="margin-top: 320px; margin-left: -50px;">
+    <div class="card">
+      <div class="card-header" style="background-color: #2e3047; color: #fff;">La liste des utilisateurs</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" style="text-align: center;">
+            <thead>
             <tr>
+              <th>id</th>
+              <th>Role</th>
               <th>Nom d'utilisateur</th>
               <th>Nom</th>
               <th>Prénom</th>
+              <th>Email</th>
               <th>Mot de passe</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr *ngFor="let user of users">
+              <td>{{user.id}}</td>
+              <td>{{user.role}}</td>
               <td>{{user.username}}</td>
               <td>{{user.lastName}}</td>
               <td>{{user.firstName}}</td>
+              <td>{{user.email}}</td>
               <td>{{user.password}}</td>
               <td><a (click)="deleteUser(user.id)" class="text-danger">Supprimer</a></td>
             </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

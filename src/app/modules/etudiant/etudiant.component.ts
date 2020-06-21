@@ -85,5 +85,7 @@ export class EtudiantComponent implements OnInit {
   get niveauSemestres(): Array<NiveauSemestre>{
     return this.etudiantService.niveauSemestres;
   }
-
+  public validate(): boolean{
+    return this.etudiantService.validate();
+  }
 }

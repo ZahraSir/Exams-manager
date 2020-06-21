@@ -33,7 +33,7 @@ export class ChangeComponent implements OnInit {
   }
 
   get f() { return this.loginForm.controls; }
-  onChange() {
+ /* onChange() {
     this.submitted = true;
 
     // reset alerts on submit
@@ -56,5 +56,5 @@ export class ChangeComponent implements OnInit {
           this.toastr.error( 'Attention!', 'L\'identifiant ou le mot de passe est incorrect');
           this.loading = false;
         });
-  }
+  }*/
 }

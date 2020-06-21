@@ -56,7 +56,7 @@ export class DepartementComponent implements OnInit {
     window.location.reload();
   }
 
-   public update(id: number, libelle: string){
+  public update(id: number, libelle: string){
     this.departementService.update(id, libelle);
   }
   public vider(){
@@ -65,5 +65,8 @@ export class DepartementComponent implements OnInit {
 
   showMessage(){
     this.toastr.success('hello world', 'taostr fun!');
+  }
+  public validate(){
+    return this.departementService.validate();
   }
 }

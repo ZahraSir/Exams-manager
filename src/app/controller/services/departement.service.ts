@@ -73,8 +73,10 @@ export class DepartementService {
           this.departements.push(this.cloneDepartement(this.departement));
           this.toastr.success(this.departement.libelle + ' a été ajouté avec succés', 'Ajout réussi!');
           this.departement = null;
+          this.display = 1;
           console.log(this.departement);
         }else if (data === -1){
+          this.display = -1;
           this.toastr.error(this.departement.libelle + ' existe déja', 'Attention!');
         }
       }, error => {
@@ -87,6 +89,9 @@ export class DepartementService {
     const myClone = new Departement();
     myClone.libelle = departement.libelle;
     return myClone;
+  }
+  public validate() {
+    return this.departement.libelle != null;
   }
 
   public deleteByLibelle(departement: Departement) {
@@ -126,7 +131,7 @@ export class DepartementService {
       data => {
         if (data > 0) {
           window.location.reload();
-         
+
         }
         this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
       });
@@ -135,4 +140,3 @@ export class DepartementService {
     this.departement = null;
   }
 }
-

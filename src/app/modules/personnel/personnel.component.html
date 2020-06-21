@@ -1,62 +1,62 @@
 <div style="margin-top: 180px;margin-left: 100px; width: 1420px;">
   <div class="respo">
-  <div class="card-header" style="background-color: #2e3047; color: #fff;">
-    <h4 style="text-align: left;">Liste des Personnel</h4>
-  </div>
-  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+    <div class="card-header" style="background-color: #2e3047; color: #fff;">
+      <h4 style="text-align: left;">Liste des Personnel</h4>
+    </div>
+    <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
  background-color: #fff;">
-    <div class="row">
-      <div >
-        <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+      <div class="row">
+        <div >
+          <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
       width: 1411px;
     /* width: 1347px;*/
       margin-left: -4px;"/>
+        </div>
+      </div>
+      <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter personnel</button>
+      <div class="table-responsive">
+        <table class="table table-bordered" style="text-align: center;">
+
+          <thead>
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>Mail</th>
+          <th>Fonction</th>
+          <th>Actions</th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let p of personnels|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
+
+            <td>{{p.nom}}</td>
+
+            <td>{{p.prenom}}</td>
+
+            <td>{{p.mail}}</td>
+            <td>{{p.fonction}}</td>
+            <td>
+              <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
+              <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;"  (click)=" recuperer(p,p.id); editModal.show();"></button>
+            </td>
+            <!--Confirmation du suppression-->
+            <ng-template #template >
+              <div class="modal-body text-center">
+                <p>Voulez-vous vraiment supprimer ce personnel?</p>
+                <button type="button" class="btn btn-success" (click)="confirm();deleteByNom(p);" >Oui</button>
+                <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+              </div>
+            </ng-template>
+          </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+      <div class="card-img-overly">
+        <pagination-controls style="position: center" (pageChange)=" p=$event "></pagination-controls>
       </div>
     </div>
-    <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter personnel</button>
-  <div class="table-responsive">
-    <table class="table table-bordered" style="text-align: center;">
-
-      <thead>
-      <th>Nom</th>
-      <th>Prenom</th>
-      <th>Mail</th>
-      <th>Fonction</th>
-      <th>Actions</th>
-      </thead>
-      <tbody>
-      <tr *ngFor="let p of personnels|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
-
-        <td>{{p.nom}}</td>
-
-        <td>{{p.prenom}}</td>
-
-        <td>{{p.mail}}</td>
-        <td>{{p.fonction}}</td>
-        <td>
-          <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
-          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;"  (click)=" recuperer(p,p.id); editModal.show();"></button>
-        </td>
-        <!--Confirmation du suppression-->
-        <ng-template #template >
-          <div class="modal-body text-center">
-            <p>Voulez-vous vraiment supprimer ce personnel?</p>
-            <button type="button" class="btn btn-success" (click)="confirm();deleteByNom(p);" >Oui</button>
-            <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
-          </div>
-        </ng-template>
-      </tr>
-
-      </tbody>
-
-    </table>
-  </div>
-  <div class="card-img-overly">
-    <pagination-controls style="position: center" (pageChange)=" p=$event "></pagination-controls>
-  </div>
-  </div>
   </div>
 
 
@@ -134,7 +134,7 @@
           </form>
           <div class="modal-body">
             <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
-            <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;"(click)="save();parentModal.hide();">Ajouter</button>
+            <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;"(click)="save();parentModal.hide();"  [disabled]="!validate()">Ajouter</button>
           </div>
         </div>
       </div>

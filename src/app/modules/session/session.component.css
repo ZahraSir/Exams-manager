@@ -1,156 +1,189 @@
-*, *:before, *:after {
-    box-sizing: border-box;
-  }
-  
-  html {
-    overflow-y: scroll;
-  }
-  
-  body {
-    background: #c1bdba;
-    font-family: 'Titillium Web', sans-serif;
-  }
-  
-  a {
-    text-decoration: none;
-    color: #3bba9c;
-    -webkit-transition: .5s ease;
-    transition: .5s ease;
-  }
-  a:hover {
-    color: #3bba9c;
-  }
-  
-  .form {
-    background: #2e3047;
-    padding: 40px;
-    max-width: 600px;
-    margin: 40px auto;
-    border-radius: 4px;
-    box-shadow: 0 0 0 .2rem rgba(78,115,223,.25);
-  }
-  
-  .tab-group {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 40px 0;
-  }
-  .tab-group:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  .tab-group li a {
-    display: block;
-    text-decoration: none;
-    padding: 15px;
-    background: rgba(160, 179, 176, 0.25);
-    color: #858796;
-    font-size: 20px;
-    float: left;
-    width: 50%;
-    text-align: center;
-    cursor: pointer;
-    -webkit-transition: .5s ease;
-    transition: .5s ease;
-  }
-  .tab-group li a:hover {
-    background: #3bba9c;
-    color: #ffffff;
-  }
-  .tab-group .active a {
-    background: #3bba9c;
-    color: #ffffff;
-  }
-  
-  .tab-content > div:last-child {
-    display: block;
-  }
-  
-  h1 {
-    text-align: center;
-    color: #ffffff;
-    font-weight: 300;
-    margin: 0 0 40px;
-  }
-  
-  
-  input, textarea {
-    font-size: 22px;
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding: 5px 10px;
-    background: none;
-    background-image: none;
-    border: 1px solid #858796;
-    color: #000;
-    border-radius: 0;
-    -webkit-transition: border-color .25s ease, box-shadow .25s ease;
-    transition: border-color .25s ease, box-shadow .25s ease;
-  }
-  input:focus, textarea:focus {
-    outline: 0;
-    border-color: #3bba9c;
-  }
-  
-  textarea {
-    border: 2px solid #858796;
-    resize: vertical;
-  }
-  
-  .field-wrap {
-    position: relative;
-    margin-bottom: 40px;
-    height: 45px;
-  }
-  
-  .top-row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  .top-row > div {
-    float: left;
-    width: 48%;
-    margin-right: 4%;
-  }
-  .top-row > div:last-child {
-    margin: 0;
-  }
-  
-  .button {
-    border: 0;
-    outline: none;
-    border-radius: 0;
-    padding: 15px 0;
-    font-size: 1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    background: #3bba9c;
-    color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
-  }
-  .button:hover, .button:focus {
-    background: #3bba9c;
-  }
-  
-  .button-block {
-    display: block;
-    width: 100%;
-  }
-  
-  .forgot {
-    margin-top: -20px;
-    text-align: right;
-  }
-  #toast-container > .toast-warning {
-    background-image: none;
-    background-color: #e9e9e9;
-    color: red;
-  }
 
-  
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  background: #6f7294;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #3bba9c;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+a:hover {
+  color: #3bba9c;
+}
+
+.form {
+  background: #2e3047;
+  padding: 40px;
+  max-width: 600px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 .4rem rgba(78,115,223,.25);
+}
+
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+.tab-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.tab-group li a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  background: rgba(160, 179, 176, 0.25);
+  color: #858796;
+  font-size: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+.tab-group li a:hover {
+  background: #3bba9c;
+  color: #ffffff;
+}
+.tab-group .active a {
+  background: #3bba9c;
+  color: #ffffff;
+}
+
+.tab-content > div:last-child {
+  display: block;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-weight: 300;
+  margin: 0 0 40px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+label {
+  position: absolute;
+  -webkit-transform: translateY(6px);
+  transform: translateY(6px);
+  left: 13px;
+  color: #858796;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none;
+  font-size: 22px;
+}
+label .req {
+  margin: 2px;
+  color: #3bba9c;
+}
+
+label.active {
+  -webkit-transform: translateY(50px);
+  transform: translateY(50px);
+  left: 2px;
+  font-size: 14px;
+}
+label.active .req {
+  opacity: 0;
+}
+
+label.highlight {
+  color: #ffffff;
+}
+
+input, textarea {
+  font-size: 22px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  background: none;
+  background-image: none;
+  border: 1px solid #858796;
+  color: #ffffff;
+  border-radius: 0;
+  -webkit-transition: border-color .25s ease, box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+input:focus, textarea:focus {
+  outline: 0;
+  border-color: #3bba9c;
+}
+
+textarea {
+  border: 2px solid #858796;
+  resize: vertical;
+}
+
+.field-wrap {
+  position: relative;
+  margin-bottom: 40px;
+  height: 45px;
+}
+
+.top-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.top-row > div {
+  float: left;
+  width: 48%;
+  margin-right: 4%;
+}
+.top-row > div:last-child {
+  margin: 0;
+}
+
+.button {
+  border: 0;
+  outline: none;
+  border-radius: 0;
+  padding: 15px 0;
+  font-size: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: #3bba9c;
+  color: #ffffff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-appearance: none;
+}
+.button:hover, .button:focus {
+  background: #3bba9c;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+
+.forgot {
+  margin-top: -20px;
+  text-align: right;
+}
+i  {
+  display: block;
+  color: #3bba9c;
+  font-size: 90px;
+  margin: 50px;
+  margin-left: 200px;
+
+
+}

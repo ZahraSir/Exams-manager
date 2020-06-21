@@ -1,12 +1,12 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminComponent } from './admin.component';
 import { SallesComponent } from 'src/app/modules/salles/salles.component';
 import { DepartementComponent } from 'src/app/modules/departement/departement.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -38,6 +38,9 @@ import { TableModule } from 'primeng/table';
 import { SessionComponent } from 'src/app/modules/session/session.component';
 import { ProfilComponent } from 'src/app/modules/profil/profil.component';
 import {FullCalendarModule} from 'ng-fullcalendar';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../../../environments/environment';
+import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from '../../modules/_helpers';
 
 
 
@@ -62,7 +65,7 @@ import {FullCalendarModule} from 'ng-fullcalendar';
     PersonnelComponent,
     SessionComponent,
     ProfilComponent
-   
+
   ],
   imports: [
     CommonModule,
@@ -86,15 +89,15 @@ import {FullCalendarModule} from 'ng-fullcalendar';
     ReactiveFormsModule,
     TableModule,
     FlatpickrModule.forRoot(),
-    
+    AngularFireModule.initializeApp(environment.firebase),
     ToastrModule.forRoot({
       timeOut: 5000
     }),
-   /* CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),*/
     FullCalendarModule
-    ]
+  ],
+  providers: [DatePipe,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider]
 })
 export class AdminModule { }

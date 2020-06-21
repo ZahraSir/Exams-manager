@@ -14,7 +14,7 @@
           </div>
         </a>
         <div class="menu">
-          <a routerLink= "/admin/salles" routerLinkActive="active" class="nav-item nav-a">Salles</a>
+          <a routerLink= "/admin/salles" routerLinkActive="active" class="nav-item ">Salles</a>
           <a routerLink= "/admin/departements" routerLinkActive="active" class="nav-item">Departement</a>
           <a  routerLink= "/admin/responsabilites"  routerLinkActive="active" class="nav-item">Responsabilite</a>
           <a  routerLink= "/admin/personnels"  routerLinkActive="active" class="nav-item">Personnel</a>
@@ -28,21 +28,21 @@
           <a routerLink= "/admin/etat"  routerLinkActive="active" class="nav-item">Etat</a>
           <div class="animation start-home"></div>
         </div>
-          <div class="btn-group" dropdown>
-            <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                    aria-controls="dropdown-basic">
-              {{currentUser.username}} <span class="caret"></span>
-            </button>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-                role="menu" aria-labelledby="button-basic">
-              <li role="menuitem"><a class="dropdown-item" routerLink= "/admin/profil" style="color: black !important; ">Profil</a></li>
-              <li role="menuitem"><a class="dropdown-item" routerLink= "/admin/sessions" style="color: black !important; ">Créer une session</a></li>
-              <li class="divider dropdown-divider"></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="logout()" style="color: black !important; " >Se déconnecter</a>
-              </li>
-            </ul>
-          </div>
-        
+        <div class="btn-group" dropdown>
+          <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                  aria-controls="dropdown-basic">
+            {{currentUser.username}} <span class="caret"></span>
+          </button>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" style="background-color: #2e3047; margin-top: 13.8px; "
+              role="menu" aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item" routerLink= "/admin/profil/{{currentUser.id}}" style="color: #E7E9F0 !important; ">Profil</a></li>
+            <li role="menuitem"><a class="dropdown-item" routerLink= "/admin/sessions"  style="color: #E7E9F0 !important; ">Créer une session</a></li>
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="logout()" style="color: #E7E9F0 !important; " >Se déconnecter</a>
+            </li>
+          </ul>
+        </div>
+
         <label for="check" class="checkbtn"><i class="fa fa-bars" style="font-size: 20px !important; color: #E7E9F0 !important; transform: none !important;"></i></label>
       </nav>
     </div>

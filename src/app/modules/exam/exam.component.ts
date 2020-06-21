@@ -15,6 +15,7 @@ import {SurveillantService} from '../../controller/services/surveillant.service'
 import {ToastrService} from 'ngx-toastr';
 import {Filiere} from '../../controller/model/filiere';
 import * as moment from 'moment';
+import {DatePipe} from '@angular/common';
 
 
 @Component({
@@ -28,11 +29,15 @@ export class ExamComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   item: string;
-  dateDebut :Date;
+  dateDebut: Date;
   dateFin: string;
+  dateFIn: Date;
+  diffDate: any;
+  difTime: any;
   p = 1;
+  dateDep: string;
 
-  constructor(private examService: ExamService,
+  constructor(private examService: ExamService, public datepipe: DatePipe,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) { }
 
@@ -53,11 +58,11 @@ export class ExamComponent implements OnInit {
   get exams(): Array<Exam> {
     return this.examService.exams;
   }
- 
+
   get surveillants(): Array<Surveillant> {
     return this.examService.surveillants;
   }
-  
+
   get professeurs(): Array<Professeur> {
     return this.examService.professeurs;
   }
@@ -118,8 +123,8 @@ export class ExamComponent implements OnInit {
   public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
     this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
   }
-  
- public addSurveillant(surveillant: Surveillant){
+
+  public addSurveillant(surveillant: Surveillant){
     this.examService.addSurveillant(surveillant);
   }
   public addSalle(salle: Salles){
@@ -127,7 +132,7 @@ export class ExamComponent implements OnInit {
   }
 
   public selectedChangeHandler(event: any) {
-  //  this.selectedSur = event.target.valu;
+    //  this.selectedSur = event.target.valu;
     console.log(event);
   }
   public vider(){
@@ -142,7 +147,7 @@ export class ExamComponent implements OnInit {
     this.examService.findBySallesDesignation(sal);
   }
   recupererPerso(perso) {
-    this.examService.findByPersonnelNom(perso);    
+    this.examService.findByPersonnelNom(perso);
   }
   get surveill(): Surveillant {
     return this.examService.surveill;
@@ -166,9 +171,7 @@ export class ExamComponent implements OnInit {
   public addPersonnel(personnel: Personnel){
     this.examService.addPersonnel(personnel);
   }
-  public saveSurveillant() {
-    this.surveillantService.save();
-  }
+
   public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
     this.examService.findExamSalle(designation, dateDepart, dateFin);
   }
@@ -203,11 +206,12 @@ export class ExamComponent implements OnInit {
     this.examService.deleteExamBySurveillantId(surveillant);
   }
   public ajouter(value){
-   this.dateDebut = new Date(value);
-   this.dateDebut.setHours(this.dateDebut.getHours() + 2);
-   this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
-   this.exam.dateFin = this.dateFin;
-  
+    this.dateDebut = new Date(value);
+    this.dateDebut.setHours(this.dateDebut.getHours() + 2);
+    this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
+    /*this.dateDep = this.datepipe.transform(this.dateDebut, 'dd/MM/yyyy');*/
+    this.exam.dateFin = this.dateFin;
+
   }
   get examSa(): Array<ExamSalle>{
     return this.examService.examSa;
@@ -216,9 +220,9 @@ export class ExamComponent implements OnInit {
   public addExamSalle(){
     console.log(this.examSalle);
     this.examService.addExamSalle(this.examSalle);
-    
+
   }
-  
+
   get surveillant(): Surveillant {
     return this.examService.surveillant;
   }
@@ -234,4 +238,22 @@ export class ExamComponent implements OnInit {
   public deleteExamSallesByDesignationFromView(examSalle: ExamSalle) {
     this.examService.deleteExamSallesByDesignationFromView(examSalle);
   }
+  /*
+  public valide(value) {
+    this.dateDebut = new Date(value);
+    this.dateFIn = this.dateDebut.setHours(this.dateDebut.getHours() + 2);
+    this.diffDate =  this.dateDebut.getHours() - this.dateFin.getH;
+    this.difTime = this.diffDate / (1000 * 3600 * 24);
+    if (this.difTime < 0) {
+      console.log(this.diffDate);
+      console.log(this.difTime);
+      this.toastrService.success(  ' a été ajouté avec succés ', 'Ajout réussi!');
+    }
+    else {
+      console.log(this.diffDate);
+      console.log(this.difTime);
+      this.toastrService.error( ' errrii ', 'llf;dl!');
+    }
+  }*/
+
 }
