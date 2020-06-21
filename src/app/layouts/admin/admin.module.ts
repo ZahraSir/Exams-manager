@@ -38,10 +38,12 @@ import { TableModule } from 'primeng/table';
 import { SessionComponent } from 'src/app/modules/session/session.component';
 import { ProfilComponent } from 'src/app/modules/profil/profil.component';
 import {FullCalendarModule} from 'ng-fullcalendar';
-
-
-
-
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ExamEtudiantComponent } from 'src/app/modules/exam/exam-etudiant/exam-etudiant.component';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -61,7 +63,8 @@ import {FullCalendarModule} from 'ng-fullcalendar';
     CalendarListComponent,
     PersonnelComponent,
     SessionComponent,
-    ProfilComponent
+    ProfilComponent,
+    ExamEtudiantComponent,  
    
   ],
   imports: [
@@ -86,15 +89,17 @@ import {FullCalendarModule} from 'ng-fullcalendar';
     ReactiveFormsModule,
     TableModule,
     FlatpickrModule.forRoot(),
+    MessagesModule,
+    MessageModule,
     
     ToastrModule.forRoot({
       timeOut: 5000
     }),
-   /* CalendarModule.forRoot({
+    CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),*/
-    FullCalendarModule
+    }),
+    TabsModule.forRoot()
     ]
 })
 export class AdminModule { }

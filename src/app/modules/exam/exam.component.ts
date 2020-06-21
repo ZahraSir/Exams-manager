@@ -15,6 +15,7 @@ import {SurveillantService} from '../../controller/services/surveillant.service'
 import {ToastrService} from 'ngx-toastr';
 import {Filiere} from '../../controller/model/filiere';
 import * as moment from 'moment';
+import { Message } from 'primeng/api';
 
 
 @Component({
@@ -30,8 +31,12 @@ export class ExamComponent implements OnInit {
   item: string;
   dateDebut :Date;
   dateFin: string;
+  dateF: Date;
+  dateD: Date;
+  msgs: Message[] = [];
+  msg: Message[] = [];
   p = 1;
-
+ 
   constructor(private examService: ExamService,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) { }
@@ -87,6 +92,10 @@ export class ExamComponent implements OnInit {
   }
   get personnel(): Personnel {
     return this.examService.personnel;
+  }
+
+  get survei(): Personnel{
+    return this.examService.survei;
   }
   public deleteByReference(exam: Exam) {
     this.examService.deleteByReference(exam);
@@ -172,10 +181,9 @@ export class ExamComponent implements OnInit {
   public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
     this.examService.findExamSalle(designation, dateDepart, dateFin);
   }
-  public findExamSurveillant(nom: string, dateDepart: string, dateFin: string ){
-    this.examService.findExamSurveillant(nom, dateDepart, dateFin);
+  public  findSurveillant(nom: string, dateDepart: string, dateFin: string ){
+    this.examService.findSurveillant(nom, dateDepart, dateFin)
   }
-
   public show() {
     this.toastrService.success('hellokdkq', 'dkdlkmldkqmlkdm');
   }
@@ -196,21 +204,31 @@ export class ExamComponent implements OnInit {
     return this.examService.validate();
   }
 
-  public validateSurveillant(): boolean{
-    return this.examService.validateSurveillant();
-  }
   public deleteExamBySurveillantId(surveillant: Surveillant) {
     this.examService.deleteExamBySurveillantId(surveillant);
   }
   public ajouter(value){
+    if(this.exam.dateFin != null){
+      this.dateD = new Date(this.exam.dateDepart);
+      this.dateF = new Date(this.exam.dateFin)
+      console.log(this.dateD);
+      console.log(this.dateF);
+     let time = this.dateF.getTime() - this.dateD.getTime();
+     console.log(time)
+     if(time < 0){
+      this.msg.push({severity:'error', detail:'Date départ doit être plus petit que la date fin!!'});
+     }else{ 
+       this.msg = []
+     }
+    }else{
    this.dateDebut = new Date(value);
    this.dateDebut.setHours(this.dateDebut.getHours() + 2);
    this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
    this.exam.dateFin = this.dateFin;
-  
   }
-  get examSa(): Array<ExamSalle>{
-    return this.examService.examSa;
+  }
+  get examSal(): ExamSalle{
+    return this.examService.examSal;
   }
 
   public addExamSalle(){
@@ -233,5 +251,31 @@ export class ExamComponent implements OnInit {
   }
   public deleteExamSallesByDesignationFromView(examSalle: ExamSalle) {
     this.examService.deleteExamSallesByDesignationFromView(examSalle);
+  } 
+
+  public validateExamSalle(){
+    return this.examService.validateExamSalle();
+  }
+  public verifier(value){
+    if( this.exam.dateDepart != null)
+{   
+   this.dateD = new Date(this.exam.dateDepart);
+   this.dateF = new Date(this.exam.dateFin)
+   let time = this.dateF.getTime() - this.dateD.getTime();
+   if(time < 0){
+    this.msgs.push({severity:'error', detail:'Date fin doit être plus grand que la date départ!!'});
+   }else{ 
+     this.msgs = []
+   }
+  }else{
+    this.dateF = new Date(value);
+    this.dateF.setHours(this.dateF.getHours() - 2);
+    let dateD = moment(this.dateF).format("YYYY-MM-DD[T]HH:mm");
+    this.exam.dateDepart = dateD;
+   }
+  }
+
+  public validateSave(): boolean{
+    return this.examService.validateSave();
   }
 }

@@ -2,9 +2,15 @@
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { User } from 'src/app/controller/model';
+import { Role } from 'src/app/controller/model/role';
 
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
+//let users: User[] = [
+  //  { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
+  // { id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User }
+//];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -56,6 +62,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 username: user.username,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                role: user.role,
                 token: 'fake-jwt-token'
             })
         }
@@ -68,6 +75,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             }
 
             user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+            user.role = Role.User;
             users.push(user);
             localStorage.setItem('users', JSON.stringify(users));
 

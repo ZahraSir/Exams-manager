@@ -15,6 +15,8 @@ import {LoginComponent} from './modules/login';
 import {RegisterComponent} from './modules/register';
 import {AlertComponent} from './modules/_components';
 import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from './modules/_helpers';
+import { ResponsableComponent } from './layouts/responsable/responsable.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 registerLocaleData(localeFr);
 
@@ -29,7 +31,9 @@ registerLocaleData(localeFr);
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    AlertComponent,  
+    AlertComponent,
+    ResponsableComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,9 @@ registerLocaleData(localeFr);
     Ng2SearchPipeModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BsDropdownModule.forRoot(),
+
   ],
   providers: [/*{provide: LOCALE_ID, useValue: 'fr'}*/,
    /* {

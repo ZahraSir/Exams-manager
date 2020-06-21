@@ -13,7 +13,6 @@ import {Personnel} from '../model/personnel.model';
 import {ToastrService} from 'ngx-toastr';
 import * as moment from 'moment';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -49,11 +48,12 @@ export class ExamService {
   private _urlFiliere = 'http://localhost:8090/exam-api/filieres/';
   private _examSa : Array<ExamSalle>;
   private _filieres: Array<Filiere>;
+  private _survei : Personnel;
   public display : number;
   public surve : number;
   public examS = new ExamSalle();
-  
-
+  private _examSal: ExamSalle;
+  public event= [];
   get http(): HttpClient {
     return this._http;
   }
@@ -71,6 +71,16 @@ export class ExamService {
 
   set perso(value: Personnel) {
     this._perso = value;
+  }
+  get survei(): Personnel {
+    if(this._survei == null){
+      this._survei = new Personnel();
+    }
+    return this._survei;
+  }
+
+  set survei(value: Personnel) {
+    this._survei = value;
   }
 
   get exams(): Array<Exam> {
@@ -192,6 +202,16 @@ export class ExamService {
     this._filieres = filieres;
   }
 
+  get examSal(): ExamSalle {
+    if(this._examSal == null){
+      this._examSal = new ExamSalle()
+    }
+    return this._examSal;
+  }
+
+  set examSal(value: ExamSalle) {
+    this._examSal = value;
+  }
   get examSalle(): ExamSalle {
     if(this._examSalle == null){
       this._examSalle = new ExamSalle()
@@ -356,45 +376,45 @@ export class ExamService {
   }
 
   public deleteByReference(exam: Exam) {
-    this.http.delete<number>(this._urlexam + 'delete-by-reference/' + exam.reference).subscribe(
+    this.http.delete<number>(this._urlexam + 'delete-by-id/' + exam.id).subscribe(
       data => {
-        console.log('ha data ' + data);
-        this.deleteByReferenceFromView(exam);
+        if(data == -1)
+        this.toastr.error(exam.reference + ' non passé', 'Suppression impossible!');
+        else{
+          this.deleteByidFromView(exam);
+      }
       }
     );
   }
 
-  private deleteByReferenceFromView(exam: Exam) {
-    const index = this.exams.findIndex(e => e.reference === exam.reference);
+  private deleteByidFromView(exam: Exam) {
+    const index = this.exams.findIndex(e => e.id === exam.id);
     if (index !== -1) {
       this.exams.splice(index, 1);
     }
   }
 
 
-
   public recuperer(exam: Exam, id: number) {
-    console.log(exam);
+
     this.exam.id = exam.id;
     this.exam.reference = exam.reference;
-    this.exam.dateFin = exam.dateFin;
-    this.exam.dateDepart = exam.dateDepart;
+    this.exam.dateFin =  moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm");;
+    this.exam.dateDepart = moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm");;
     this.exam.prof.nom = exam.prof.nom;
     this.exam.examSalles = exam.examSalles;
-    this.exam.examSurveillants = exam.examSurveillants;
     this.exam.module.libelle = exam.module.libelle;
-    this.exam.filiere.libelle = exam.module.libelle;
-    console.log(this.exam.examSalles); 
-
+    this.exam.filiere.libelle = exam.filiere.libelle;
+    
   }
 
   public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
     this.http.put(this._urlexam + id + '/' + reference  + '/' + dateDepart + '/' + dateFin + '/' + module + '/' + prof + '/' + filiere , this.exam).subscribe(
       data => {
         if (data > 0) {
-          console.log('exam ');
+          this.toastr.success(reference + ' a été modifié avec succés', 'Modification réussi!');
         }
-        this.toastr.success(reference + ' a été modifié avec succés', 'Modification réussi!');
+       
       });
   }
 
@@ -516,17 +536,18 @@ export class ExamService {
       }
     );
   }
-  public findExamSurveillant(nom: string, dateDepart: string, dateFin: string ){
-    this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'nom/' + nom + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
+  public  findSurveillant(nom: string, dateDepart: string, dateFin: string ){
+    this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/nom/' + nom + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
          if (data.length == 0){
-          console.log(data + 'hadi khawya');
-          this.surve = 1 ;
+        this.surve = 1;
+          console.log(data + 'hada msali');
          }
          else{
-          this.surve = -1 ;
-           this.toastr.error('le surveillant' + nom + ' n\'est pas disponible a ce moment ', 'Alert!');
-           console.log(data + 'hadi 3amra matsvihach');
+          this.surve = -1;
+           this.toastr.error(' la salle ' + nom + ' n\'est pas disponible a ce moment', 'Alert!');
+          
+           console.log(data + 'hada mamsalich');
          }
 
       }
@@ -599,12 +620,10 @@ export class ExamService {
     );
   }
   public validate(): boolean{
-    return this.display == 1;
+    return this.display == 1 && this.surve == 1;
   }
 
-  public validateSurveillant(): boolean{
-    return this.surve == 1;
-  }
+ 
   public vider(){
     this.exam = null;
   }
@@ -612,6 +631,7 @@ export class ExamService {
   public addExamSalle(examSalle: ExamSalle){
     this.exam.examSalles.push(this.cloneExamSalle(this.examSalle));
     this.examSalle = null;
+    this.survei = null
   }
   public cloneExamSalle(examSalle: ExamSalle){
     const examSalleClone = new ExamSalle();
@@ -638,11 +658,22 @@ export class ExamService {
   public findByExam(id: number){
     this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/find-by-exam/' + id).subscribe(
       data => {
-        this.examSalle.surveillants = data;       
+        this.examSal.surveillants = data;      
       }
     );
+
   }
 
+ public validateExamSalle(){
+    return this.examSalle.salle.designation != null && this.examSalle.surveillants.length > 0 
+  }
+
+  
+public validateSave():boolean{
+let dateDepart = new Date(this.exam.dateDepart);
+let dateFin = new Date(this.exam.dateFin);
+let time = dateFin.getTime() - dateDepart.getTime();
+  return this.exam.filiere.libelle != null && this.exam.module.libelle != null && this.exam.dateDepart != null && this.exam.dateFin != null && this.exam.prof != null && this.exam.examSalles.length != 0 && time > 0}
 }
 
 

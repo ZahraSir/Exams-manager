@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem} from 'primeng/api';
+import { User } from 'src/app/controller/model';
+import { Role } from 'src/app/controller/model/role';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +11,7 @@ import {MenuItem} from 'primeng/api';
 export class SidebarComponent implements OnInit {
 
 menuItems: MenuItem[];
-
+user: User;
   constructor() { }
 
   ngOnInit(): void {
@@ -29,5 +31,9 @@ menuItems: MenuItem[];
 
         ];
   }
+
+  get isAdmin() {
+    return this.user && this.user.role === Role.Admin;
+}
 
 }

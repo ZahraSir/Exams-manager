@@ -55,6 +55,7 @@ export class SessionComponent implements OnInit {
       }
 
       this.loading = true;
+    
       this.userService.register(this.registerForm.value)
           .pipe(first())
           .subscribe(

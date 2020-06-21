@@ -20,6 +20,8 @@ import {RegisterComponent} from './modules/register';
 import { AuthGuard } from './modules/_helpers/auth.guard';
 import { SessionComponent } from './modules/session/session.component';
 import { ProfilComponent } from './modules/profil/profil.component';
+import { ResponsableComponent } from './layouts/responsable/responsable.component';
+import { Role } from './controller/model/role';
 
 
 
@@ -49,7 +51,7 @@ const routes: Routes = [
       {path: 'sessions', component: SessionComponent},
       {path: 'profil', component: ProfilComponent}
     ]},
-  {path: 'print', component: PrintComponent}
+  {path: 'responsable', component: ResponsableComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
