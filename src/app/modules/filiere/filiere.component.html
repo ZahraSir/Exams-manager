@@ -17,7 +17,7 @@
       margin-left: -4px;"/>
         </div>
       </div>
-      <button class="btn btn-info fa fa-plus" (click)="parentModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter filière</button>
+      <button class="btn btn-info fa fa-plus" (click)="parentModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter une filière</button>
 
 
       <div class="table-responsive">
@@ -25,7 +25,7 @@
           <thead>
           <tr>
             <th>Libell&eacute;</th>
-            <th>Niveau</th>
+            <th>Type</th>
             <th>D&eacute;partement</th>
             <th>Action</th>
           </tr>
@@ -175,7 +175,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addModules()"></button>
+                    <button class="btn btn-block" type="button" (click)="addModules()" style="background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
                   </div>
                 </div>
               </div>
@@ -205,7 +205,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
-          <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="saveFM();parentModal.hide();">Ajouter</button>
+          <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="saveFM();parentModal.hide();" [disabled]="!validate()">Ajouter</button>
         </div>
       </div>
     </div>
@@ -251,7 +251,7 @@
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="ajoutModal.show(); findByNiveauLibelle(filiere.niveau.libelle); findByDepartementLibelle(filiere.departement.libelle);">Ajouter modules</button>
+            <button class="btn btn-info btn-sm" style="background-color: #2e3047 !important;" type="button" (click)="ajoutModal.show(); findByNiveauLibelle(filiere.niveau.libelle); findByDepartementLibelle(filiere.departement.libelle);">Ajouter modules</button>
           </div>
         </form>
 
@@ -302,7 +302,6 @@
 
 
 <!--Editer module-->
-
 <div class="modal fade" bsModal #modifeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -319,7 +318,6 @@
     </div>
   </div>
 </div>
-
 <!--Ajouter module-->
 <div class="modal fade" bsModal #ajoutModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
@@ -385,7 +383,7 @@
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="saveM(module); ajoutModal.hide();">Ajouter</button>
+            <button class="btn btn-info btn-sm" type="button" style="background-color: #2e3047!important;" (click)="saveM(module); ajoutModal.hide();">Ajouter</button>
           </div>
         </form>
 

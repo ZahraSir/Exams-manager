@@ -20,7 +20,11 @@
           </tr>
           <tr>
             <th  class="thead-light">Email</th>
-            <td colspan="3">fatmazahrazaizi@gmail.com</td>
+            <td colspan="3">{{currentUser.email}}</td>
+          </tr>
+          <tr>
+            <th  class="thead-light">Departement</th>
+            <td colspan="3">{{currentUser.departement}}</td>
           </tr>
           <tr>
             <th  class="thead-light">Action </th>
@@ -34,8 +38,11 @@
   <div class="col-md-3"></div>
 </div>
 
+
+
+
 <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #2e3047;">
         <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier</h4>
@@ -44,62 +51,62 @@
         </button>
       </div>
       <div class="modal-body">
-        <h1 *ngIf="!isAddMode"></h1>
-        <form [formGroup]="ResponseResetForm" (ngSubmit)="onSubmit()">
-          <div class="form-row">
-            <div class="form-group col">
-              <label for="firstName">Prénom</label>
-              <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-              <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                <div *ngIf="f.firstName.errors.required">Prénom requis</div>
-              </div>
-            </div>
-            <div class="form-group col">
-              <label for="lastName">Nom</label>
-              <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-              <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                <div *ngIf="f.lastName.errors.required">Nom requis</div>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col">
-              <label for="username">Nom d'utilisateur</label>
-              <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">Nom d'utilisateur requis</div>
-              </div>
-            </div>
-            <div class="form-group col">
-              <label for="password">
-                <em *ngIf="!isAddMode">(Laisser en blanc pour conserver le même mot de passe)</em>
-              </label>
-              <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                <div *ngIf="f.password.errors.required">Mot de passe requis</div>
-                <div *ngIf="f.password.errors.minlength">Le mot de passe doit être au moins de 6 caractères</div>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-          <div class="form-group col">
-            <label for="email">Email</label>
-            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-              <div *ngIf="f.email.errors.required">Role requis</div>
-            </div>
-          </div>
-          </div>
-          <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="parentModal.hide();">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Modifier
-            </button>
-            <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
-          </div>
-        </form>
+<h1 *ngIf="!isAddMode"></h1>
+<form [formGroup]="ResponseResetForm" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="firstName">Prénom</label>
+      <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+      <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+        <div *ngIf="f.firstName.errors.required">Prénom requis</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label for="lastName">Nom</label>
+      <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+      <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+        <div *ngIf="f.lastName.errors.required">Nom requis</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="username">Nom d'utilisateur</label>
+      <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+        <div *ngIf="f.username.errors.required">Nom d'utilisateur requis</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label for="password">
+        Mot de passe
+        <em *ngIf="!isAddMode">(Laisser en blanc pour conserver le même mot de passe)</em>
+      </label>
+      <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Mot de passe requis</div>
+        <div *ngIf="f.password.errors.minlength">Le mot de passe doit être au moins de 6 caractères</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div style="margin-left: 2px !important; width: 550px !important;">
+      <label for="email">Email</label>
+      <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">mail requis</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button [disabled]="loading" class="btn btn-primary btn-ajout pull-right" style="margin-right: 10px !important;" (click)="parentModal.hide();">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Modifier
+    </button>
+    <button class="btn btn-close pull-right" (click)="parentModal.hide();" style="margin-right:6px !important;">Annuler</button>
+  </div>
+</form>
       </div>
     </div>
   </div>
 </div>
-

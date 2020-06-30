@@ -5,6 +5,7 @@ import {Professeur} from '../model/professeur.model';
 import {Responsabilite} from '../model/responsabilite.model';
 import {Departement} from '../model/departement.model';
 import {ToastrService} from 'ngx-toastr';
+import {Filiere} from "../model/filiere";
 
 @Injectable({
   providedIn: 'root'
@@ -197,6 +198,15 @@ export class ProfesseurService {
   }
   public vider(){
     this.professeur = null;
+  }
+  public findProfesseurByDepartementLibelle(libelle) {
+    this.http.get<Array<Professeur>>(this._urlprof + 'find-by-departement/' + libelle ).subscribe(
+      data => {
+        console.log(data);
+        this.professeurs = data;
+        console.log('fbjd ' + this.professeurs);
+      }
+    );
   }
 }
 

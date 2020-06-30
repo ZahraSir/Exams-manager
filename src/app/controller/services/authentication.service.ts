@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import {User} from '../model';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
+import {Departement} from '../model/departement.model';
 
 
 
@@ -15,16 +16,49 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   private _urlemail = 'http://localhost:8090/exam-api/sendemail/';
-  constructor(private http: HttpClient, private afAuth: AngularFireAuth,private router: Router) {
+  private _urldepart = 'http://localhost:8090/exam-api/departements/';
+  private _departements: Array<string>;
+  private _departement: Departement;
+
+
+  constructor(private http: HttpClient, private afAuth: AngularFireAuth, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
+  get departements(): Array<string> {
+    if (this._departements == null) {
+      this._departements = new Array<string>();
+    }
+    return this._departements;
+  }
 
+  set departements(value: Array<string>) {
+    this._departements = value;
+  }
+  get departement(): Departement {
+    if (this._departement == null) {
+      this._departement = new Departement();
+    }
+    return this._departement;
+  }
+
+  set departement(value: Departement) {
+    this._departement = value;
+  }
+
+  public getDepartement() {
+    this.http.get<Array<Departement>>(this._urldepart + 'find-all').subscribe(
+      data => {
+        for (const depart of data){
+          this.departements.push(depart.libelle);
+        }
+      }
+    );
+  }
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
-
   login(username, password) {
     return this.http.post<any>(`/users/authenticate`, { username, password })
       .pipe(map(user => {
@@ -51,8 +85,6 @@ export class AuthenticationService {
         console.log('nonnnn');
       });
   }
-
-
   update(id, params) {
     return this.http.put(`/users/${id}`, params)
       .pipe(map(x => {
@@ -68,8 +100,28 @@ export class AuthenticationService {
         return x;
       }));
   }
-  resetPassword({ token, password, confirmPassword }) {
-    return this.http.post(`/reset-password`, { token, password, confirmPassword });
+  EditUser(id, params) {
+    return this.http.put(`/user/${id}`, params)
+      .pipe(map(x => {
+        // update stored user if the logged in user updated their own record
+
+          // update local storage
+          const user = { ...params };
+         localStorage.setItem('user', JSON.stringify(user));
+
+          // publish updated user to subscribers
+         this.currentUserSubject.next(user);
+        return x;
+      }));
+  }
+  delete(id: number) {
+    return this.http.delete(`/users/${id}`).pipe(map(x => {
+      if (id === this.currentUserSubject.value.id){
+        this.logout();
+      }
+      console.log('deletedd');
+      return x;
+    }));
   }
   getById(id: number) {
     return this.http.get<User>(`/users/${id}`);
@@ -82,14 +134,6 @@ export class AuthenticationService {
     return this.http.post(`/users/register`, user);
   }
 
-  delete(id: number) {
-    return this.http.delete(`/users/${id}`).pipe(map(x => {
-      if (id === this.currentUserSubject.value.id){
-        this.logout();
-      }
-      console.log('deletedd');
-      return x;
-    }));
-  }
+
 
 }

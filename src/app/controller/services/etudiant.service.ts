@@ -162,5 +162,15 @@ export class EtudiantService {
       }
     );
   }
+public findEtudiantByDepartementLibelle(libelle) {
+  this.http.get<Array<Etudiant>>(this._urlEtudiants + 'filiere/departement/' + libelle ).subscribe(
+    data => {
+      console.log(data);
+      this._etudiants = data;
+      console.log('fbjd ' + this.niveauSemestres);
+
+    }
+  );
+}
 }
 

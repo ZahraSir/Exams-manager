@@ -7,7 +7,6 @@ import {Exam} from '../../controller/model/exam.model';
 import {Surveillant} from '../../controller/model/surveillant.model';
 import {Module} from '../../controller/model/module.model';
 import {Salles} from '../../controller/model/salles';
-import {ExamSurveillant} from '../../controller/model/exam-surveillant';
 import {ExamSalle} from '../../controller/model/exam-salle';
 import {SallesService} from '../../controller/services/salles.service';
 import {Personnel} from '../../controller/model/personnel.model';
@@ -15,7 +14,7 @@ import {SurveillantService} from '../../controller/services/surveillant.service'
 import {ToastrService} from 'ngx-toastr';
 import {Filiere} from '../../controller/model/filiere';
 import * as moment from 'moment';
-import {DatePipe} from '@angular/common';
+import { Message } from 'primeng/api';
 
 
 @Component({
@@ -31,13 +30,13 @@ export class ExamComponent implements OnInit {
   item: string;
   dateDebut: Date;
   dateFin: string;
-  dateFIn: Date;
-  diffDate: any;
-  difTime: any;
+  dateF: Date;
+  dateD: Date;
+  msgs: Message[] = [];
+  msg: Message[] = [];
   p = 1;
-  dateDep: string;
 
-  constructor(private examService: ExamService, public datepipe: DatePipe,
+  constructor(private examService: ExamService,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) { }
 
@@ -47,7 +46,6 @@ export class ExamComponent implements OnInit {
     this.examService.getSalles();
     this.examService.getPersonnel();
     this.examService.getSurveillant();
-    this.examService.getExamSurveillant();
     this.examService.getExamSalle();
     this.examService.getFiliere();
   }
@@ -75,12 +73,6 @@ export class ExamComponent implements OnInit {
   get exam(): Exam {
     return this.examService.exam;
   }
-  get examSurves(): Array<ExamSurveillant> {
-    return this.examService.examSurves;
-  }
-  get examSurve(): ExamSurveillant {
-    return this.examService.examSurve;
-  }
   get examSalles(): Array<ExamSalle> {
     return this.examService.examSalles;
   }
@@ -93,12 +85,14 @@ export class ExamComponent implements OnInit {
   get personnel(): Personnel {
     return this.examService.personnel;
   }
+
+  get survei(): Personnel{
+    return this.examService.survei;
+  }
   public deleteByReference(exam: Exam) {
     this.examService.deleteByReference(exam);
   }
-  public findSurveillantByExamReference(exam: Exam){
-    this.examService.findSurveillantByExamReference(exam);
-  }
+
   public findSalleByExamReference(exam: Exam){
     this.examService.findSalleByExamReference(exam);
   }
@@ -124,9 +118,7 @@ export class ExamComponent implements OnInit {
     this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
   }
 
-  public addSurveillant(surveillant: Surveillant){
-    this.examService.addSurveillant(surveillant);
-  }
+
   public addSalle(salle: Salles){
     this.examService.addSalle(salle);
   }
@@ -168,22 +160,18 @@ export class ExamComponent implements OnInit {
   public findEtatPrevue() {
     this.salleService.findEtatPrevue();
   }
-  public addPersonnel(personnel: Personnel){
-    this.examService.addPersonnel(personnel);
-  }
 
   public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
     this.examService.findExamSalle(designation, dateDepart, dateFin);
   }
-  public findExamSurveillant(nom: string, dateDepart: string, dateFin: string ){
-    this.examService.findExamSurveillant(nom, dateDepart, dateFin);
+  public  findSurveillant(nom: string, dateDepart: string, dateFin: string ){
+    this.examService.findSurveillant(nom, dateDepart, dateFin)
   }
-
   public show() {
     this.toastrService.success('hellokdkq', 'dkdlkmldkqmlkdm');
   }
   public deleteByNomFromView(surveillant: Personnel) {
-    console.log(surveillant+'hvjf');
+    console.log(surveillant+ 'hvjf');
     this.examService.deleteByNomFromView(surveillant);
   }
   public deleteByDesignationFromView(salle: Salles) {
@@ -199,22 +187,31 @@ export class ExamComponent implements OnInit {
     return this.examService.validate();
   }
 
-  public validateSurveillant(): boolean{
-    return this.examService.validateSurveillant();
-  }
   public deleteExamBySurveillantId(surveillant: Surveillant) {
     this.examService.deleteExamBySurveillantId(surveillant);
   }
   public ajouter(value){
-    this.dateDebut = new Date(value);
-    this.dateDebut.setHours(this.dateDebut.getHours() + 2);
-    this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
-    /*this.dateDep = this.datepipe.transform(this.dateDebut, 'dd/MM/yyyy');*/
-    this.exam.dateFin = this.dateFin;
-
+    if(this.exam.dateFin != null){
+      this.dateD = new Date(this.exam.dateDepart);
+      this.dateF = new Date(this.exam.dateFin)
+      console.log(this.dateD);
+      console.log(this.dateF);
+      let time = this.dateF.getTime() - this.dateD.getTime();
+      console.log(time)
+      if(time < 0){
+        this.msg.push({severity: 'error', detail: 'Date départ doit être plus petit que la date fin!!'});
+      }else{
+        this.msg = []
+      }
+    }else{
+      this.dateDebut = new Date(value);
+      this.dateDebut.setHours(this.dateDebut.getHours() + 2);
+      this.dateFin = moment(this.dateDebut).format('YYYY-MM-DD[T]HH:mm');
+      this.exam.dateFin = this.dateFin;
+    }
   }
-  get examSa(): Array<ExamSalle>{
-    return this.examService.examSa;
+  get examSal(): ExamSalle{
+    return this.examService.examSal;
   }
 
   public addExamSalle(){
@@ -222,13 +219,16 @@ export class ExamComponent implements OnInit {
     this.examService.addExamSalle(this.examSalle);
 
   }
-
+public addExSalle(exSalle: ExamSalle) {
+    console.log(exSalle);
+    this.examService.addExSalle(exSalle);
+}
   get surveillant(): Surveillant {
     return this.examService.surveillant;
   }
 
   public addSurve(surve: Personnel){
-    console.log(surve)
+    console.log(surve);
     this.examService.addSurve(surve);
   }
 
@@ -238,22 +238,47 @@ export class ExamComponent implements OnInit {
   public deleteExamSallesByDesignationFromView(examSalle: ExamSalle) {
     this.examService.deleteExamSallesByDesignationFromView(examSalle);
   }
-  /*
-  public valide(value) {
-    this.dateDebut = new Date(value);
-    this.dateFIn = this.dateDebut.setHours(this.dateDebut.getHours() + 2);
-    this.diffDate =  this.dateDebut.getHours() - this.dateFin.getH;
-    this.difTime = this.diffDate / (1000 * 3600 * 24);
-    if (this.difTime < 0) {
-      console.log(this.diffDate);
-      console.log(this.difTime);
-      this.toastrService.success(  ' a été ajouté avec succés ', 'Ajout réussi!');
-    }
-    else {
-      console.log(this.diffDate);
-      console.log(this.difTime);
-      this.toastrService.error( ' errrii ', 'llf;dl!');
-    }
-  }*/
 
+  public validateExamSalle(){
+    return this.examService.validateExamSalle();
+  }
+  public verifier(value){
+    if( this.exam.dateDepart != null)
+    {
+      this.dateD = new Date(this.exam.dateDepart);
+      this.dateF = new Date(this.exam.dateFin)
+      let time = this.dateF.getTime() - this.dateD.getTime();
+      if(time < 0){
+        this.msgs.push({severity: 'error', detail: 'Date fin doit être plus grand que la date départ!!'});
+      }else{
+        this.msgs = [];
+      }
+    }else{
+      this.dateF = new Date(value);
+      this.dateF.setHours(this.dateF.getHours() - 2);
+      let dateD = moment(this.dateF).format('YYYY-MM-DD[T]HH:mm');
+      this.exam.dateDepart = dateD;
+    }
+  }
+
+  public validateSave(): boolean{
+    return this.examService.validateSave();
+  }
+  public deleteExamSalleById(id) {
+    console.log(id);
+    this.examService.deleteExamSalleById(id);
+  }
+  get exSalles(): Array<ExamSalle> {
+    return this.examService.exSalles;
+  }
+  public saveExamSalleModifie( exSalles: Array<ExamSalle>){
+    for( const examSalle of exSalles){
+      console.log('dyall for' + this.examSalle);
+      this.exam.examSalles.push(examSalle);
+
+    }
+    console.log(this.exam.examSalles)
+
+    return this.examService.saveExamSalleModifie(this.exam);
+  }
 }

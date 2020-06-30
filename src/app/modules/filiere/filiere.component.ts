@@ -166,4 +166,7 @@ export class FiliereComponent implements OnInit {
     console.log(libelle)
     this.filiereService.findByDepartementLibelle(libelle);
   }
+  public validate(): boolean{
+    return this.filiereService.validate();
+  }
 }

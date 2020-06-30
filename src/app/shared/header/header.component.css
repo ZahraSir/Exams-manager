@@ -468,7 +468,7 @@ header{
   position: fixed;
 }
 .menu {
-  margin-left: -400px;
+  margin-left: -260px;
   position: relative;
   width: 1000px;
   height: 50px;
@@ -550,7 +550,7 @@ a:nth-child(12) {
   width: 68px;
   left: 6px;
   /*background-color: #90CBBF;*/
-  background-color: #4B657F;
+  background-color: #2e3047;
 }
 .menu .start-about, a:nth-child(2):hover~.animation {
   width: 115px;
@@ -770,3 +770,4 @@ a:nth-child(12) {
     margin-left: -950px !important ;
   }
 }
+/*.menu a.active{ background-color: #85929E ; width: 60; margin-right: -40; border-radius: 10px; }*/

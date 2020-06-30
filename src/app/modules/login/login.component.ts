@@ -51,6 +51,9 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    // reset alerts on submit
+    this.alertService.clear();
+
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
@@ -61,7 +64,13 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigateByUrl('/admin');
+          console.log(data)
+          if (data.role === 'admin'){
+            this.router.navigateByUrl('/admin');
+          }
+          else {
+            this.router.navigateByUrl('/responsable');
+          }
         },
         error => {
           this.alertService.error(error);
@@ -69,7 +78,5 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         });
   }
-  public  sendSimpleMessage() {
-    this.authenticationService.sendSimpleMessage('fatmazahrazaizi@gmail.com', 'importan', 'hey zahra');
-  }
+
 }

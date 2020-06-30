@@ -16,7 +16,6 @@ import { ProfesseurService } from 'src/app/controller/services/professeur.servic
   styleUrls: ['./module-create.component.css']
 })
 export class ModuleCreateComponent implements OnInit {
-
   constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private modalService: BsModalService,
               private professeurService: ProfesseurService) { }
   item: string;
@@ -97,5 +96,8 @@ export class ModuleCreateComponent implements OnInit {
   }
   public findByLibelle(libelle){
     this.moduleService.findByLibelle(libelle)
+  }
+  public validate(){
+    return this.moduleService.validate();
   }
 }

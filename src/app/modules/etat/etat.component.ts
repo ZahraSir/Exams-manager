@@ -20,6 +20,7 @@ export class EtatComponent implements OnInit {
   p = 1;
   currentUser: User;
   users = [];
+  user: User;
   constructor(private etatService: EtatService,
               private salleService: SallesService,
               private modalService: BsModalService, private authenticationService: AuthenticationService)

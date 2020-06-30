@@ -1,0 +1,21 @@
+
+<div class="img" style="margin-left: -80px;">
+  <section>
+    <div class="box">
+      <h1>Bienvenu {{currentUser.username}} <span>dans l'application gestion des examens</span> </h1>
+      <button type="button" class="button" (click)="openModal(template)">À propos de l'application</button>
+    </div>
+  </section>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    This is a modal.
+  </div>
+</ng-template>

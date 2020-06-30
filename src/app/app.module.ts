@@ -15,11 +15,24 @@ import {LoginComponent} from './modules/login';
 import {RegisterComponent} from './modules/register';
 import {AlertComponent} from './modules/_components';
 import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from './modules/_helpers';
-import {ChangeComponent} from './modules/change/change.component';
-import {ResetComponent} from './modules/reset/reset.component';
 import {environment} from '../environments/environment';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {AngularFireModule} from '@angular/fire';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {ProfesseursComponent} from './layouts/responsable/professeur/professeur.component';
+import {ExamsComponent} from './layouts/responsable/exam/exam.component';
+import {ModulesComponent} from './layouts/responsable/module/module.component';
+import {FilieresComponent} from './layouts/responsable/filiere/filiere.component';
+import {EtudiantsComponent} from './layouts/responsable/etudiant/etudiant.component';
+import {ResponsableComponent} from './layouts/responsable/responsable.component';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {TableModule} from 'primeng/table';
+import {FlatpickrModule} from 'angularx-flatpickr';
+import {TabsModule} from 'ngx-bootstrap/tabs';
+import { SalleComponent } from './layouts/responsable/salle/salle.component';
+import { AcceuilComponent } from './modules/acceuil/acceuil.component';
+import { AcceuiComponent } from './layouts/responsable/acceui/acceui.component';
 
 
 
@@ -36,8 +49,15 @@ registerLocaleData(localeFr);
     LoginComponent,
     RegisterComponent,
     AlertComponent,
-    ChangeComponent,
-    ResetComponent
+    ProfesseursComponent,
+    ExamsComponent,
+    ModulesComponent,
+    FilieresComponent,
+    EtudiantsComponent,
+    ResponsableComponent,
+    SalleComponent,
+    AcceuiComponent
+
   ],
   imports: [
     BrowserModule,
@@ -47,9 +67,16 @@ registerLocaleData(localeFr);
     HttpClientModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    ModalModule.forRoot(),
     FormsModule,
+    MessagesModule,
+    MessageModule,
+    TableModule,
+    FlatpickrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    TabsModule
   ],
   providers: [        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

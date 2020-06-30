@@ -57,21 +57,23 @@ export class ProfilComponent implements OnInit {
         .pipe(first())
         .subscribe(x => {
           this.f.firstName.setValue(x.firstName);
-          this.f.email.setValue(x.email);
           this.f.lastName.setValue(x.lastName);
           this.f.username.setValue(x.username);
+          this.f.email.setValue(x.email);
         });
     }
   }
+  // convenience getter for easy access to form fields
   get f() { return this.ResponseResetForm.controls; }
-
 
   onSubmit() {
     this.submitted = true;
 
+    // reset alerts on submit
+   // this.alertService.clear();
+
     // stop here if form is invalid
     if (this.ResponseResetForm.invalid) {
-      console.log('form invalide')
       return;
     }
 
@@ -83,34 +85,33 @@ export class ProfilComponent implements OnInit {
     }
   }
 
- updateUser() {
-    this.authenticationService.update(this.id, this.ResponseResetForm.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          console.log('data' + data);
-          this.router.navigateByUrl('/admin');
-        },
-        error => {
-          console.log('error' + error);
-          this.loading = false;
-        });
-  }
-
- createUser() {
+  private createUser() {
     this.authenticationService.register(this.ResponseResetForm.value)
       .pipe(first())
       .subscribe(
         data => {
-
+          // this.alertService.success('User added successfully', { keepAfterRouteChange: true });
           this.router.navigate(['.', { relativeTo: this.route }]);
         },
         error => {
-
+          // this.alertService.error(error);
           this.loading = false;
         });
   }
 
+  private updateUser() {
+    this.authenticationService.update(this.id, this.ResponseResetForm.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+         // this.alertService.success('Update successful', { keepAfterRouteChange: true });
+          // this.router.navigate(['..', { relativeTo: this.route }]);
+        },
+        error => {
+         // this.alertService.error(error);
+          this.loading = false;
+        });
+  }
 
 
 }

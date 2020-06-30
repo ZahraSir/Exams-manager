@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-header"></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exam" style="color: black;">Examen</label>
+                <select class=" input-large form-control" name="exam" id="exam"  
+                        ngModel
+                        required
+                        #exam="ngModel"
+                        [ngClass]="{'form-control' : true,
+                'is-invalid' : !exam?.valid && exam?.touched,
+                  'is-valid' : exam?.valid && exam?.touched}">
+                  <option value="">--Choisir un examen--</option>
+                </select>
+                <small *ngIf="exam?.errors?.required && exam?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div>
+            </div>
+  
+            
+    </div>
+</div>

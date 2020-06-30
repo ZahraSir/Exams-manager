@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 
 import {Departement} from '../model/departement.model';
 import {ToastrService} from 'ngx-toastr';
+import {Professeur} from "../model/professeur.model";
 
 @Injectable({
   providedIn: 'root'
@@ -138,5 +139,14 @@ export class DepartementService {
   }
   public vider(){
     this.departement = null;
+  }
+  public findByLibelle(libelle){
+    console.log('daapertementt' + libelle);
+    this.http.get<Departement>(this._urldepart + 'find-by-libelle/' + libelle).subscribe(
+      data => {
+        this.departement = data;
+        console.log('departement' + data);
+      }
+    );
   }
 }

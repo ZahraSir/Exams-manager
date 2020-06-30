@@ -1,0 +1,50 @@
+<div flexLayout="column">
+<header >
+    <div id="content-wrapper" class="d-flex-column">
+      <div id="content">
+        <nav class="navbar navbar-light navbar-expand shadow mb-4 topbar static-top">
+          <input type="checkbox" id="check">
+          <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0 "  routerLink="/responsable" style="margin-left: 210px !important;">
+            <div class="sidebar-brand-icon rotate-n-15">
+              <i class="fa fa-calendar-check-o header"></i>
+            </div>
+            <div class="sidebar-brand-text mx-5 header">
+              <h4>Gestion des examens</h4>
+            </div>
+          </a>
+          <div class="menu">
+            <a routerLink= "/responsable/salles" routerLinkActive="active" class="nav-item nav1">Salles</a>
+            <a routerLink= "/responsable/professeurs"  routerLinkActive="active" class="nav-item nav2">Professeur</a>
+            <a routerLink= "/responsable/surveillants"  routerLinkActive="active" class="nav-item">Surveillant</a>
+            <a routerLink= "/responsable/etudiants"  routerLinkActive="active" class="nav-item">Etudiant</a>
+            <a routerLink= "/responsable/modules"  routerLinkActive="active" class="nav-item">Module</a>
+            <a routerLink= "/responsable/fillieres"  routerLinkActive="active" class="nav-item">Filiere</a>
+            <a routerLink= "/responsable/exams"  routerLinkActive="active" class="nav-item">Exam</a>
+            <a routerLink= "/responsable/calendars"  routerLinkActive="active" class="nav-item">Calendrier</a>
+            <div class="animation start-home"></div>
+          </div>
+            <div class="btn-group" dropdown>
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                      aria-controls="dropdown-basic">
+                {{currentUser.username}} <span class="caret"></span>
+              </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" style="background-color: #2e3047; margin-top: 13.8px; "
+                  role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item" routerLink= "/responsable/profil/{{currentUser.id}}" style="color: #E7E9F0 !important; ">Profil</a></li>
+                <li class="divider dropdown-divider"></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="logout()" style="color: #E7E9F0 !important; " >Se déconnecter</a>
+                </li>
+              </ul>
+            </div>
+
+          <label for="check" class="checkbtn"><i class="fa fa-bars" style="font-size: 20px !important; color: #E7E9F0 !important; transform: none !important;"></i></label>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+<div flexLayout="row" fxFlex >
+   <div  class="content">
+    <router-outlet></router-outlet>
+   </div>
+</div>
