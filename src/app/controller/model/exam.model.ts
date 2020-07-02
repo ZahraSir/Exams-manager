@@ -3,7 +3,7 @@ import {Module} from './module.model';
 import {ExamSalle} from './exam-salle';
 
 import {Filiere} from './filiere';
-import {Color} from 'colors';
+import { ExamEtudiant } from './exam-etudiant';
 
 
 export class Exam {
@@ -15,4 +15,5 @@ export class Exam {
   public  module = new Module();
   public  examSalles = new Array<ExamSalle>();
   public filiere = new Filiere();
+  public examEtudiants = new Array<ExamEtudiant>();
 }

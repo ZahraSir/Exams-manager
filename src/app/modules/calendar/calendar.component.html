@@ -1,1 +1,104 @@
 
+<div class="calendar"  style="margin-top: 100px;
+    background-color: white;
+    padding-top: 20px;
+    margin-left: -9px;
+    padding-right: 20px;
+    width: 1640px !important;
+    height: 740px;
+    padding-left: 20px; ">
+<full-calendar defaultView="timeGridWeek" [plugins]="calendarPlugins"
+[weekends]="true"
+[locales]="locales"
+locale="fr"
+[events] = "events"
+minTime = "08:00"
+maxTime = "19:00"
+[height] = "50"
+(eventClick)= "click($event);staticModal.show()"
+></full-calendar>
+</div>
+
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+    <div class="modal-header" style="background-color: {{exam.filiere.couleur}}">
+        <h4 id="dialog-static-name" class="modal-title pull-left" style="color: #fff;">Détail</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="filiere" style="color: black;">Filière</label>
+                <input type="text" id="filiere" class="form-control" name="filiere"  [(ngModel)]="exam.filiere.libelle" >
+                </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="module" style="color: black;">Module</label>
+                <input type="text" id="module" class="form-control" name="module"  [(ngModel)]="exam.module.libelle" >
+                </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="prof" style="color: black;">Professeur</label>
+                <input type="text" id="professeur" class="form-control" name="professeur"  [(ngModel)]="exam.module.professeur.nom" >
+                    </div>
+                </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="date" style="color: black;">Date</label>
+                <input type="text" id="date" class="form-control" name="date" value="{{exam.dateDepart | date: 'dd-MM-yyyy'}}">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="heureDepart" style="color: black;">Heure départ</label>
+                <input type="text" id="heureDepart" class="form-control" name="heureDepart" value="{{exam.dateDepart | date: 'HH:mm'}}">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="heureFin" style="color: black;">Heure fin</label>
+                <input type="text" id="heureFin" class="form-control" name="heureFin" value="{{exam.dateFin | date: 'HH:mm'}}">
+              </div>
+            </div>
+          </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header"><h6>La liste des Salles et des surveillants</h6></div>
+        <div class="table-responsive">
+          <table class="table table-bordered" style="text-align: center;">
+            <thead>
+            <tr>
+              <th>Surveillants</th>
+              <th>Salle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor= "let surveillant of surveillants">
+              <td>{{surveillant.nom}} {{surveillant.prenom}} </td>
+              <td>{{surveillant.examSalle.salle.designation}}</td>
+
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+  </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+

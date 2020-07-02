@@ -181,8 +181,8 @@
   <div class="modal fade" bsModal #update="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 id="dialog-nested-name1" class="modal-title pull-left">Ajouter étudiant</h4>
+        <div class="modal-header" style="background-color: #2e3047;">
+          <h4 id="dialog-nested-name1" class="modal-title pull-left" style=" color:white;">Modifier étudiant</h4>
           <button type="button" class="close pull-right" aria-label="Close" (click)="update.hide()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -277,8 +277,8 @@
 
           </form>
           <div class="modal-body">
-            <button class="btn btn-outline-danger pull-right" (click)="update.hide();">Annuler</button>
-            <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)=" update.hide(); updateE(etudiant.id, etudiant.nom, etudiant.prenom, etudiant.cne, etudiant.mail, etudiant.filiere.libelle, etudiant.semestre.id);">Modifier</button>
+            <button class="btn btn-close pull-right" (click)="update.hide();">Annuler</button>
+            <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)=" update.hide(); updateE(etudiant.id, etudiant.nom, etudiant.prenom, etudiant.cne, etudiant.mail, etudiant.filiere.libelle, etudiant.semestre.id);">Modifier</button>
           </div>
         </div>
       </div>

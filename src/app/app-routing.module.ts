@@ -37,8 +37,6 @@ import {ModulesComponent} from './layouts/responsable/module/module.component';
 
 
 
-
-
 const routes: Routes = [
 
   { path: 'home', component: HomeComponent },

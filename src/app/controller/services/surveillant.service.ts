@@ -76,7 +76,7 @@ export class SurveillantService {
     );
   }
 
-  /* public save() {
+ public save() {
      console.log('haa lien ' + this._urlsurve);
      console.log('haa surveillant ' + this.surveillant);
 
@@ -103,7 +103,7 @@ export class SurveillantService {
      myClone.mail = surveillant.mail;
 
      return myClone;
-   }*/
+   }
 
   public deleteByNom(surveillant: Surveillant) {
     this.http.delete<number>(this._urlsurve + 'delete-by-nom/' + surveillant.nom).subscribe(

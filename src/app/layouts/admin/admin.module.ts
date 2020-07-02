@@ -35,13 +35,17 @@ import { ToastrModule } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
 import { SessionComponent } from 'src/app/modules/session/session.component';
 import { ProfilComponent } from 'src/app/modules/profil/profil.component';
-import {FullCalendarModule} from 'ng-fullcalendar';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+
 import {AcceuilComponent} from '../../modules/acceuil/acceuil.component';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
+import {CheckboxModule} from 'primeng/checkbox';
+
 @NgModule({
   declarations: [
     AdminComponent,
@@ -60,8 +64,8 @@ import {AcceuilComponent} from '../../modules/acceuil/acceuil.component';
     PersonnelComponent,
     SessionComponent,
     ProfilComponent,
+     ExamComponent,
     AcceuilComponent
-
   ],
   imports: [
     CommonModule,
@@ -84,10 +88,9 @@ import {AcceuilComponent} from '../../modules/acceuil/acceuil.component';
     NgbModalModule,
     ReactiveFormsModule,
     TableModule,
+    CheckboxModule,
     FlatpickrModule.forRoot(),
     MessagesModule,
-    MessageModule,
-
     ToastrModule.forRoot({
       timeOut: 5000
     }),
@@ -96,6 +99,6 @@ import {AcceuilComponent} from '../../modules/acceuil/acceuil.component';
       useFactory: adapterFactory,
     }),
     TabsModule.forRoot()
-  ]
+  ],
 })
 export class AdminModule { }

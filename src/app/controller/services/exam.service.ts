@@ -7,11 +7,12 @@ import {Surveillant} from '../model/surveillant.model';
 import {Professeur} from '../model/professeur.model';
 import {Module} from '../model/module.model';
 import {ExamSalle} from '../model/exam-salle';
-
 import {Filiere} from '../model/filiere';
 import {Personnel} from '../model/personnel.model';
 import {ToastrService} from 'ngx-toastr';
 import * as moment from 'moment';
+import { ExamEtudiant } from '../model/exam-etudiant';
+import { Etudiant } from '../model/etudiant';
 
 @Injectable({
   providedIn: 'root'
@@ -51,20 +52,9 @@ export class ExamService {
   public surve : number;
   public examS = new ExamSalle();
   private _examSal: ExamSalle;
- private _exSalles: Array<ExamSalle>;
-
-  get exSalles(): Array<ExamSalle> {
-    if(this._exSalles == null){
-      this._exSalles = new Array<ExamSalle>();
-    }
-    return this._exSalles;
-  }
-
-  set exSalles(value: Array<ExamSalle>) {
-    this._exSalles = value;
-  }
-
-
+  private _examEtudiant : ExamEtudiant;
+  private _examEtudiants : Array<ExamEtudiant>;
+  private _etudiants : Array<Etudiant>;
   public event= [];
   get http(): HttpClient {
     return this._http;
@@ -106,6 +96,17 @@ export class ExamService {
     this._exams = value;
   }
 
+  get etudiants(): Array<Etudiant> {
+    if (this._etudiants == null) {
+      this._etudiants = new Array<Etudiant>();
+    }
+    return this._etudiants;
+  }
+
+  set etudiants(value: Array<Etudiant>) {
+    this._etudiants = value;
+  }
+
   get exam(): Exam {
     if (this._exam == null) {
       this._exam = new Exam();
@@ -142,6 +143,28 @@ export class ExamService {
       this._surveillant = new Surveillant();
     }
     return this._surveillant;
+  }
+
+  get examEtudiant(): ExamEtudiant {
+    if (this._examEtudiant == null) {
+      this._examEtudiant = new ExamEtudiant();
+    }
+    return this._examEtudiant;
+  }
+
+  set examEtudiant(value: ExamEtudiant) {
+    this._examEtudiant = value;
+  }
+
+  get examEtudiants(): Array<ExamEtudiant> {
+    if (this._examEtudiants == null) {
+      this._examEtudiants = new Array<ExamEtudiant>();
+    }
+    return this._examEtudiants;
+  }
+
+  set examEtudiants(value: Array<ExamEtudiant>) {
+    this._examEtudiants = value;
   }
 
   set surveillant(value: Surveillant) {
@@ -291,6 +314,7 @@ export class ExamService {
     this.http.get<Array<Filiere>>(this._urlFiliere + 'find-all').subscribe(
       data => {
         this._filieres = data;
+
       }
     );
   }
@@ -346,7 +370,7 @@ export class ExamService {
           this.exam = null;
           console.log(this.exam);
         }else if (data === -1){
-          this.toastr.error(this.exam.module.libelle  + ' existe déja ', 'Attention!');
+          this.toastr.error(this.exam.module.libelle + ' existe déja ', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -407,36 +431,13 @@ export class ExamService {
 
       });
   }
+
+
   public addSalle(salle: Salles){
     this.exam.examSalles.push(this.cloneSalle(salle));
     this.salle = null;
   }
 
- /* public addSurveillant(surveillant: Surveillant){
-    this.exam.examSurveillants.push(this.clone(surveillant));
-    console.log('haaaa' + surveillant);
-    this.surveillant = null;
-  }
-  public addPersonnel(personnel: Personnel){
-    this.exam.examSurveillants.push(this.clonePerso(personnel));
-    console.log('haaaa' + personnel);
-    this.personnel = null;
-  }
-
-  public clone(examSurveillant: Surveillant) {
-    const surve = new ExamSurveillant();
-    surve.surveillant.nom = examSurveillant.nom;
-    surve.surveillant.prenom = examSurveillant.prenom;
-    surve.surveillant.mail = examSurveillant.mail;
-    return surve;
-  }
-  public clonePerso(examSurveillant: Personnel) {
-    const surve = new ExamSurveillant();
-    surve.surveillant.nom = examSurveillant.nom;
-    surve.surveillant.prenom = examSurveillant.prenom;
-    surve.surveillant.mail = examSurveillant.mail;
-    return surve;
-  }*/
 
 
   public cloneSalle(examSalle: Salles) {
@@ -499,15 +500,6 @@ export class ExamService {
     console.log(this.examS.surveillants)
 
   }
-  /*
-  public findSurveillantByExamReference(exam: Exam){
-    this.http.get<Array<ExamSurveillant>>(this._urlExSu + 'exam/find-by-reference/' + exam.reference).subscribe(
-      data => {
-        this.exam.examSurveillants = data;
-        console.log(data + 'hani');
-      }
-    );
-  }*/
 
 
   public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
@@ -659,38 +651,74 @@ export class ExamService {
     return this.examSalle.salle.designation != null && this.examSalle.surveillants.length > 0
   }
 
+  public findExamSalleByDate(dateDepart: string, dateFin: string, module: string){
+    this.http.get<Array<ExamSalle>>('http://localhost:8090/exam-api/exams-salle/dateDepart/'+ moment(dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/dateFin/' + moment(dateFin).format("YYYY-MM-DD[T]HH:mm")+ '/module/' + module ).subscribe(
+      data => {
+        this.examEtudiant.exam.examSalles = data;
+        console.log(this.examEtudiant)
+      }
+    );
+
+  }
+
+  public findEtudiants(filiere: string, semestre: string){
+    this.http.get<Array<Etudiant>>('http://localhost:8090/exam-api/etudiants/filiere/'+ filiere + '/semestre/' +semestre ).subscribe(
+      data => {
+        this.etudiants = data;
+        console.log(this.etudiants)
+      }
+    );
+  }
+
 
   public validateSave():boolean{
     let dateDepart = new Date(this.exam.dateDepart);
     let dateFin = new Date(this.exam.dateFin);
     let time = dateFin.getTime() - dateDepart.getTime();
-    return this.exam.filiere.libelle != null && this.exam.module.libelle != null && this.exam.dateDepart != null && this.exam.dateFin != null && this.exam.prof != null }
+    return this.exam.filiere.libelle != null && this.exam.module.libelle != null && this.exam.dateDepart != null && this.exam.dateFin != null && this.exam.prof != null && time > 0}
 
-  public deleteExamSalleById(id) {
-    this.http.delete(this._urlExSa + 'delete-by-id/' + id).subscribe(
+  public addExamEtudiant(examEtudiant: ExamEtudiant){
+    this.examEtudiants.push(examEtudiant);
+    this.examEtudiant = null
+
+  }
+
+  public affecter(){
+    this.http.post<number>('http://localhost:8090/exam-api/exam-etudiants/save-exam-etudiant/' , this.examEtudiants).subscribe(
       data => {
-        this.deleteByIdFromView(id);
+        console.log(data)
+      }, error => {
+        console.log(error);
       }
     );
   }
-  public  deleteByIdFromView(id) {
-    const index = this.examSalles.findIndex(s => s.id === id);
-    if (index !== -1) {
-      this.examSalles.splice(index, 1);
-    }
+
+  public findByExamId(exam: number){
+    this.http.get<Array<ExamEtudiant>>('http://localhost:8090/exam-api/exam-etudiants/exam/'+ exam).subscribe(
+      data => {
+        this.examEtudiants = data;
+        console.log(this.examEtudiants)
+      }
+    );
   }
 
-  public addExSalle(examSalle: ExamSalle){
-    this.exSalles.push(this.cloneExamSalle(examSalle));
-    console.log(this.exSalles)
-    this.exSalles = null;
-    this.survei = null;
-  }
-  public saveExamSalleModifie(exam: Exam){
-    this.http.post(this._urlExSa + 'save', this.exam).subscribe(
+  public printDocument(exam: number){
+    this.http.post<number>( 'http://localhost:8090/exam-api/exam-etudiants/imprimer/exam/'+ exam, this.examEtudiants).subscribe(
       data => {
         if (data === 1) {
-          this.examSalles = null;
+          this.toastr.success(' la liste a été bien télechargé');
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  public exportExcel(exam: number){
+    this.http.post<number>( 'http://localhost:8090/exam-api/exam-etudiants/export-excel/exam/'+ exam, this.examEtudiants).subscribe(
+      data => {
+        if (data === 1) {
+          this.toastr.success(' la liste a été bien télechargé');
         }
       }, error => {
         console.log(error);
@@ -706,6 +734,4 @@ export class ExamService {
       }
     );
   }
-
 }
-

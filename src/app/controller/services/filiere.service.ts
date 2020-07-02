@@ -232,6 +232,7 @@ export class FiliereService {
     );
   }
   public recupererF(filiere: Filiere){
+    this.filiere.id = filiere.id;
     this.filiere.libelle = filiere.libelle;
     this.filiere.niveau.libelle= filiere.niveau.libelle;
     this.filiere.modules = filiere.modules;
@@ -244,6 +245,7 @@ export class FiliereService {
   }
 
   public saveFM(){
+    console.log(this.filiere.couleur);
     this.http.post<number>(this._urlFiliere + 'saveFM', this.filiere).subscribe(
       data => {
         if (data > 0) {
@@ -283,8 +285,8 @@ export class FiliereService {
     );
   }
 
-  public deleteByLibelle(module: Module){
-    this.http.delete<number>(this._urlModule + '/delete-by-libelle/' + module.libelle).subscribe(
+  public deleteById(module: Module){
+    this.http.delete<number>(this._urlModule + '/delete-by-id/' + module.id).subscribe(
       data => {
         console.log('data suprime');
         this.deleteByReferenceFromView1(module);
@@ -356,5 +358,17 @@ export class FiliereService {
         console.log('departement' + data);
       }
     );
+  }
+
+  public update(id: number, libelle: string, niveau: string, departement: string){
+    console.log(this.filiere.id)
+    this.http.put(this._urlFiliere + 'id/' + id+ '/libelle/' + libelle + '/niveau/'+ niveau + '/departement/' + departement, this.filiere).subscribe(
+      data => {
+        if (data > 0) {
+          this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
+          window.location.reload();
+        }
+       
+      });
   }
 }

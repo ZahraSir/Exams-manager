@@ -15,27 +15,31 @@ import {ToastrService} from 'ngx-toastr';
 import {Filiere} from '../../controller/model/filiere';
 import * as moment from 'moment';
 import { Message } from 'primeng/api';
-
+import { ExamEtudiant } from 'src/app/controller/model/exam-etudiant';
+import { Etudiant } from 'src/app/controller/model/etudiant';
 
 @Component({
   selector: 'app-exam',
   templateUrl: './exam.component.html',
   styleUrls: ['./exam.component.css']
 })
+
 export class ExamComponent implements OnInit {
   selectedSur = new Surveillant();
   selectedSalle = new Salles();
   modalRef: BsModalRef;
   message: string;
   item: string;
-  dateDebut: Date;
+  dateDebut :Date;
   dateFin: string;
   dateF: Date;
   dateD: Date;
   msgs: Message[] = [];
   msg: Message[] = [];
+  id: number;
   p = 1;
-
+  students: Array<string>;
+  exportColumns: any[];
   constructor(private examService: ExamService,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) { }
@@ -97,6 +101,7 @@ export class ExamComponent implements OnInit {
     this.examService.findSalleByExamReference(exam);
   }
   public recuperer(exam: Exam, id: number) {
+    console.log(exam)
     this.examService.recuperer(exam, id);
   }
   public openModal(template: TemplateRef<any>) {
@@ -161,6 +166,9 @@ export class ExamComponent implements OnInit {
     this.salleService.findEtatPrevue();
   }
 
+  public saveSurveillant() {
+    this.surveillantService.save();
+  }
   public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
     this.examService.findExamSalle(designation, dateDepart, dateFin);
   }
@@ -171,7 +179,7 @@ export class ExamComponent implements OnInit {
     this.toastrService.success('hellokdkq', 'dkdlkmldkqmlkdm');
   }
   public deleteByNomFromView(surveillant: Personnel) {
-    console.log(surveillant+ 'hvjf');
+    console.log(surveillant+'hvjf');
     this.examService.deleteByNomFromView(surveillant);
   }
   public deleteByDesignationFromView(salle: Salles) {
@@ -199,14 +207,14 @@ export class ExamComponent implements OnInit {
       let time = this.dateF.getTime() - this.dateD.getTime();
       console.log(time)
       if(time < 0){
-        this.msg.push({severity: 'error', detail: 'Date départ doit être plus petit que la date fin!!'});
+        this.msg.push({severity:'error', detail:'Date départ doit être plus petit que la date fin!!'});
       }else{
         this.msg = []
       }
     }else{
       this.dateDebut = new Date(value);
       this.dateDebut.setHours(this.dateDebut.getHours() + 2);
-      this.dateFin = moment(this.dateDebut).format('YYYY-MM-DD[T]HH:mm');
+      this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
       this.exam.dateFin = this.dateFin;
     }
   }
@@ -219,16 +227,13 @@ export class ExamComponent implements OnInit {
     this.examService.addExamSalle(this.examSalle);
 
   }
-public addExSalle(exSalle: ExamSalle) {
-    console.log(exSalle);
-    this.examService.addExSalle(exSalle);
-}
+
   get surveillant(): Surveillant {
     return this.examService.surveillant;
   }
 
   public addSurve(surve: Personnel){
-    console.log(surve);
+    console.log(surve)
     this.examService.addSurve(surve);
   }
 
@@ -249,14 +254,14 @@ public addExSalle(exSalle: ExamSalle) {
       this.dateF = new Date(this.exam.dateFin)
       let time = this.dateF.getTime() - this.dateD.getTime();
       if(time < 0){
-        this.msgs.push({severity: 'error', detail: 'Date fin doit être plus grand que la date départ!!'});
+        this.msgs.push({severity:'error', detail:'Date fin doit être plus grand que la date départ!!'});
       }else{
-        this.msgs = [];
+        this.msgs = []
       }
     }else{
       this.dateF = new Date(value);
       this.dateF.setHours(this.dateF.getHours() - 2);
-      let dateD = moment(this.dateF).format('YYYY-MM-DD[T]HH:mm');
+      let dateD = moment(this.dateF).format("YYYY-MM-DD[T]HH:mm");
       this.exam.dateDepart = dateD;
     }
   }
@@ -264,21 +269,75 @@ public addExSalle(exSalle: ExamSalle) {
   public validateSave(): boolean{
     return this.examService.validateSave();
   }
-  public deleteExamSalleById(id) {
-    console.log(id);
-    this.examService.deleteExamSalleById(id);
-  }
-  get exSalles(): Array<ExamSalle> {
-    return this.examService.exSalles;
-  }
-  public saveExamSalleModifie( exSalles: Array<ExamSalle>){
-    for( const examSalle of exSalles){
-      console.log('dyall for' + this.examSalle);
-      this.exam.examSalles.push(examSalle);
 
-    }
-    console.log(this.exam.examSalles)
-
-    return this.examService.saveExamSalleModifie(this.exam);
+  get examEtudiant() : ExamEtudiant{
+    return this.examService.examEtudiant;
   }
+
+  get etudiants(): Array<Etudiant>{
+    return this.examService.etudiants;
+  }
+  public recupere(exam : Exam){
+    console.log(exam);
+    this.examService.exam = exam;
+    this.examEtudiant.exam = exam;
+    console.log(this.examEtudiant.exam)
+    this.examService.findExamSalleByDate(exam.dateDepart,exam.dateFin, exam.module.libelle);
+  }
+
+  public findEtudiants(filiere: string, semestre: string){
+    console.log(filiere + ' ' + semestre)
+    this.examService.findEtudiants(filiere, semestre)
+  }
+
+  public aaa(examEtudiant){
+
+    console.log(examEtudiant)
+  }
+
+  public addExamEtudiant(examEtudiant: ExamEtudiant){
+    this.examService.addExamEtudiant(examEtudiant)
+  }
+
+  get examEtudiants() : Array<ExamEtudiant>{
+    return this.examService.examEtudiants;
+  }
+
+  public affecter(){
+    this.examService.affecter();
+
+  }
+
+  public click(etudiant){
+    console.log(etudiant.nom);
+    this.examEtudiant.etudiant = etudiant;
+    this.examEtudiants.push(this.clone(this.examEtudiant));
+    console.log(this.examEtudiants);
+  }
+
+  public clone(examEtudiant: ExamEtudiant){
+    const cloneExamEtudiant = new ExamEtudiant();
+    cloneExamEtudiant.id = examEtudiant.id;
+    cloneExamEtudiant.exam = examEtudiant.exam;
+    cloneExamEtudiant.salle.designation = examEtudiant.salle.designation;
+    cloneExamEtudiant.etudiant = examEtudiant.etudiant;
+    return cloneExamEtudiant;
+  }
+
+
+  public findByExamId(exam: number){
+    this.id = exam;
+    this.examService.findByExamId(exam);
+  }
+
+  public printDocument(exam: number){
+    console.log(this.id)
+    this.examService.printDocument(exam);
+  }
+
+  public exportExcel(exam: number){
+    console.log(this.id)
+    this.examService.exportExcel(exam);
+  }
+
 }

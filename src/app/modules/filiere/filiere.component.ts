@@ -26,6 +26,7 @@ export class FiliereComponent implements OnInit {
   selected: string;
   selectedNiveau: string;
   p = 1;
+  color2: string = '#1976D2';
 
   constructor(private modalService: BsModalService, private filiereService: FiliereService, private moduleService: ModuleService, private etudiantService: EtudiantService, private semestreService: SemestreService) {
     this.selected = 'choisir un niveau';
@@ -137,8 +138,8 @@ export class FiliereComponent implements OnInit {
     this.filiereService.saveM(this.recupereMo(module));
   }
 
-  public deleteByLibelle(module: Module){
-    this.filiereService.deleteByLibelle(module);
+  public deleteById(module: Module){
+    this.filiereService.deleteById(module);
   }
 
   get semestres(): Array<Semestre>{
@@ -166,7 +167,17 @@ export class FiliereComponent implements OnInit {
     console.log(libelle)
     this.filiereService.findByDepartementLibelle(libelle);
   }
-  public validate(): boolean{
+
+  public validate(): boolean {
     return this.filiereService.validate();
+  }
+  public update(filiere: Filiere){
+    console.log(filiere)
+    this.filiereService.update(filiere.id, filiere.libelle, filiere.niveau.libelle, filiere.departement.libelle)
+  }
+  public getColor(value){
+    console.log(value);
+    this.filiere.couleur = value;
+
   }
 }

@@ -142,8 +142,8 @@ currentUser: User;
     this.filiereService.saveM(this.recupereMo(module));
   }
 
-  public deleteByLibelle(module: Module){
-    this.filiereService.deleteByLibelle(module);
+  public deleteById(module: Module){
+    this.filiereService.deleteById(module);
   }
 
   get semestres(): Array<Semestre>{
