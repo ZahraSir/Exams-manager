@@ -31,7 +31,6 @@ import {TableModule} from 'primeng/table';
 import {FlatpickrModule} from 'angularx-flatpickr';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import { SalleComponent } from './layouts/responsable/salle/salle.component';
-import { AcceuilComponent } from './modules/acceuil/acceuil.component';
 import { AcceuiComponent } from './layouts/responsable/acceui/acceui.component';
 
 

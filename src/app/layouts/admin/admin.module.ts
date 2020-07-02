@@ -26,8 +26,6 @@ import {CalendarComponent} from '../../modules/calendar/calendar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EtudiantComponent} from '../../modules/etudiant/etudiant.component';
 import {ModuleCreateComponent} from '../../modules/module/module-create/module-create.component';
-import {CalendarCreateComponent} from '../../modules/calendar/calendar-create/calendar-create.component';
-import {CalendarListComponent} from '../../modules/calendar/calendar-list/calendar-list.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -41,10 +39,9 @@ import {FullCalendarModule} from 'ng-fullcalendar';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ExamEtudiantComponent } from 'src/app/modules/exam/exam-etudiant/exam-etudiant.component';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
-import {AcceuilComponent} from "../../modules/acceuil/acceuil.component";
+import {AcceuilComponent} from '../../modules/acceuil/acceuil.component';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -60,12 +57,9 @@ import {AcceuilComponent} from "../../modules/acceuil/acceuil.component";
     CalendarComponent,
     EtudiantComponent,
     ModuleCreateComponent,
-    CalendarCreateComponent,
-    CalendarListComponent,
     PersonnelComponent,
     SessionComponent,
     ProfilComponent,
-    ExamEtudiantComponent,
     AcceuilComponent
 
   ],
