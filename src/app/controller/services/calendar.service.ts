@@ -4,6 +4,9 @@ import {Router} from '@angular/router';
 import {Exam} from '../model/exam.model';
 
 import moment from 'moment';
+import { EventInput } from '@fullcalendar/core';
+import { Calendar } from '../model/calendar';
+import { Surveillant } from '../model/surveillant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,67 +15,58 @@ export class CalendarService {
 
   constructor(private http: HttpClient, private router: Router) {
   }
-  private _exams: Array<Exam>;
+  private _exam: Exam;
   private _json : string;
-  public events = [];
+  public events : Array<EventInput> = new Array();
+  private _surveillants: Array<Surveillant>;
  
-get exams(): Array<Exam>{
-  if(this._exams == null){
-    this._exams = new  Array<Exam>()
+get exam(): Exam{
+  if(this._exam == null){
+    this._exam = new Exam()
   }
-  return this._exams;
+  return this._exam;
 }
-set exams(value: Array<Exam>){
-  this._exams = value;
+set exam(value: Exam){
+  this._exam = value;
 }
-get json(): string{
-  return this._json;
+
+get surveillants(): Array<Surveillant>{
+  if(this._surveillants == null){
+    this._surveillants = new Array<Surveillant>()
+  }
+  return this._surveillants;
 }
-set json(value: string){
-  this._json = value;
+set surveillants(value: Array<Surveillant>){
+  this._surveillants = value;
 }
-public findAllExam() {
-  this.http.get<Array<Exam>>('http://localhost:8090/exam-api/exams/find-all').subscribe(
+
+
+public findEvents(){
+  this.http.get<Array<Calendar>>('http://localhost:8090/exam-api/calendar/find-all').subscribe(
     data => {
-      this.exams = data;     
-      for(let exam of this.exams){
-          this.events.push(
-           { title : exam.module.libelle + ' ' + exam.filiere.libelle + ' ',
-             start : moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm:ss"),
-             end : moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm:ss"),
-             color: '#f9c66a'
-          }
-          );
-          this.json = JSON.stringify(this.events);
-          
+      this.events= data;
     }
-  console.log(this.json) 
-  }
+  )
+}
+
+public findExam(title, start, end){
+  this.http.get<Exam>('http://localhost:8090/exam-api/exams/events/date-depart/' + start + '/date-fin/' + end +'/module/' + title).subscribe(
+    data => {
+      this.exam = data;
+      this.exam.dateDepart = moment(data.dateDepart).format("YYYY-MM-DD[T]HH:mm");
+      console.log(this.exam);
+      this.findByExam(this.exam.id)
+    }
+  )
+}
+
+public findByExam(id: number){
+  this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/find-by-exam/' + id).subscribe(
+    data => {
+      this.surveillants = data; 
+      console.log(this.surveillants)    
+    }
   );
-  
 
 }
-
-getEvents(){
-  let events;
-  events = this.findAllExam();
-  console.log(events);
-}
-/*
-getEvents() {
-  return this.http.get('http://localhost:8090/exam-api/exams/find-all')
-              .toPromise()
-              //.then(res => <any[]> res.json().data)
-              .then(data=>{
-                this._exams = data;
-                for(let d of data){
-
-                }
-                let res = {'results': JSON.stringify(data),
-                'json': ()=>{return data;}
-              }
-              console.log('hana'+ res);
-              return res; 
-            })
-}*/
 }

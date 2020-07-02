@@ -8,4 +8,5 @@ export class Filiere {
   public niveau = new Niveau();
   public departement = new Departement();
   public modules = new Array<Module>();
+  public couleur : string;
 }

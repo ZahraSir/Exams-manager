@@ -3,7 +3,6 @@ import { NgModule} from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminModule } from './layouts/admin/admin.module';
-import { PrintComponent } from './modules/print/print.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -27,7 +26,6 @@ registerLocaleData(localeFr);
 @NgModule({
   declarations: [
     AppComponent,
-    PrintComponent,
     HomeComponent,
     LoginComponent,
     RegisterComponent,

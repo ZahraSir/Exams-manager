@@ -7,7 +7,6 @@ import {Exam} from '../../controller/model/exam.model';
 import {Surveillant} from '../../controller/model/surveillant.model';
 import {Module} from '../../controller/model/module.model';
 import {Salles} from '../../controller/model/salles';
-import {ExamSurveillant} from '../../controller/model/exam-surveillant';
 import {ExamSalle} from '../../controller/model/exam-salle';
 import {SallesService} from '../../controller/services/salles.service';
 import {Personnel} from '../../controller/model/personnel.model';
@@ -16,6 +15,8 @@ import {ToastrService} from 'ngx-toastr';
 import {Filiere} from '../../controller/model/filiere';
 import * as moment from 'moment';
 import { Message } from 'primeng/api';
+import { ExamEtudiant } from 'src/app/controller/model/exam-etudiant';
+import { Etudiant } from 'src/app/controller/model/etudiant';
 
 
 @Component({
@@ -23,6 +24,7 @@ import { Message } from 'primeng/api';
   templateUrl: './exam.component.html',
   styleUrls: ['./exam.component.css']
 })
+
 export class ExamComponent implements OnInit {
   selectedSur = new Surveillant();
   selectedSalle = new Salles();
@@ -35,8 +37,10 @@ export class ExamComponent implements OnInit {
   dateD: Date;
   msgs: Message[] = [];
   msg: Message[] = [];
+  id: number;
   p = 1;
- 
+  students: Array<string>;
+  exportColumns: any[];
   constructor(private examService: ExamService,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) { }
@@ -47,7 +51,6 @@ export class ExamComponent implements OnInit {
     this.examService.getSalles();
     this.examService.getPersonnel();
     this.examService.getSurveillant();
-    this.examService.getExamSurveillant();
     this.examService.getExamSalle();
     this.examService.getFiliere();
   }
@@ -75,12 +78,6 @@ export class ExamComponent implements OnInit {
   get exam(): Exam {
     return this.examService.exam;
   }
-  get examSurves(): Array<ExamSurveillant> {
-    return this.examService.examSurves;
-  }
-  get examSurve(): ExamSurveillant {
-    return this.examService.examSurve;
-  }
   get examSalles(): Array<ExamSalle> {
     return this.examService.examSalles;
   }
@@ -100,13 +97,12 @@ export class ExamComponent implements OnInit {
   public deleteByReference(exam: Exam) {
     this.examService.deleteByReference(exam);
   }
-  public findSurveillantByExamReference(exam: Exam){
-    this.examService.findSurveillantByExamReference(exam);
-  }
+
   public findSalleByExamReference(exam: Exam){
     this.examService.findSalleByExamReference(exam);
   }
   public recuperer(exam: Exam, id: number) {
+    console.log(exam)
     this.examService.recuperer(exam, id);
   }
   public openModal(template: TemplateRef<any>) {
@@ -128,9 +124,7 @@ export class ExamComponent implements OnInit {
     this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
   }
   
- public addSurveillant(surveillant: Surveillant){
-    this.examService.addSurveillant(surveillant);
-  }
+ 
   public addSalle(salle: Salles){
     this.examService.addSalle(salle);
   }
@@ -172,9 +166,7 @@ export class ExamComponent implements OnInit {
   public findEtatPrevue() {
     this.salleService.findEtatPrevue();
   }
-  public addPersonnel(personnel: Personnel){
-    this.examService.addPersonnel(personnel);
-  }
+ 
   public saveSurveillant() {
     this.surveillantService.save();
   }
@@ -278,4 +270,75 @@ export class ExamComponent implements OnInit {
   public validateSave(): boolean{
     return this.examService.validateSave();
   }
+
+  get examEtudiant() : ExamEtudiant{
+    return this.examService.examEtudiant;
+  }
+  
+  get etudiants(): Array<Etudiant>{
+    return this.examService.etudiants;
+  }
+  public recupere(exam : Exam){
+    console.log(exam);
+    this.examService.exam = exam;
+    this.examEtudiant.exam = exam;
+    console.log(this.examEtudiant.exam)
+    this.examService.findExamSalleByDate(exam.dateDepart,exam.dateFin, exam.module.libelle);
+  }
+
+  public findEtudiants(filiere: string, semestre: string){
+    console.log(filiere + ' ' + semestre)
+    this.examService.findEtudiants(filiere, semestre)
+  }
+
+  public aaa(examEtudiant){
+    
+    console.log(examEtudiant)
+  }
+
+  public addExamEtudiant(examEtudiant: ExamEtudiant){
+    this.examService.addExamEtudiant(examEtudiant)
+  }
+
+get examEtudiants() : Array<ExamEtudiant>{
+  return this.examService.examEtudiants;
+}
+
+public affecter(){
+  this.examService.affecter();
+
+}
+
+public click(etudiant){
+  console.log(etudiant.nom);
+  this.examEtudiant.etudiant = etudiant;
+  this.examEtudiants.push(this.clone(this.examEtudiant));
+  console.log(this.examEtudiants);
+}
+
+public clone(examEtudiant: ExamEtudiant){
+  const cloneExamEtudiant = new ExamEtudiant();
+cloneExamEtudiant.id = examEtudiant.id;
+cloneExamEtudiant.exam = examEtudiant.exam;
+cloneExamEtudiant.salle.designation = examEtudiant.salle.designation;
+cloneExamEtudiant.etudiant = examEtudiant.etudiant;
+return cloneExamEtudiant;
+}
+
+
+public findByExamId(exam: number){
+  this.id = exam;
+  this.examService.findByExamId(exam);
+}
+
+public printDocument(exam: number){
+  console.log(this.id)
+  this.examService.printDocument(exam);
+}
+
+public exportExcel(exam: number){
+  console.log(this.id)
+  this.examService.exportExcel(exam);
+}
+
 }

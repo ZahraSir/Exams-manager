@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { SallesComponent } from './modules/salles/salles.component';
 import { DepartementComponent } from './modules/departement/departement.component';
-import { PrintComponent } from './modules/print/print.component';
 import {ProfesseurComponent} from './modules/professeur/professeur.component';
 import {SurveillantComponent} from './modules/surveillant/surveillant.component';
 import {ResponsabiliteComponent} from './modules/responsabilite/responsabilite.component';
@@ -21,7 +20,7 @@ import { AuthGuard } from './modules/_helpers/auth.guard';
 import { SessionComponent } from './modules/session/session.component';
 import { ProfilComponent } from './modules/profil/profil.component';
 import { ResponsableComponent } from './layouts/responsable/responsable.component';
-import { Role } from './controller/model/role';
+
 
 
 

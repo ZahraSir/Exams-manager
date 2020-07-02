@@ -764,3 +764,11 @@ height: 18px !important;
 .btn-group{
   margin-right: 90px !important;
 }
+
+
+/*.menu a.active{
+background-color: #2980B9 ;
+width: 60;
+margin-right: -40;
+border-radius: 10px;
+}*/

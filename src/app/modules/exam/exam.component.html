@@ -1,7 +1,5 @@
 
 <div style="margin-top: 180px;margin-left: 50px; ">
-  <tabset >
-  <tab heading="Liste des examens" customClass="customClass">
     <!--Liste des Exams-->
 <div style="margin-top: 50px;margin-left: 20px; width: 1500px;">
   <div class="respo">
@@ -32,6 +30,7 @@ background-color: #fff;">
     <th>Heure fin</th>
     <th>Professeur</th>
     <th>Salles & Surveillants</th>
+    <th>Liste des étudiants</th>
     <th>Actions</th>
     </thead>
     <tbody>
@@ -42,10 +41,12 @@ background-color: #fff;">
       <td>{{e.dateDepart | date: 'HH:mm'}}</td>
       <td>{{e.dateFin | date: 'HH:mm'}}</td>
       <td>{{e.prof.nom}}</td>
-      <td> <button class="btn btn-success btn-sm " style="margin-left: 5px;"  (click)=" ModalSalle.show();findByExam(e.id)">Liste Salle</button></td>
+      <td> <button class="btn btn-success btn-sm "  (click)=" ModalSalle.show();findByExam(e.id)">Liste des Salle et des surveillants</button></td>
+      <td> <button class="btn btn-dark btn-sm "  (click)=" ModalEtudiants.show();findByExamId(e.id)">Liste des étudiants</button></td>
       <td>
         <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
-        <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findSalleByExamReference(exam); findSurveillantByExamReference(exam);"></button>
+        <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findSalleByExamReference(exam);"></button>
+        <button class="btn btn-warning btn-sm " style="margin-left: 5px;" (click)="ModalEtudiant.show();recupere(e); findEtudiants(e.filiere.libelle, e.module.semestre.libelle);" >Affectation des étudiants</button>
       </td>
 
       <ng-template #template >
@@ -65,9 +66,7 @@ background-color: #fff;">
 </div>
   </div>
   </div>
-  </tab>
-  <tab heading="Affectation des étudiant aux salles" customClass="customClass"><app-exam-etudiant></app-exam-etudiant></tab>
-</tabset>
+ 
 
 
 <!--Ajouter exam-->
@@ -122,7 +121,7 @@ background-color: #fff;">
             <label for="dateDepart" style="color: black;">Date départ</label>
             <input type="datetime-local" id="dateDepart" (change)="ajouter($event.target.value)"
                    placeholder="dateDepart"
-                   min="2020-01-01T00:00" max="2020-07-01T00:00"
+                   min="2020-01-01T00:00" max="2100-12-31T00:00"
                    class="form-control" name="dateDepart" [(ngModel)]="exam.dateDepart"
                    ngModel
                    required
@@ -140,7 +139,7 @@ background-color: #fff;">
             <div class="form-group">
               <label for="dateFin" style="color: black;">Date fin</label>
               <input type="datetime-local" id="dateFin"
-                     min="2020-01-01T00:00" max="2020-07-01T00:00"
+                     min="2020-01-01T00:00" max="2100-12-31T00:00"
                      value="2020-05-12T19:30" class="form-control" name="dateFin"  [(ngModel)]="exam.dateFin" (change)="verifier($event.target.value)"
                      ngModel
                      required
@@ -381,7 +380,7 @@ background-color: #fff;">
               </div>
             </div>
             <div class="form-group">
-              <button class="btn btn-info fa fa-plus" type="button" (click)="ajoutSurveillant.show(); " style="background-color: #2e3047;border-color: #2e3047;"><span style="font: 30px">Ajouter surveillants</span></button>
+              <button class="btn btn-info fa fa-plus" type="button"  style="background-color: #2e3047;border-color: #2e3047;"><span style="font: 30px">Ajouter surveillants</span></button>
             </div>
           </form>
           <!-- liste d'edite des surveillants -->
@@ -399,10 +398,8 @@ background-color: #fff;">
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor= "let surve of exam.examSurveillants">
-                    <td>{{surve.surveillant.nom}}</td>
-                    <td>{{surve.surveillant.prenom}}</td>
-                    <td>{{surve.surveillant.mail}}</td>
+                  <tr >
+                   
                     <td>
                       <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modalSu);"></button>
                     </td>
@@ -410,7 +407,7 @@ background-color: #fff;">
                     <ng-template #modalSu>
                       <div class="modal-body text-center">
                         <p>Voulez-vous vraiment supprimer ce surveillant?</p>
-                        <button type="button" class="btn btn-success" (click)="confirm();deleteExamBySurveillantId(surve) "  >Oui</button>
+                        <button type="button" class="btn btn-success" (click)="confirm();"  >Oui</button>
                         <button type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
                       </div>
                     </ng-template>
@@ -472,39 +469,7 @@ background-color: #fff;">
 
 
 
-  <!--liste des surveillants  dans globale interface -->
-  <div class="modal fade" bsModal #ModalSurveillant="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="card">
-
-              <div class="card-header"><h6>La liste des Surveillants</h6></div>
-              <div class="table-responsive">
-                <table class="table table-bordered" style="text-align: center;">
-                  <thead>
-                  <tr>
-                    <th>Nom</th>
-                    <th>Prenom</th>
-                    <th>Email</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor= "let surve of exam.examSurveillants">
-                    <td>{{surve.surveillant.nom}}</td>
-                    <td>{{surve.surveillant.prenom}}</td>
-                    <td>{{surve.surveillant.mail}}</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  
 
 
 
@@ -541,61 +506,7 @@ background-color: #fff;">
     </div>
   </div>
 
-  <!-- confirmaton de l'edit
-  <div class="modal fade" bsModal #thirdModal2="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name3" >
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content" id="thirdModal2">
-        <div class="modal-body">
-          la salle est editee .
-        </div>
-      </div>
-    </div>
-  </div>
-  -->
-  <!-- ajouter surveillant dans l'édit-->
-  <div class="modal fade" bsModal #ajoutSurveillant="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: #2e3047;">
-          <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter Surveillant</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="ajoutSurveillant.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="row">
-              <div class="col-md-12">
-                <label for="surveillant" style="color: black;">Surveillants</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-10">
-                <div class="form-group" >
-                  <select class=" input-large form-control" name="surveillant" id="surveillant" (change)="recupererPerso($event.target.value);"
-                          ngModel
-                          required
-                          #surveillant="ngModel"
-                          [ngClass]="{'form-control' : true,
-              'is-invalid' : !surveillant?.valid && surveillant?.touched,
-                'is-valid' : surveillant?.valid && surveillant?.touched}" >
 
-                    <option *ngFor="let surve of personnels" [value]="surve.nom">{{surve.nom}}</option>
-                  </select>
-                  <small *ngIf="surveillant?.errors?.required && surveillant?.touched" class="form-text text-danger">champs obligatoire</small>
-                </div></div>
-
-            </div>
-            <div class="form-group">
-              <button class="btn btn-info " type="button" (click)="addPersonnel(perso);" style="background-color: #2e3047;border-color: #2e3047;">Ajouter</button>
-            </div>
-          </form>
-
-
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- ajouter salle dans l'edit-->
   <div class="modal fade" bsModal #ajoutSalle="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1" >
     <div class="modal-dialog modal-lg">
@@ -638,6 +549,169 @@ background-color: #fff;">
           </form>
 
 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Affectation des etudiants-->
+<div class="modal fade" bsModal #ModalEtudiant="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #2e3047;">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Affectation des etudiants</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="ModalEtudiant.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="filiere" style="color: black;">Filière</label>
+                <input type="text" class="form-control" name="filiere" placeholder="{{exam.filiere.libelle}}" [(ngModel)]="exam.filiere.libelle">
+                <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div>
+            </div>
+  
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="module" style="color: black;">Examen</label>
+                <input type="text" class="form-control" name="examen" placeholder="Examen" [(ngModel)]="exam.module.libelle">
+                <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
+              </div>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="filiere" style="color: black;">Date</label>
+              <input type="text" class="form-control" name="date" placeholder="{{exam.dateDepart | date: 'dd/MM/yyyy'}}" [value]="exam.dateDepart | date: 'dd/MM/yyyy'">
+              <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+          </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="filiere" style="color: black;">Heure début</label>
+              <input type="text" class="form-control" name="hd" placeholder="{{exam.dateDepart | date: 'HH:mm'}}" [value]="exam.dateDepart | date: 'HH:mm'">
+              <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+          </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="module" style="color: black;">Heure fin</label>
+              <input type="text" class="form-control" name="hf" placeholder="{{exam.dateFin| date: 'HH:mm'}}" [value]="exam.dateFin | date: 'HH:mm'">
+              <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="filiere" style="color: black;">Salle</label>
+            <select class=" input-large form-control" name="salle" id="salle" [(ngModel)]="examEtudiant.salle.designation"
+                    ngModel
+                    required
+                    #salle="ngModel"
+                    [ngClass]="{'form-control' : true,
+            'is-invalid' : !salle?.valid && salle?.touched,
+              'is-valid' : salle?.valid && salle?.touched}">
+              <option value="">--Choisir une salle--</option>
+              <option *ngFor="let examSalle of exam.examSalles" [value]="examSalle.salle.designation">{{examSalle.salle.designation}}</option>
+            </select>
+            <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+        </div>
+        </div>
+      </div>
+        <div class="table-responsive">
+          <table class="table table-bordered" style="text-align: center;" >
+            <thead>
+            <th></th>
+            <th>CNE</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Semestre</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let etudiant of etudiants">
+             <td><p-checkbox name="groupname" [value]="etudiant" [(ngModel)]="examEtudiant.etudiant" (click)="click(etudiant)"></p-checkbox></td>
+              <td >{{etudiant.cne}}</td>
+              <td>{{etudiant.nom}}</td>
+              <td>{{etudiant.prenom}} </td>
+              <td>{{etudiant.semestre.libelle}} </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+          <div class="card">
+            <div class="card-header">Liste des affectations</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" style="text-align: center;" >
+                  <thead>
+                  <th>Salle</th>
+                  <th>Etudiants</th>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let examEtudiant of examEtudiants">
+                    <td >{{examEtudiant.salle.designation}}</td>
+                    <td>{{examEtudiant.etudiant.nom}} {{examEtudiant.etudiant.prenom}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+    
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-close pull-right" (click)="ModalEtudiant.hide();">Annuler</button>
+          <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="affecter()">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Liste des etudiants-->
+<div class="modal fade" bsModal #ModalEtudiants="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #2e3047;">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Liste des étudiants</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="ModalEtudiants.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" style="text-align: center;" >
+                <thead>
+                <th>Etudiants</th>
+                <th>Salle</th>
+              
+                </thead>
+                <tbody>
+                  <tr *ngFor="let examEtudiant of examEtudiants">
+                    <td>{{examEtudiant.etudiant.nom}} {{examEtudiant.etudiant.prenom}}</td>
+                    <td >{{examEtudiant.salle.designation}}</td>
+                  </tr>   
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button class="btn btn-danger pull-right" (click)="printDocument(id)">PDF</button>
+          <button class="btn btn-success pull-right" style="margin-right: 5px;" (click)="exportExcel(id)">EXCEL</button>
         </div>
       </div>
     </div>
