@@ -22,7 +22,6 @@ import { ProfilComponent } from './modules/profil/profil.component';
 import {Role} from './controller/model/role';
 import { ResponsableComponent } from './layouts/responsable/responsable.component';
 import {ProfesseursComponent} from './layouts/responsable/professeur/professeur.component';
-import {ExamsComponent} from './layouts/responsable/exam/exam.component';
 import {FilieresComponent} from './layouts/responsable/filiere/filiere.component';
 import {EtudiantsComponent} from './layouts/responsable/etudiant/etudiant.component';
 import {SalleComponent} from './layouts/responsable/salle/salle.component';
@@ -30,6 +29,7 @@ import {AcceuilComponent} from './modules/acceuil/acceuil.component';
 import {AcceuiComponent} from './layouts/responsable/acceui/acceui.component';
 import {ModulesComponent} from './layouts/responsable/module/module.component';
 import {CalendrierComponent} from './layouts/responsable/calendrier/calendrier.component';
+import {ExamsComponent} from "./layouts/responsable/exam/exam.component";
 
 
 
@@ -68,9 +68,9 @@ const routes: Routes = [
       {path: 'salles', component: SalleComponent},
       {path: 'professeurs', component: ProfesseursComponent},
       {path: 'surveillants', component: SurveillantComponent},
-      {path: 'exams', component: ExamsComponent},
       {path: 'modules', component: ModulesComponent},
       {path: 'fillieres', component: FilieresComponent},
+      {path: 'exams', component: ExamsComponent},
       {path: 'calendars', component: CalendarComponent},
       {path: 'etudiants', component: EtudiantsComponent},
       {path: 'profil/:id', component: ProfilComponent},

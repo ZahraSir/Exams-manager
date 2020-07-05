@@ -41,9 +41,11 @@ export class ExamsComponent implements OnInit {
   dateD: Date;
   msgs: Message[] = [];
   msg: Message[] = [];
+  title: string;
   id:number;
   p = 1;
   currentUser: User ;
+  examP   = new Exam();
   constructor(private examService: ExamService, private filiereService: FiliereService, private authenticationService: AuthenticationService,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) {this.currentUser = authenticationService.currentUserValue; }
@@ -123,9 +125,10 @@ export class ExamsComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
-    this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
+  public update(id: number, dateDepart: string, dateFin: string, module: String, prof: string, filiere: string){
+    this.examService.update(id, dateDepart, dateFin, module, prof, filiere, this.title);
   }
+
 
 
   public addSalle(salle: Salles){
@@ -233,7 +236,9 @@ export class ExamsComponent implements OnInit {
   get surveillant(): Surveillant {
     return this.examService.surveillant;
   }
-
+  get examEtudiantss() : Array<ExamEtudiant>{
+    return this.examService.examEtudiantss;
+  }
   public addSurve(surve: Personnel){
     console.log(surve);
     this.examService.addSurve(surve);
@@ -272,19 +277,21 @@ export class ExamsComponent implements OnInit {
     return this.examService.validateSave();
   }
 
-  public findByExamId(exam: number){
-    this.id = exam;
-    this.examService.findByExamId(exam);
+  public findByExamModuleDate(exam: Exam){
+    this.examP = exam;
+    this.examService.findByExamModuleDate(exam);
   }
 
-  public printDocument(exam: number){
-    console.log(this.id);
-    this.examService.printDocument(exam);
+
+  public printDocument(){
+    console.log(this.examP)
+    this.examService.printDocument(this.examP);
   }
 
-  public exportExcel(exam: number){
-    console.log(this.id);
-    this.examService.exportExcel(exam);
+
+  public exportExcel(){
+    console.log(this.examP)
+    this.examService.exportExcel(this.examP);
   }
   public click(etudiant){
     console.log(etudiant.nom);
@@ -316,10 +323,11 @@ export class ExamsComponent implements OnInit {
     this.examService.findExamSalleByDate(exam.dateDepart, exam.dateFin, exam.module.libelle);
   }
 
-  public findEtudiants(filiere: string, semestre: string){
-    console.log(filiere + ' ' + semestre);
-    this.examService.findEtudiants(filiere, semestre);
+
+  public findEtudiants(exam: Exam){
+    this.examService.findEtudiants(exam)
   }
+
 
   public aaa(examEtudiant){
 
@@ -338,5 +346,20 @@ export class ExamsComponent implements OnInit {
     this.examService.affecter();
 
   }
+  public validateE(){
+    return this.examEtudiant != null;
+  }
+
+  public validateS(): boolean{
+    return this.examService.validateS();
+  }
+  public add(examEtudiants: Array<ExamEtudiant>){
+    for(let examEtudiant of examEtudiants){
+      this.examEtudiants.push(this.clone(examEtudiant));
+    }
+    this.examService.examEtudiant = null;
+    this.examService.examEtudiantss = null;
+  }
+
 
 }

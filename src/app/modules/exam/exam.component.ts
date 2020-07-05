@@ -37,9 +37,11 @@ export class ExamComponent implements OnInit {
   msgs: Message[] = [];
   msg: Message[] = [];
   id: number;
+  title: string;
   p = 1;
   students: Array<string>;
   exportColumns: any[];
+examP   = new Exam();
   constructor(private examService: ExamService,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) { }
@@ -64,7 +66,9 @@ export class ExamComponent implements OnInit {
   get surveillants(): Array<Surveillant> {
     return this.examService.surveillants;
   }
-
+  get surveillantss(): Array<Surveillant> {
+    return this.examService.surveillantss;
+  }
   get professeurs(): Array<Professeur> {
     return this.examService.professeurs;
   }
@@ -102,6 +106,7 @@ export class ExamComponent implements OnInit {
   }
   public recuperer(exam: Exam, id: number) {
     console.log(exam)
+    this.title = exam.module.libelle;
     this.examService.recuperer(exam, id);
   }
   public openModal(template: TemplateRef<any>) {
@@ -119,8 +124,8 @@ export class ExamComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
-    this.examService.update(id, reference, dateDepart, dateFin, module, prof, filiere);
+  public update(id: number, dateDepart: string, dateFin: string, module: String, prof: string, filiere: string){
+    this.examService.update(id, dateDepart, dateFin, module, prof, filiere, this.title);
   }
 
 
@@ -173,6 +178,7 @@ export class ExamComponent implements OnInit {
     this.examService.findExamSalle(designation, dateDepart, dateFin);
   }
   public  findSurveillant(nom: string, dateDepart: string, dateFin: string ){
+    console.log(dateDepart)
     this.examService.findSurveillant(nom, dateDepart, dateFin)
   }
   public show() {
@@ -199,6 +205,7 @@ export class ExamComponent implements OnInit {
     this.examService.deleteExamBySurveillantId(surveillant);
   }
   public ajouter(value){
+    console.log(value)
     if(this.exam.dateFin != null){
       this.dateD = new Date(this.exam.dateDepart);
       this.dateF = new Date(this.exam.dateFin)
@@ -278,21 +285,13 @@ export class ExamComponent implements OnInit {
     return this.examService.etudiants;
   }
   public recupere(exam : Exam){
-    console.log(exam);
     this.examService.exam = exam;
     this.examEtudiant.exam = exam;
-    console.log(this.examEtudiant.exam)
-    this.examService.findExamSalleByDate(exam.dateDepart,exam.dateFin, exam.module.libelle);
+    this.examService.findExamSalleByDate(exam.dateDepart, exam.dateFin, exam.module.libelle);
   }
 
-  public findEtudiants(filiere: string, semestre: string){
-    console.log(filiere + ' ' + semestre)
-    this.examService.findEtudiants(filiere, semestre)
-  }
-
-  public aaa(examEtudiant){
-
-    console.log(examEtudiant)
+  public findEtudiants(exam: Exam){
+    this.examService.findEtudiants(exam);
   }
 
   public addExamEtudiant(examEtudiant: ExamEtudiant){
@@ -303,41 +302,74 @@ export class ExamComponent implements OnInit {
     return this.examService.examEtudiants;
   }
 
-  public affecter(){
-    this.examService.affecter();
+get examEtudiantss() : Array<ExamEtudiant>{
+  return this.examService.examEtudiantss;
+}
+
+public affecter(){
+  this.examService.affecter();
 
   }
 
-  public click(etudiant){
-    console.log(etudiant.nom);
-    this.examEtudiant.etudiant = etudiant;
-    this.examEtudiants.push(this.clone(this.examEtudiant));
-    console.log(this.examEtudiants);
+public click(etudiant){
+  this.examEtudiant.etudiant = etudiant;
+  this.examEtudiantss.push(this.clone(this.examEtudiant));
+  console.log(this.examEtudiantss);
+
+}
+
+public add(examEtudiants: Array<ExamEtudiant>){
+  for(let examEtudiant of examEtudiants){
+    this.examEtudiants.push(this.clone(examEtudiant));
   }
-
-  public clone(examEtudiant: ExamEtudiant){
-    const cloneExamEtudiant = new ExamEtudiant();
-    cloneExamEtudiant.id = examEtudiant.id;
-    cloneExamEtudiant.exam = examEtudiant.exam;
-    cloneExamEtudiant.salle.designation = examEtudiant.salle.designation;
-    cloneExamEtudiant.etudiant = examEtudiant.etudiant;
-    return cloneExamEtudiant;
-  }
+  this.examService.examEtudiant = null;
+  this.examService.examEtudiantss = null;
+}
 
 
-  public findByExamId(exam: number){
-    this.id = exam;
-    this.examService.findByExamId(exam);
-  }
 
-  public printDocument(exam: number){
-    console.log(this.id)
-    this.examService.printDocument(exam);
-  }
+public clone(examEtudiant: ExamEtudiant){
+  const cloneExamEtudiant = new ExamEtudiant();
+cloneExamEtudiant.id = examEtudiant.id;
+cloneExamEtudiant.exam = examEtudiant.exam;
+cloneExamEtudiant.salle.designation = examEtudiant.salle.designation;
+cloneExamEtudiant.etudiant = examEtudiant.etudiant;
+return cloneExamEtudiant;
+}
 
-  public exportExcel(exam: number){
-    console.log(this.id)
-    this.examService.exportExcel(exam);
-  }
 
+public findByExamModuleDate(exam: Exam){
+  this.examP = exam;
+  this.examService.findByExamModuleDate(exam)
+}
+
+public printDocument(){
+  console.log(this.examP)
+  this.examService.printDocument(this.examP);
+}
+
+public exportExcel(){
+  console.log(this.examP)
+  this.examService.exportExcel(this.examP);
+}
+
+public findByExamModule(exam: Exam){
+  this.examService.findByExamModule(exam);
+}
+
+public findByExamModul(exam: Exam){
+  this.examService.findByExamModul(exam);
+}
+
+public deleteByExam(surveillant: Surveillant, exam: Exam){
+  this.examService.deleteByExam(surveillant, exam)
+}
+
+public validateE(){
+  return this.examEtudiant != null;
+}
+
+public validateS(): boolean{
+  return this.examService.validateS();
+}
 }

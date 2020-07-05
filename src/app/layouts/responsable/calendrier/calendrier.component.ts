@@ -3,8 +3,9 @@ import {CalendarService} from '../../../controller/services/calendar.service';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {Exam} from '../../../controller/model/exam.model';
 import {Surveillant} from '../../../controller/model/surveillant.model';
-import {esLocale, frLocale} from 'ngx-bootstrap/chronos';
 import {User} from '../../../controller/model';
+import esLocale from '@fullcalendar/core/locales/es';
+import frLocale from '@fullcalendar/core/locales/fr';
 import {AuthenticationService} from '../../../controller/services';
 
 @Component({
@@ -14,6 +15,9 @@ import {AuthenticationService} from '../../../controller/services';
 })
 export class CalendrierComponent implements OnInit {
   currentUser: User ;
+  locales = [esLocale, frLocale];
+  item: string;
+  calendarPlugins = [timeGridPlugin];
   constructor( private calendarService: CalendarService,  private authenticationService: AuthenticationService) {this.currentUser = authenticationService.currentUserValue; }
 
   get exam(): Exam{
@@ -27,9 +31,7 @@ export class CalendrierComponent implements OnInit {
   get surveillants(): Array<Surveillant>{
     return this.calendarService.surveillants;
   }
-  locales = [esLocale, frLocale];
-  item: string;
-  calendarPlugins = [timeGridPlugin];
+
 
   ngOnInit(): void {
     this.calendarService.findEventsByFiliere(this.currentUser.departement);

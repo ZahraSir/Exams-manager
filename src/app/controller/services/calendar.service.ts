@@ -49,7 +49,6 @@ public findEvents(){
   );
 }
 
-
   public findEventsByFiliere(libelle){
     this.http.get<Array<Calendar>>('http://localhost:8090/exam-api/calendar/filiere/departement/' + libelle).subscribe(
       data => {
@@ -58,16 +57,16 @@ public findEvents(){
     );
   }
 
-public findExam(title, start, end){
-  this.http.get<Exam>('http://localhost:8090/exam-api/exams/events/date-depart/' + start + '/date-fin/' + end + '/module/' + title).subscribe(
-    data => {
-      this.exam = data;
-      this.exam.dateDepart = moment(data.dateDepart).format('YYYY-MM-DD[T]HH:mm');
-      console.log(this.exam);
-      this.findByExam(this.exam.id)
-    }
-  );
-}
+  public findExam(title, start, end){
+    this.http.get<Exam>('http://localhost:8090/exam-api/exams/events/date-depart/' + moment(start).format("YYYY-MM-DD[T]HH:mm") + '/date-fin/' + moment(end).format("YYYY-MM-DD[T]HH:mm") +'/module/' + title).subscribe(
+      data => {
+        this.exam = data;
+        this.exam.dateDepart = moment(data.dateDepart).format("YYYY-MM-DD[T]HH:mm");
+        console.log(this.exam);
+        this.findByExam(this.exam.id)
+      }
+    )
+  }
 
 public findByExam(id: number){
   this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/find-by-exam/' + id).subscribe(

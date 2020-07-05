@@ -7,9 +7,7 @@ import { Role } from 'src/app/controller/model/role';
 
 // array in local storage for registered users
  let users = JSON.parse(localStorage.getItem('users')) || [];
-//let users: User[] = [
-//{ id: 1, username: 'ADMIN', password: 'admin', firstName: 'ADMIN', lastName: 'ADMIN', role: Role.Admin, email: 'fatmazahrazaizi@gmail.com', departement: '--------'  },
-//{ id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User, email: 'user@gmail.com', departement: 'chimie' } ];
+
 
 
 @Injectable()
