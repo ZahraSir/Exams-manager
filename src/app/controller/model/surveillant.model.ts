@@ -1,4 +1,5 @@
 import { ExamSalle } from './exam-salle';
+import { Exam } from './exam.model';
 
 export class Surveillant {
 
@@ -7,4 +8,5 @@ export class Surveillant {
   public prenom: string;
  public  mail: string;
  public examSalle = new ExamSalle();
+ public exam = new Exam();
 }

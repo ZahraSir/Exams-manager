@@ -41,12 +41,12 @@ background-color: #fff;">
       <td>{{e.dateDepart | date: 'HH:mm'}}</td>
       <td>{{e.dateFin | date: 'HH:mm'}}</td>
       <td>{{e.prof.nom}}</td>
-      <td> <button class="btn btn-success btn-sm "  (click)=" ModalSalle.show();findByExam(e.id)">Liste des Salle et des surveillants</button></td>
-      <td> <button class="btn btn-dark btn-sm "  (click)=" ModalEtudiants.show();findByExamId(e.id)">Liste des étudiants</button></td>
+      <td> <button class="btn btn-success btn-sm "  (click)=" ModalSalle.show();findByExamModule(e)">Liste des Salle et des surveillants</button></td>
+      <td> <button class="btn btn-dark btn-sm "  (click)=" ModalEtudiants.show();findByExamModuleDate(e)">Liste des étudiants</button></td>
       <td>
         <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
-        <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findSalleByExamReference(exam);"></button>
-        <button class="btn btn-warning btn-sm " style="margin-left: 5px;" (click)="ModalEtudiant.show();recupere(e); findEtudiants(e.filiere.libelle, e.module.semestre.libelle);" >Affectation des étudiants</button>
+        <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findByExamModul(e);"></button>
+        <button class="btn btn-warning btn-sm " style="margin-left: 5px;" (click)="ModalEtudiant.show();recupere(e); findEtudiants(e);">Affectation des étudiants</button>
       </td>
 
       <ng-template #template >
@@ -282,197 +282,6 @@ background-color: #fff;">
 </div>
 </div>
 
-
-
-  <!--Modifier exam-->
-  <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: #2e3047;">
-          <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier Exam</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="filiere" style="color: black;">Filière</label>
-                  <select class=" input-large form-control" name="filiere" id="filiere" [(ngModel)]="exam.filiere"
-                          ngModel
-                          required
-                          #filiere="ngModel"
-                          [ngClass]="{'form-control' : true,
-              'is-invalid' : !filiere?.valid && filiere?.touched,
-                'is-valid' : filiere?.valid && filiere?.touched}">
-                    <option [ngValue]="filiere" [selected]="exam.filiere.libelle">{{exam.filiere.libelle}}</option>
-                    <option *ngFor="let filiere of filieres" [ngValue]="filiere">{{filiere.libelle}}</option>
-                  </select>
-                  <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="module" style="color: black;">Module</label>
-                  <select class=" input-large form-control" name="module"  id="module" [(ngModel)]="exam.module"
-                          ngModel
-                          required
-                          #module="ngModel"
-                          [ngClass]="{'form-control' : true,
-              'is-invalid' : !module?.valid && module?.touched,
-                'is-valid' : module?.valid && module?.touched}">
-                    <option [ngValue]="module" [selected]="exam.module.libelle">{{exam.module.libelle}}</option>
-                    <option *ngFor="let module of modules" [ngValue]="module">{{module.libelle}}</option>
-                  </select>
-                  <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="dateDepart" style="color: black;">Date départ</label>
-                  <input type="datetime-local" id="dateDepart"
-                         value="2020-05-12T19:30"
-                         class="form-control" name="dateDepart" [(ngModel)]="exam.dateDepart"
-                         ngModel
-                         required
-                         #dateDepart="ngModel"
-                         [ngClass]="{'form-control' : true,
-              'is-invalid' : !dateDepart?.valid && dateDepart?.touched,
-                'is-valid' : dateDepart?.valid && dateDepart?.touched}">
-                  <small *ngIf="dateDepart?.errors?.required && dateDepart?.touched"
-                         class="form-text text-danger">champs obligatoire</small>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="dateFin" style="color: black;">Date fin</label>
-                  <input type="datetime-local" id="=dateFin"
-                         value="2020-05-12T19:30" class="form-control" name="dateFin"  [(ngModel)]="exam.dateFin"
-                         ngModel
-                         required
-                         #dateFin="ngModel"
-                         [ngClass]="{'form-control' : true,
-              'is-invalid' : !dateFin?.valid && dateFin?.touched,
-                'is-valid' : dateFin?.valid && dateFin?.touched}">
-                  <small *ngIf="dateFin?.errors?.required && dateFin?.touched"
-                         class="form-text text-danger">champs obligatoire</small>
-                </div></div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="prof" style="color: black;">Professeur</label>
-                  <select class=" input-large form-control" name="prof" id="prof" [(ngModel)]="exam.prof"
-                          ngModel
-                          required
-                          #prof="ngModel"
-                          [ngClass]="{'form-control' : true,
-              'is-invalid' : !prof?.valid && prof?.touched,
-                'is-valid' : prof?.valid && prof?.touched}">
-                    <option [ngValue]="prof" [selected]="exam.prof.nom">{{exam.prof.nom}}</option>
-                    <option *ngFor="let prof of professeurs" [ngValue]="prof">{{prof.nom}}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-info fa fa-plus" type="button"  style="background-color: #2e3047;border-color: #2e3047;"><span style="font: 30px">Ajouter surveillants</span></button>
-            </div>
-          </form>
-          <!-- liste d'edite des surveillants -->
-          <div class="card">
-            <div class="card-body">
-              <div class="card-header"><h6>La liste des Surveillants</h6></div>
-              <div class="table-responsive">
-                <table class="table table-bordered" style="text-align: center;">
-                  <thead>
-                  <tr>
-                    <th>Nom</th>
-                    <th>Prenom</th>
-                    <th>Email</th>
-                    <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr >
-                   
-                    <td>
-                      <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modalSu);"></button>
-                    </td>
-                    <!--Confirmation du suppression-->
-                    <ng-template #modalSu>
-                      <div class="modal-body text-center">
-                        <p>Voulez-vous vraiment supprimer ce surveillant?</p>
-                        <button type="button" class="btn btn-success" (click)="confirm();"  >Oui</button>
-                        <button type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
-                      </div>
-                    </ng-template>
-                  </tr>
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="form-group">
-            <button class="btn btn-info fa fa-plus" type="button" (click)="ajoutSalle.show(); " style="background-color: #2e3047;border-color: #2e3047;"><span style="font: 30px">Ajouter salles</span></button>
-          </div>
-          <!-- liste d'edite des salles -->
-          <div class="card">
-            <div class="card-body">
-              <div class="card-header"><h6>La liste des Salles</h6></div>
-              <div class="table-responsive">
-                <table class="table table-bordered" style="text-align: center;">
-                  <thead>
-                  <tr>
-                    <th>Designation</th>
-                    <th>Capacite</th>
-                    <th>Etat</th>
-                    <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor= "let sal of exam.examSalles">
-                    <td>{{sal.salle.designation}}</td>
-                    <td>{{sal.salle.capacite}}</td>
-                    <td>{{sal.salle.etat}}</td>
-                    <td>
-                      <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modalSa);"></button>
-                    </td>
-                    <!--Confirmation du suppression-->
-                    <ng-template #modalSa>
-                      <div class="modal-body text-center">
-                        <p>Voulez-vous vraiment supprimer cette salle?</p>
-                        <button type="button" class="btn btn-success" (click)="confirm(); deleteExamBySalleDesignation(sal);"  >Oui</button>
-                        <button type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
-                      </div>
-                    </ng-template>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-body">
-          <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
-          <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(exam.id,exam.reference,exam.dateDepart,exam.dateFin,exam.module,exam.prof, exam.filiere);refresh();">Editer</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-  
-
-
-
   <!--liste des salles dans globale interface -->
   <div class="modal fade" bsModal #ModalSalle="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
     <div class="modal-dialog modal-lg">
@@ -480,13 +289,14 @@ background-color: #fff;">
 
           <div class="card">
             <div class="card-body">
-              <div class="card-header"><h6>La liste des Salles</h6></div>
+              <div class="card-header"><h6>La liste des Salles et des surveillants</h6></div>
               <div class="table-responsive">
                 <table class="table table-bordered" style="text-align: center;">
                   <thead>
                   <tr>
                     <th>Surveillants</th>
                     <th>Salle</th>
+                    <th>Supprimer</th>
                     
                   </tr>
                   </thead>
@@ -494,6 +304,7 @@ background-color: #fff;">
                   <tr *ngFor= "let surveillant of examSal.surveillants">
                     <td>{{surveillant.nom}} {{surveillant.prenom}} </td>
                     <td>{{surveillant.examSalle.salle.designation}}</td>
+                    <td><button class="btn btn-danger btn-sm fa fa-trash" (click)="deleteByExam(surveillant, surveillant.exam)"></button></td>               
                    
                   </tr>
                   </tbody>
@@ -507,52 +318,6 @@ background-color: #fff;">
   </div>
 
 
-  <!-- ajouter salle dans l'edit-->
-  <div class="modal fade" bsModal #ajoutSalle="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1" >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: #2e3047;">
-          <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter Salle</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="ajoutSalle.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="row">
-              <div class="col-md-12">
-                <label for="salle" style="color: black;">Salles ou Amphis</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-10" >
-                <div class="form-group">
-
-                  <select class=" input-large form-control" name="salle" id="salle"  (change)="recupererSalle($event.target.value);findExamSalle($event.target.value, exam.dateDepart, exam.dateFin);"
-                          ngModel
-                          required
-                          #salle="ngModel"
-                          [ngClass]="{'form-control' : true,
-              'is-invalid' : !salle?.valid && salle?.touched,
-                'is-valid' : salle?.valid && salle?.touched}" >
-
-                    <option *ngFor="let s of salles" [value]="s.designation" >{{s.designation}}</option>
-                  </select>
-                  <small *ngIf="salle?.errors?.required && salle?.touched" class="form-text text-danger">champs obligatoire</small>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-info" type="button" style="background-color: #2e3047;border-color: #2e3047;" (click)="addSalle(sal)">Ajouter</button>
-            </div>
-
-          </form>
-
-
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!--Affectation des etudiants-->
@@ -648,6 +413,9 @@ background-color: #fff;">
             </tbody>
           </table>
         </div>
+        <div class="form-group">
+          <button class="btn btn-block" type="button" (click)="add(examEtudiantss)" [disabled]="!validateE()" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
+      </div>
           <div class="card">
             <div class="card-header">Liste des affectations</div>
             <div class="card-body">
@@ -671,7 +439,7 @@ background-color: #fff;">
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="ModalEtudiant.hide();">Annuler</button>
-          <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="affecter()">Ajouter</button>
+          <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="affecter();ModalEtudiant.hide();" [disabled]="!validateS()">Enregistrer</button>
         </div>
       </div>
     </div>
@@ -710,8 +478,116 @@ background-color: #fff;">
           </div>
         </div>
         <div class="modal-body">
-          <button class="btn btn-danger pull-right" (click)="printDocument(id)">PDF</button>
-          <button class="btn btn-success pull-right" style="margin-right: 5px;" (click)="exportExcel(id)">EXCEL</button>
+          <button class="btn btn-danger pull-right" (click)="printDocument()">PDF</button>
+          <button class="btn btn-success pull-right" style="margin-right: 5px;" (click)="exportExcel()">EXCEL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-nested-name1" class="modal-title pull-left">Modifier Examen</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="filiere" style="color: black;">Filière</label>
+                <select class=" input-large form-control" name="filiere" id="filiere"  [(ngModel)]="exam.filiere.libelle" (change)="findModuleByFiliereLibelle($event.target.value)"
+                        ngModel
+                        required
+                        #filiere="ngModel"
+                        [ngClass]="{'form-control' : true,
+                'is-invalid' : !filiere?.valid && filiere?.touched,
+                  'is-valid' : filiere?.valid && filiere?.touched}">
+                  <option [value]="exam.filiere.libelle" [selected]="exam.filiere.libelle">{{exam.filiere.libelle}}</option>
+                  <option *ngFor="let filiere of filieres" [value]="filiere.libelle">{{filiere.libelle}}</option>
+                </select>
+                <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+            </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="module" style="color: black;">Module</label>
+                <select class=" input-large form-control" name="module" id="module" [(ngModel)]="exam.module.libelle" (change)="findByModuleLibelle($event.target.value)"
+                        ngModel
+                        required
+                        #module="ngModel"
+                        [ngClass]="{'form-control' : true,
+                'is-invalid' : !module?.valid && module?.touched,
+                  'is-valid' : module?.valid && module?.touched}">
+                  <option [value]="exam.module.libelle" [selected]="exam.module.libelle">{{exam.module.libelle}}</option>
+                  <option *ngFor="let module of modules" [value]="module.libelle" >{{module.libelle}}</option>
+                </select>
+                <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dateDepart" style="color: black;">Date départ</label>
+                <input type="datetime-local" id="dateDepart" (change)="ajouter($event.target.value)"
+                       value="2020-05-12T19:30"
+                       class="form-control" name="dateDepart" [(ngModel)]="exam.dateDepart"
+                       ngModel
+                       required
+                       #dateDepart="ngModel"
+                       [ngClass]="{'form-control' : true,
+            'is-invalid' : !dateDepart?.valid && dateDepart?.touched,
+              'is-valid' : dateDepart?.valid && dateDepart?.touched}">
+                <small *ngIf="dateDepart?.errors?.required && dateDepart?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+              <p-messages [(value)]="msg" [closable]="false"></p-messages>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dateFin" style="color: black;">Date fin</label>
+                <input type="datetime-local" id="=dateFin" (change)="verifier($event.target.value)"
+                       value="2020-05-12T19:30" class="form-control" name="dateFin"  [(ngModel)]="exam.dateFin" 
+                       ngModel
+                       required
+                       #dateFin="ngModel"
+                       [ngClass]="{'form-control' : true,
+            'is-invalid' : !dateFin?.valid && dateFin?.touched,
+              'is-valid' : dateFin?.valid && dateFin?.touched}">
+                <small *ngIf="dateFin?.errors?.required && dateFin?.touched"
+                       class="form-text text-danger">champs obligatoire</small>
+              </div>
+              <p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="prof" style="color: black;">Professeur</label>
+                <input type="text" id="prof"
+                       [value]="exam.prof.nom"
+                       class="form-control" name="prof" [(ngModel)]="exam.prof.nom"
+                       ngModel
+                       required
+                       #prof="ngModel"
+                       [ngClass]="{'form-control' : true,
+            'is-invalid' : !prof?.valid && prof?.touched,
+              'is-valid' : prof?.valid && prof?.touched}">
+                  
+              </div>
+            </div>
+          </div>
+
+        </form>
+        <div class="modal-body">
+          <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
+          <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)=" editModal.hide(); update(exam.id, exam.dateDepart, exam.dateFin, exam.module.libelle, exam.prof.nom, exam.filiere.libelle);">Modifier</button>
         </div>
       </div>
     </div>

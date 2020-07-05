@@ -18,6 +18,7 @@ import { Etudiant } from '../model/etudiant';
   providedIn: 'root'
 })
 export class ExamService {
+  private _examEtudiantss: Array<ExamEtudiant>;
 
   constructor(private _http: HttpClient, private router: Router,private toastr: ToastrService) { }
   private _surveill: Surveillant;
@@ -29,6 +30,7 @@ export class ExamService {
   private _urlexam = 'http://localhost:8090/exam-api/exams/';
   private _surveillant: Surveillant;
   private _surveillants: Array<Surveillant>;
+  private _surveillantss: Array<Surveillant>;
   private _urlsurve = 'http://localhost:8090/exam-api/surveillants/';
   private _professeurs: Array<Professeur>;
   private _urlprof = 'http://localhost:8090/exam-api/professeurs/';
@@ -167,6 +169,17 @@ export class ExamService {
     this._examEtudiants = value;
   }
 
+  get examEtudiantss(): Array<ExamEtudiant> {
+    if (this._examEtudiantss == null) {
+      this._examEtudiantss = new Array<ExamEtudiant>();
+    }
+    return this._examEtudiantss;
+  }
+
+  set examEtudiantss(value: Array<ExamEtudiant>) {
+    this._examEtudiantss = value;
+  }
+
   set surveillant(value: Surveillant) {
     this._surveillant = value;
   }
@@ -191,6 +204,17 @@ export class ExamService {
 
   set surveillants(value: Array<Surveillant>) {
     this._surveillants = value;
+  }
+
+  get surveillantss(): Array<Surveillant> {
+    if (this._surveillantss == null) {
+      this._surveillantss = new Array<Surveillant>();
+    }
+    return this._surveillantss;
+  }
+
+  set surveillantss(value: Array<Surveillant>) {
+    this._surveillantss = value;
   }
 
   get professeurs(): Array<Professeur> {
@@ -413,8 +437,8 @@ export class ExamService {
 
     this.exam.id = exam.id;
     this.exam.reference = exam.reference;
-    this.exam.dateFin =  moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm");;
-    this.exam.dateDepart = moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm");;
+    this.exam.dateFin =  moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm");
+    this.exam.dateDepart = moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm");
     this.exam.prof.nom = exam.prof.nom;
     this.exam.examSalles = exam.examSalles;
     this.exam.module.libelle = exam.module.libelle;
@@ -422,11 +446,12 @@ export class ExamService {
     
   }
 
-  public update(id: number, reference: string, dateDepart: string, dateFin: string, module: Module, prof: Professeur, filiere: Filiere){
-    this.http.put(this._urlexam + id + '/' + reference  + '/' + dateDepart + '/' + dateFin + '/' + module + '/' + prof + '/' + filiere , this.exam).subscribe(
+  public update(id: number, dateDepart: string, dateFin: string, module: String, prof: string, filiere: string){
+    this.http.put(this._urlexam + id + '/' + moment(dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/' + moment(dateFin).format("YYYY-MM-DD[T]HH:mm") + '/' + module + '/' + prof + '/' + filiere , this.exam).subscribe(
       data => {
         if (data > 0) {
-          this.toastr.success(reference + ' a été modifié avec succés', 'Modification réussi!');
+          window.location.reload();
+          this.toastr.success(module + ' a été modifié avec succés', 'Modification réussi!');
         }
        
       });
@@ -606,6 +631,10 @@ export class ExamService {
     return this.display == 1 && this.surve == 1;
   }
 
+  public validateS(): boolean{
+    return this.examEtudiants != null;
+  }
+
  
   public vider(){
     this.exam = null;
@@ -661,8 +690,8 @@ export class ExamService {
 
   }
 
-  public findEtudiants(filiere: string, semestre: string){
-    this.http.get<Array<Etudiant>>('http://localhost:8090/exam-api/etudiants/filiere/'+ filiere + '/semestre/' +semestre ).subscribe(
+  public findEtudiants(exam: Exam){
+    this.http.get<Array<Etudiant>>('http://localhost:8090/exam-api/etudiants/filiere/'+ exam.filiere.libelle + '/module/' +exam.module.libelle ).subscribe(
       data => {
         this.etudiants = data;  
         console.log(this.etudiants)
@@ -693,8 +722,8 @@ let time = dateFin.getTime() - dateDepart.getTime();
     );
   }
 
- public findByExamId(exam: number){
-  this.http.get<Array<ExamEtudiant>>('http://localhost:8090/exam-api/exam-etudiants/exam/'+ exam).subscribe(
+public findByExamModuleDate(exam: Exam){
+  this.http.get<Array<ExamEtudiant>>('http://localhost:8090/exam-api/exam-etudiants/module/' + exam.module.libelle + '/dateDepart/' + moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/dateFin/' + moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm")).subscribe(
     data => {
       this.examEtudiants = data;  
       console.log(this.examEtudiants)
@@ -702,8 +731,8 @@ let time = dateFin.getTime() - dateDepart.getTime();
   );
 }
 
-public printDocument(exam: number){
-  this.http.post<number>( 'http://localhost:8090/exam-api/exam-etudiants/imprimer/exam/'+ exam, this.examEtudiants).subscribe(
+public printDocument(exam: Exam){
+  this.http.post<number>('http://localhost:8090/exam-api/exam-etudiants/imprimer/module/' + exam.module.libelle + '/date-depart/' + moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/date-fin/' + moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm"), this.examEtudiants).subscribe(
     data => {
       if (data === 1) {
         this.toastr.success(' la liste a été bien télechargé');
@@ -714,8 +743,8 @@ public printDocument(exam: number){
   );
 }
 
-public exportExcel(exam: number){
-  this.http.post<number>( 'http://localhost:8090/exam-api/exam-etudiants/export-excel/exam/'+ exam, this.examEtudiants).subscribe(
+public exportExcel(exam: Exam){
+  this.http.post<number>( 'http://localhost:8090/exam-api/exam-etudiants/export-excel/module/' + exam.module.libelle + '/date-depart/' + moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/date-fin/' + moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm"), this.examEtudiants).subscribe(
     data => {
       if (data === 1) {
         this.toastr.success(' la liste a été bien télechargé');
@@ -724,6 +753,41 @@ public exportExcel(exam: number){
       console.log(error);
     }
   );
+}
+
+public findByExamModule(exam: Exam){
+  console.log(exam)
+  this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/module/' + exam.module.libelle + '/dateDepart/' + moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/dateFin/' + moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm")).subscribe(
+    data => {
+        this.examSal.surveillants = data;      
+        console.log(this.examSal.surveillants)
+    }
+  );
+}
+public findByExamModul(exam: Exam){
+  console.log(exam)
+  this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/module/' + exam.module.libelle + '/dateDepart/' + moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/dateFin/' + moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm")).subscribe(
+    data => {
+        this.surveillantss = data;      
+        console.log(this.surveillantss)
+    }
+  );
+}
+
+public deleteByExam(surveillant: Surveillant, exam: Exam){ 
+  this.http.delete<number>('http://localhost:8090/exam-api/surveillants/delete/' + surveillant.nom + '/' + moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm") +  '/' + moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm") + '/' + exam.module.libelle).subscribe(
+    data => {
+      this.deleteExamBySurveillantId1(surveillant);
+    
+    }
+  );
+} 
+
+private deleteExamBySurveillantId1(surveillant: Surveillant) {
+  const index = this.surveillantss.findIndex(e => e.nom === surveillant.nom);
+  if (index !== -1) {
+    this.surveillantss.splice(index, 1);
+  }
 }
   }
 
