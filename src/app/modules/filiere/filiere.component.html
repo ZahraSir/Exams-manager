@@ -1,64 +1,66 @@
 <!--Liste des filieres-->
 <div style="margin-top: 180px;margin-left: 100px; width: 1420px;">
   <div class="respo">
-  <div class="card-header" style="background-color: #2e3047; color: #fff;">
-    <h4 style="text-align: left;">Liste des filières</h4>
-  </div>
+    <div class="card-header" style="background-color: #2e3047; color: #fff;">
+      <h4 style="text-align: left;">Liste des filières</h4>
+    </div>
 
-  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+    <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
   background-color: #fff;">
-<div class="row">
-  <div >
-    <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+      <div class="row">
+        <div >
+          <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
       width: 1411px;
     /* width: 1347px;*/
       margin-left: -4px;"/>
+        </div>
+      </div>
+      <button class="btn btn-info fa fa-plus" (click)="parentModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter une filière</button>
+
+
+
+
+
+      <div class="table-responsive">
+        <table class="table table-bordered" style="text-align: center;">
+          <thead>
+          <tr>
+            <th>Libell&eacute;</th>
+            <th>Type</th>
+            <th>D&eacute;partement</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor= "let filiere of filieres | filter: item|paginate: {itemsPerPage:5,currentPage:p}">
+            <td>{{filiere.libelle}}</td>
+            <td>{{filiere.niveau.libelle}}</td>
+            <td>{{filiere.departement.libelle}}</td>
+            <td>
+              <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal);"></button>
+              <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recupererF(filiere); findByFiliereLibelle(filiere);"></button>
+            </td>
+            <!--Confirmation du suppression-->
+            <ng-template #modal>
+              <div class="modal-body text-center">
+                <p>Voulez-vous vraiment supprimer cette filière?</p>
+                <button type="button" class="btn btn-success" (click)="confirm(); deleteByDesignation(filiere)"  >Oui</button>
+                <button type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+              </div>
+            </ng-template>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-img-overly">
+        <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
+      </div>
+    </div>
   </div>
 </div>
-        <button class="btn btn-info fa fa-plus" (click)="parentModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter une filière</button>
-
-
-  <div class="table-responsive">
-    <table class="table table-bordered" style="text-align: center;">
-      <thead>
-      <tr>
-        <th>Libell&eacute;</th>
-        <th>Niveau</th>
-        <th>D&eacute;partement</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor= "let filiere of filieres | filter: item|paginate: {itemsPerPage:5,currentPage:p}">
-        <td>{{filiere.libelle}}</td>
-        <td>{{filiere.niveau.libelle}}</td>
-        <td>{{filiere.departement.libelle}}</td>
-        <td>
-          <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal);"></button>
-          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recupererF(filiere); findByFiliereLibelle(filiere);"></button>
-        </td>
-        <!--Confirmation du suppression-->
-        <ng-template #modal>
-          <div class="modal-body text-center">
-            <p>Voulez-vous vraiment supprimer cette filière?</p>
-            <button type="button" class="btn btn-success" (click)="confirm(); deleteByDesignation(filiere)"  >Oui</button>
-            <button type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
-          </div>
-        </ng-template>
-
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="card-img-overly">
-    <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
-  </div>
-</div>
-</div>
-</div>
-
 <!--Ajouter filiere-->
 <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-xl">
@@ -87,7 +89,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label style="color: black; font-size: 20px;">Niveau:</label>
-                <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau.libelle" (change)="findByNiveauLibelle($event.target.value)" 
+                <select class=" input-large form-control" name="niveau" [(ngModel)]="filiere.niveau.libelle" (change)="findByNiveauLibelle($event.target.value)"
                         ngModel
                         required
                         #niveau="ngModel"
@@ -181,7 +183,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <button class="btn btn-info btn-sm fa fa-plus btn-block" type="button" (click)="addModules()"></button>
+                    <button class="btn btn-block" type="button" (click)="addModules()" style="background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
                   </div>
                 </div>
               </div>
@@ -211,7 +213,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
-          <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="saveFM();parentModal.hide();">Ajouter</button>
+          <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="saveFM();parentModal.hide();" [disabled]="!validate()">Ajouter</button>
         </div>
       </div>
     </div>
@@ -252,12 +254,13 @@
                 <select class=" input-large form-control" name="departement" [(ngModel)]="filiere.departement" (change)="findByDepartementLibelle($event.target.value)">
                   <option [ngValue]="departement" [selected]="filiere.departement.libelle">{{filiere.departement.libelle}}</option>
                   <option *ngFor="let departement of departements" [value]="departement.libelle" >{{departement.libelle}}</option>
+
                 </select>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="ajoutModal.show(); findByNiveauLibelle(filiere.niveau.libelle); findByDepartementLibelle(filiere.departement.libelle);">Ajouter modules</button>
+            <button class="btn btn-info btn-sm" style="background-color: #2e3047 !important;" type="button" (click)="ajoutModal.show(); findByNiveauLibelle(filiere.niveau.libelle); findByDepartementLibelle(filiere.departement.libelle);">Ajouter modules</button>
           </div>
         </form>
 
@@ -302,8 +305,8 @@
         </div>
       </div>
       <div class="modal-body">
-        <button class="btn btn-outline-danger pull-right" (click)="editModal.hide();">Annuler</button>
-        <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)=" editModal.hide(); update(filiere)">Modifier</button>
+        <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
+        <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)=" editModal.hide(); update(filiere)">Modifier</button>
       </div>
     </div>
   </div>
@@ -312,7 +315,6 @@
 
 
 <!--Editer module-->
-
 <div class="modal fade" bsModal #modifeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -329,7 +331,6 @@
     </div>
   </div>
 </div>
-
 <!--Ajouter module-->
 <div class="modal fade" bsModal #ajoutModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
   <div class="modal-dialog modal-lg">
@@ -395,7 +396,7 @@
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="saveM(module); ajoutModal.hide();">Ajouter</button>
+            <button class="btn btn-info btn-sm" type="button" style="background-color: #2e3047!important;" (click)="saveM(module); ajoutModal.hide();">Ajouter</button>
           </div>
         </form>
 

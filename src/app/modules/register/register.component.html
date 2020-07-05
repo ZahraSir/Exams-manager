@@ -28,6 +28,15 @@
         </div>
         </div>
       <div class="field-wrap">
+        <div class="form-group">
+
+          <input type="text" formControlName="email" placeholder="Email *" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">champs obligatoire</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-wrap">
           <div class="form-group">
             <input type="text" formControlName="username" class="form-control" placeholder="Nom d'utilisateur *" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
             <div *ngIf="submitted && f.username.errors" class="invalid-feedback">

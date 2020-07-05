@@ -74,8 +74,10 @@ export class ResponsabiliteService {
           this.responsabilites.push(this.cloneResponsabilite(this.responsabilite));
           this.toastr.success(this.responsabilite.libelle + ' a été ajouté avec succés', 'Ajout réussi!');
           this.responsabilite = null;
+          this.display = 1;
           console.log(this.responsabilite);
         }else if (data === -1){
+          this.display = -1;
           this.toastr.error(this.responsabilite.libelle + ' existe déja', 'Attention!');
         }
       }, error => {
@@ -89,6 +91,10 @@ export class ResponsabiliteService {
     myClone.libelle = responsabilite.libelle;
     return myClone;
   }
+  public validate(): boolean{
+    return this.responsabilite.libelle != null;
+  }
+
   public deleteByLibelle(responsabilite: Responsabilite) {
     this.http.delete<number>(this._urlrespo + 'delete-by-libelle/' + responsabilite.libelle).subscribe(
       data => {

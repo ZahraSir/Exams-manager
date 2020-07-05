@@ -9,11 +9,13 @@ import { Departement } from '../model/departement.model';
 import { Professeur } from '../model/professeur.model';
 
 import { ToastrService } from 'ngx-toastr';
+import {Etudiant} from "../model/etudiant";
 @Injectable({
   providedIn: 'root'
 })
 export class FiliereService {
 
+  private _departement: Departement;
   private _filiere: Filiere;
   private _module: Module;
   private _niveau: Niveau;
@@ -28,7 +30,9 @@ export class FiliereService {
   private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
   private _niveauSemestres: Array<NiveauSemestre>;
   private _professeurs: Array<Professeur>;
-
+  private _fils : Array<Filiere>;
+  private _filiers : Array<Filiere>;
+  private _urldepart = 'http://localhost:8090/exam-api/departements/';
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   get filiere(): Filiere{
@@ -40,6 +44,14 @@ export class FiliereService {
 
   set filiere(filiere: Filiere) {
     this._filiere = filiere;
+  }
+
+  get fils(): Array<Filiere> {
+    return this._fils;
+  }
+
+  set fils(value: Array<Filiere>) {
+    this._fils = value;
   }
 
   get niveau(): Niveau{
@@ -95,7 +107,16 @@ export class FiliereService {
   set filieres(filieres: Array<Filiere>){
     this._filieres = filieres;
   }
+  get filiers(): Array<Filiere>{
+    if (this._filiers == null){
+      this._filiers = new Array<Filiere>();
+    }
+    return this._filiers;
+  }
 
+  set filiers(filiers: Array<Filiere>){
+    this._filieres = filiers;
+  }
   get departements(): Array<Departement>{
     if (this._departements == null){
       this._departements = new Array<Departement>();
@@ -107,6 +128,16 @@ export class FiliereService {
     this._departements = departements;
   }
 
+  get departement(): Departement {
+    if (this._departement == null) {
+      this._departement = new Departement();
+    }
+    return this._departement;
+  }
+
+  set departement(value: Departement) {
+    this._departement = value;
+  }
   get modules(): Array<Module>{
     if (this._modules == null){
       this._modules = new Array<Module>();
@@ -148,6 +179,9 @@ export class FiliereService {
 
   public validateSave(): boolean{
     return this.filiere.libelle != null ;
+  }
+  public validate(): boolean{
+    return this.filiere.libelle != null && this.filiere.modules != null && this.filiere.niveau.libelle != null && this.filiere.departement.libelle != null;
   }
 
   public deleteByDesignation(filiere: Filiere){
@@ -299,14 +333,29 @@ export class FiliereService {
       }
     );
   }
-
-  
-
   public findByDepartementLibelle(libelle){
     this.http.get<Array<Professeur>>('http://localhost:8090/exam-api/professeurs/find-by-departement/'+ libelle).subscribe(
       data => {
         this._professeurs = data;
-        console.log(data)
+        console.log(data);
+      }
+    );
+  }
+  public findFiliereByDepartementLibelle(libelle) {
+    this.http.get<Array<Filiere>>(this._urlFiliere + 'departement/' + libelle ).subscribe(
+      data => {
+        console.log(data);
+        this._fils = data;
+        console.log('fbjd ' + this.fils);
+      }
+    );
+  }
+  public findByLibelle(libelle){
+    console.log('daapertementt' + libelle);
+    this.http.get<Departement>(this._urldepart + 'find-by-libelle/' + libelle).subscribe(
+      data => {
+        this.departement = data;
+        console.log('departement' + data);
       }
     );
   }

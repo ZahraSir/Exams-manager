@@ -7,6 +7,7 @@ import {Professeur} from '../model/professeur.model';
 import { ToastrService } from 'ngx-toastr';
 import { Filiere } from '../model/filiere';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +21,7 @@ export class ModuleService {
   private _niveauSemestres: Array<NiveauSemestre>;
   private _professeurs: Array<Professeur>;
   private _urlprof = 'http://localhost:8090/exam-api/professeurs/';
+  private _mods: Array<Module>;
 
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
@@ -32,6 +34,17 @@ export class ModuleService {
 
   set module(module: Module){
     this._module = module;
+  }
+
+  get mods(): Array<Module> {
+    if (this._mods == null){
+      this._mods = new Array<Module>();
+    }
+    return this._mods;
+  }
+
+  set mods(value: Array<Module>) {
+    this._mods = value;
   }
 
   get modules(): Array<Module>{
@@ -106,7 +119,9 @@ export class ModuleService {
     myClone.professeur = module.professeur;
     return myClone;
   }
-
+  public validate() {
+    return this.module.libelle  != null && this.module.semestre.libelle  != null && this.module.professeur.nom  != null && this.module.filiere.libelle  != null ;
+  }
   public update(id: number, libelle: string, semestre: string, professeur: string){
     console.log('hana tani'+professeur);
     this.http.put(this._urlModule + id + '/' + libelle + '/' + semestre + '/' + professeur , this.module).subscribe(
@@ -182,9 +197,9 @@ export class ModuleService {
       }
     );
   }
-  
+
   public findByDepartementLibelle(libelle){
-    this.http.get<Array<Professeur>>('http://localhost:8090/exam-api/professeurs/find-by-departement/'+ libelle).subscribe(
+    this.http.get<Array<Professeur>>('http://localhost:8090/exam-api/professeurs/find-by-departement/' + libelle).subscribe(
       data => {
         this._professeurs = data;
         console.log(data)
@@ -192,12 +207,20 @@ export class ModuleService {
     );
   }
   public findByLibelle(libelle){
-    this.http.get<Filiere>('http://localhost:8090/exam-api/filieres/find-by-libelle/'+ libelle).subscribe(
+    this.http.get<Filiere>('http://localhost:8090/exam-api/filieres/find-by-libelle/' + libelle).subscribe(
       data => {
         console.log(data)
-         this.findByDepartementLibelle(data.departement.libelle);
+        this.findByDepartementLibelle(data.departement.libelle);
       }
     );
   }
-  }
+public findByFiliereDepartementLibelle(libelle) {
+    console.log(libelle);
+    this.http.get<Array<Module>>('http://localhost:8090/exam-api/modules/filiere/departement/' + libelle).subscribe(
+      data => {
+        this._mods = data;
+        console.log('hahiya data ' + data);
+      });
+}
+}
 

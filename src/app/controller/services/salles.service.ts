@@ -13,7 +13,7 @@ export class SallesService {
   constructor(private _http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
   private _salle: Salles;
- private _salles: Array<Salles>;
+  private _salles: Array<Salles>;
   private _urlsalle = 'http://localhost:8090/exam-api/salles/';
   private isPrinting=false;
   private _display: number;
@@ -38,7 +38,7 @@ export class SallesService {
     this._salle = value;
   }
 
- get salles(): Array<Salles> {
+  get salles(): Array<Salles> {
     if (this._salles == null) {
       this._salles = new Array<Salles>();
     }
@@ -75,7 +75,9 @@ export class SallesService {
           this.salles.push(this.salle);
           this.toastr.success('Salle/Amphi "' + this.salle.designation + '" a été ajouté avec succés', 'Ajout réussi!');
           this.salle = null;
+          this.display = 1;
         }else if (data === -1){
+          this.display = -1;
           this.toastr.warning(this.salle.designation + ' existe déja', 'Attention!');
         }
       }, error => {
@@ -116,14 +118,14 @@ export class SallesService {
     }
   }
   public recuperer(salle: Salles, id:number) {
-   console.log(salle);
-   this.salle.id = salle.id
-   this.salle.designation = salle.designation;
-   this.salle.capacite = salle.capacite;
-   this.salle.etat = salle.etat;
-   this.salle.type = salle.type;
-  // this.salle.exam.reference = salle.exam.reference;
-   console.log(this.salle.designation);
+    console.log(salle);
+    this.salle.id = salle.id
+    this.salle.designation = salle.designation;
+    this.salle.capacite = salle.capacite;
+    this.salle.etat = salle.etat;
+    this.salle.type = salle.type;
+    // this.salle.exam.reference = salle.exam.reference;
+    console.log(this.salle.designation);
 
   }
   public selectedSalle(salle: Salles){
@@ -162,13 +164,13 @@ export class SallesService {
   }
 
   public validate(){
-    return this.salle.designation != null && this.salle.capacite > 0 && this.salle.etat != null && this.salle.type !=null;
+    return this.salle.designation != null && this.salle.capacite > 0 && this.salle.etat != null && this.salle.type != null;
   }
 
   refresh(): void {
     window.location.reload();
   }
 
-  
+
 }
 

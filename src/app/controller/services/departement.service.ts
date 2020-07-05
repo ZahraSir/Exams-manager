@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 
 import {Departement} from '../model/departement.model';
 import {ToastrService} from 'ngx-toastr';
+import {Professeur} from "../model/professeur.model";
 
 @Injectable({
   providedIn: 'root'
@@ -73,8 +74,10 @@ export class DepartementService {
           this.departements.push(this.cloneDepartement(this.departement));
           this.toastr.success(this.departement.libelle + ' a été ajouté avec succés', 'Ajout réussi!');
           this.departement = null;
+          this.display = 1;
           console.log(this.departement);
         }else if (data === -1){
+          this.display = -1;
           this.toastr.error(this.departement.libelle + ' existe déja', 'Attention!');
         }
       }, error => {
@@ -87,6 +90,9 @@ export class DepartementService {
     const myClone = new Departement();
     myClone.libelle = departement.libelle;
     return myClone;
+  }
+  public validate() {
+    return this.departement.libelle != null;
   }
 
   public deleteByLibelle(departement: Departement) {
@@ -126,7 +132,7 @@ export class DepartementService {
       data => {
         if (data > 0) {
           window.location.reload();
-         
+
         }
         this.toastr.success(libelle + ' a été modifié avec succés', 'Modification réussi!');
       });
@@ -134,5 +140,13 @@ export class DepartementService {
   public vider(){
     this.departement = null;
   }
+  public findByLibelle(libelle){
+    console.log('daapertementt' + libelle);
+    this.http.get<Departement>(this._urldepart + 'find-by-libelle/' + libelle).subscribe(
+      data => {
+        this.departement = data;
+        console.log('departement' + data);
+      }
+    );
+  }
 }
-

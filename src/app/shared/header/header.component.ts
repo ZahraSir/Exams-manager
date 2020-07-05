@@ -4,6 +4,7 @@ import {MenuItem} from 'primeng/api';
 import {Router} from '@angular/router';
 import {User} from '../../controller/model';
 import {AuthenticationService, UserService} from '../../controller/services';
+import {Role} from '../../controller/model/role';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,7 @@ import {AuthenticationService, UserService} from '../../controller/services';
 })
 export class HeaderComponent implements OnInit {
   currentUser: User;
+  user: User;
   menuItems: MenuItem[];
   ngOnInit() {
     this.menuItems = [
@@ -41,7 +43,10 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
-    this.router.navigate(['/']);
+    this.router.navigateByUrl('/');
   }
 
+  get isAdmin() {
+    return this.user && this.user.role === Role.Admin;
+  }
 }

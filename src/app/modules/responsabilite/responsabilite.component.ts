@@ -63,4 +63,7 @@ export class ResponsabiliteComponent implements OnInit {
   refresh(): void {
     window.location.reload();
   }
+  public validate(): boolean{
+    return this.responsabiliteService.validate();
+  }
 }

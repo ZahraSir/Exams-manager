@@ -16,7 +16,7 @@ import { Surveillant } from 'src/app/controller/model/surveillant.model';
 export class CalendarComponent implements OnInit {
   locales = [esLocale, frLocale];
   item: string;
- 
+
   ngOnInit(): void {
     this.calendarService.findEvents();
   }
@@ -36,6 +36,9 @@ get surveillants() : Array<Surveillant>{
 }
 public click(event){
   this.calendarService.findExam(event.event.title, event.event.start, event.event.end);
+  console.log(event.event.start);
+  console.log(event.event.end);
+  console.log(event.event.title);
 }
 
 }

@@ -27,6 +27,7 @@ export class PersonnelService {
   private _departements: Array<Departement>;
   private _urlrespo = 'http://localhost:8090/exam-api/responsabilites/';
   private _urldepart = 'http://localhost:8090/exam-api/departements/';
+  private _display: number;
 
   get professeur(): Professeur {
     if (this._professeur == null) {
@@ -76,6 +77,13 @@ export class PersonnelService {
   }
   set http(value: HttpClient) {
     this._http = value;
+  }
+  get display(): number{
+    return this._display;
+  }
+
+  set display(display: number){
+    this._display = display;
   }
 
 
@@ -140,7 +148,9 @@ export class PersonnelService {
           this.personnels.push(this.clonePersonnel(this.personnel));
           this.toastr.success(this.personnel.nom + ' a été ajouté avec succés', 'Ajout réussi!');
           this.personnel = null;
+          this.display = 1;
         }else if (data === -1){
+          this.display = -1;
           this.toastr.error(this.personnel.nom + ' existe déja', 'Attention!');
         }
       }, error => {
@@ -158,6 +168,10 @@ export class PersonnelService {
 
     return myClone;
   }
+  public validate(): boolean{
+    return this.personnel.nom != null && this.personnel.fonction != null && this.personnel.prenom != null && this.personnel.mail != null;
+  }
+
   public deleteByNom(personnel: Personnel) {
     this.http.delete<number>(this._urlperso + 'delete-by-nom/' + personnel.nom).subscribe(
       data => {

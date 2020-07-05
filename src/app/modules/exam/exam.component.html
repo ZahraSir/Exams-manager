@@ -1,21 +1,67 @@
-
 <div style="margin-top: 180px;margin-left: 50px; ">
-    <!--Liste des Exams-->
-<div style="margin-top: 50px;margin-left: 20px; width: 1500px;">
-  <div class="respo">
-  <div class="card-header" style="background-color: #2e3047; color: #fff;">
-    <h4 style="text-align: left;">Liste des Exams</h4>
-  </div>
-  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+  <!--Liste des Exams-->
+  <div style="margin-top: 50px;margin-left: 20px; width: 1500px;">
+    <div class="respo">
+      <div class="card-header" style="background-color: #2e3047; color: #fff;">
+        <h4 style="text-align: left;">Liste des Exams</h4>
+      </div>
+      <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
 background-color: #fff;">
-    <div class="row">
-      <div >
-        <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+        <div class="row">
+          <div >
+            <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
-      width: 1411px;
+      width: 1491px;
     /* width: 1347px;*/
       margin-left: -4px;"/>
+          </div>
+        </div>
+        <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter exam</button>
+
+        <div class="table-responsive">
+          <table class="table table-bordered" style="text-align: center;" >
+            <thead>
+            <th>Module</th>
+            <th>Filière</th>
+            <th>Date</th>
+            <th>Heure départ</th>
+            <th>Heure fin</th>
+            <th>Professeur</th>
+            <th>Salles & Surveillants</th>
+            <th>Liste des étudiants</th>
+            <th>Actions</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let e of exams|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
+              <td >{{e.module.libelle}}</td>
+              <td>{{e.filiere.libelle}}</td>
+              <td>{{e.dateDepart | date: 'dd-MM-yyyy'}}</td>
+              <td>{{e.dateDepart | date: 'HH:mm'}}</td>
+              <td>{{e.dateFin | date: 'HH:mm'}}</td>
+              <td>{{e.prof.nom}}</td>
+              <td> <button class="btn btn-success btn-sm "  (click)=" ModalSalle.show();findByExam(e.id)">Liste des Salle et des surveillants</button></td>
+              <td> <button class="btn btn-dark btn-sm "  (click)=" ModalEtudiants.show();findByExamId(e.id)">Liste des étudiants</button></td>
+              <td>
+                <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
+                <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findSalleByExamReference(exam);"></button>
+                <button class="btn btn-warning btn-sm " style="margin-left: 5px;" (click)="ModalEtudiant.show();recupere(e); findEtudiants(e.filiere.libelle, e.module.semestre.libelle);" >Affectation des étudiants</button>
+              </td>
+
+              <ng-template #template >
+                <div class="modal-body text-center">
+                  <p>Voulez-vous vraiment supprimer ce examen?</p>
+                  <button type="button" class="btn btn-success" (click)="confirm();deleteByReference(e);" >Oui</button>
+                  <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+                </div>
+              </ng-template>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-img-overly">
+          <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
+        </div>
       </div>
     </div>
     <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter exam</button>
@@ -65,11 +111,10 @@ background-color: #fff;">
 </div>
 </div>
   </div>
-  </div>
- 
 
 
-<!--Ajouter exam-->
+
+  <!--Ajouter exam-->
   <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
@@ -79,208 +124,208 @@ background-color: #fff;">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-    <div class="modal-body">
-      <form>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="filiere" style="color: black;">Filière</label>
-              <select class=" input-large form-control" name="filiere" id="filiere"  [(ngModel)]="exam.filiere.libelle" (change)="findModuleByFiliereLibelle($event.target.value)"
-                      ngModel
-                      required
-                      #filiere="ngModel"
-                      [ngClass]="{'form-control' : true,
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="filiere" style="color: black;">Filière</label>
+                  <select class=" input-large form-control" name="filiere" id="filiere"  [(ngModel)]="exam.filiere.libelle" (change)="findModuleByFiliereLibelle($event.target.value)"
+                          ngModel
+                          required
+                          #filiere="ngModel"
+                          [ngClass]="{'form-control' : true,
               'is-invalid' : !filiere?.valid && filiere?.touched,
                 'is-valid' : filiere?.valid && filiere?.touched}">
-                <option value="">--Choisir une filière--</option>
-                <option *ngFor="let filiere of filieres" [value]="filiere.libelle">{{filiere.libelle}}</option>
-              </select>
-              <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
-          </div>
-          </div>
+                    <option value="">--Choisir une filière--</option>
+                    <option *ngFor="let filiere of filieres" [value]="filiere.libelle">{{filiere.libelle}}</option>
+                  </select>
+                  <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+                </div>
+              </div>
 
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="module" style="color: black;">Module</label>
-              <select class=" input-large form-control" name="module" id="module" [(ngModel)]="exam.module.libelle" (change)="findByModuleLibelle($event.target.value)"
-                      ngModel
-                      required
-                      #module="ngModel"
-                      [ngClass]="{'form-control' : true,
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="module" style="color: black;">Module</label>
+                  <select class=" input-large form-control" name="module" id="module" [(ngModel)]="exam.module.libelle" (change)="findByModuleLibelle($event.target.value)"
+                          ngModel
+                          required
+                          #module="ngModel"
+                          [ngClass]="{'form-control' : true,
               'is-invalid' : !module?.valid && module?.touched,
                 'is-valid' : module?.valid && module?.touched}">
-                <option *ngFor="let module of modules" [value]="module.libelle" >{{module.libelle}}</option>
-              </select>
-              <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
+                    <option *ngFor="let module of modules" [value]="module.libelle" >{{module.libelle}}</option>
+                  </select>
+                  <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-          <div class="form-group">
-            <label for="dateDepart" style="color: black;">Date départ</label>
-            <input type="datetime-local" id="dateDepart" (change)="ajouter($event.target.value)"
-                   placeholder="dateDepart"
-                   min="2020-01-01T00:00" max="2100-12-31T00:00"
-                   class="form-control" name="dateDepart" [(ngModel)]="exam.dateDepart"
-                   ngModel
-                   required
-                   #dateDepart="ngModel"
-                   [ngClass]="{'form-control' : true,
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="dateDepart" style="color: black;">Date départ</label>
+                  <input type="datetime-local" id="dateDepart" (change)="ajouter($event.target.value)"
+                         placeholder="dateDepart"
+                         min="2020-01-01T00:00" max="2100-12-31T00:00"
+                         class="form-control" name="dateDepart" [(ngModel)]="exam.dateDepart"
+                         ngModel
+                         required
+                         #dateDepart="ngModel"
+                         [ngClass]="{'form-control' : true,
               'is-invalid' : !dateDepart?.valid && dateDepart?.touched,
                 'is-valid' : dateDepart?.valid && dateDepart?.touched}">
-            <small *ngIf="dateDepart?.errors?.required && dateDepart?.touched"
-                   class="form-text text-danger">champs obligatoire</small>
-          </div>
-          <p-messages [(value)]="msg" [closable]="false"></p-messages>
-        </div>
+                  <small *ngIf="dateDepart?.errors?.required && dateDepart?.touched"
+                         class="form-text text-danger">champs obligatoire</small>
+                </div>
+                <p-messages [(value)]="msg" [closable]="false"></p-messages>
+              </div>
 
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="dateFin" style="color: black;">Date fin</label>
-              <input type="datetime-local" id="dateFin"
-                     min="2020-01-01T00:00" max="2100-12-31T00:00"
-                     value="2020-05-12T19:30" class="form-control" name="dateFin"  [(ngModel)]="exam.dateFin" (change)="verifier($event.target.value)"
-                     ngModel
-                     required
-                     #dateFin="ngModel"
-                     [ngClass]="{'form-control' : true,
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="dateFin" style="color: black;">Date fin</label>
+                  <input type="datetime-local" id="dateFin"
+                         min="2020-01-01T00:00" max="2100-12-31T00:00"
+                         value="2020-05-12T19:30" class="form-control" name="dateFin"  [(ngModel)]="exam.dateFin" (change)="verifier($event.target.value)"
+                         ngModel
+                         required
+                         #dateFin="ngModel"
+                         [ngClass]="{'form-control' : true,
               'is-invalid' : !dateFin?.valid && dateFin?.touched,
                 'is-valid' : dateFin?.valid && dateFin?.touched}">
-              <small *ngIf="dateFin?.errors?.required && dateFin?.touched"
-                     class="form-text text-danger">champs obligatoire</small>
+                  <small *ngIf="dateFin?.errors?.required && dateFin?.touched"
+                         class="form-text text-danger">champs obligatoire</small>
+                </div>
+
+                <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+              </div>
             </div>
-            
-            <p-messages [(value)]="msgs" [closable]="false"></p-messages>
-          </div>
-        </div>
-<div class="row">
-          <div class="col-md-6">
-        <div class="form-group">
-          <label for="prof" style="color: black;">Professeur</label>
-          <select class=" input-large form-control" name="prof" id="prof" [(ngModel)]="exam.prof"
-                  ngModel
-                  required
-                  #prof="ngModel"
-                  [ngClass]="{'form-control' : true,
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="prof" style="color: black;">Professeur</label>
+                  <select class=" input-large form-control" name="prof" id="prof" [(ngModel)]="exam.prof"
+                          ngModel
+                          required
+                          #prof="ngModel"
+                          [ngClass]="{'form-control' : true,
               'is-invalid' : !prof?.valid && prof?.touched,
                 'is-valid' : prof?.valid && prof?.touched}">
-            <option [ngValue]="exam.prof"> {{exam.prof.nom}}</option>
-          </select>
-          <small *ngIf="prof?.errors?.required && prof?.touched" class="form-text text-danger">champs obligatoire</small>
-        </div>
-          </div>
-    </div>
-    <div class="card">
-<div class="card-header" style="color: black;">Affectation des salles et des surveillants</div>
-<div class="card-body">
-  <div class="row">
-    <div class="col-md-5">
-      <div class="form-group">
-      <label style="color: black;">Salle/Amphi:</label>
-      <select class=" input-large form-control" name="salle" id="salle"  (change)="recupererSalle($event.target.value);findExamSalle($event.target.value, exam.dateDepart, exam.dateFin);" [(ngModel)]="examSalle.salle.designation"
-                ngModel
-                required
-                #salle="ngModel"
-                [ngClass]="{'form-control' : true,
+                    <option [ngValue]="exam.prof"> {{exam.prof.nom}}</option>
+                  </select>
+                  <small *ngIf="prof?.errors?.required && prof?.touched" class="form-text text-danger">champs obligatoire</small>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" style="color: black;">Affectation des salles et des surveillants</div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label style="color: black;">Salle/Amphi:</label>
+                      <select class=" input-large form-control" name="salle" id="salle"  (change)="recupererSalle($event.target.value);findExamSalle($event.target.value, exam.dateDepart, exam.dateFin);" [(ngModel)]="examSalle.salle.designation"
+                              ngModel
+                              required
+                              #salle="ngModel"
+                              [ngClass]="{'form-control' : true,
           'is-invalid' : !salle?.valid && salle?.touched,
             'is-valid' : salle?.valid && salle?.touched}" >
 
-          <option *ngFor="let s of salles" [value]="s.designation" >{{s.designation}}</option>
-        </select>
-        <small *ngIf="salle?.errors?.required && salle?.touched" class="form-text text-danger">champs obligatoire</small>
-    </div>
-    </div>
-    <div class="col-md-5">
-      <div class="form-group">
-        <label style="color: black;">Surveillants:</label>
-        <select class=" input-large form-control" name="surveillant" id="surveillant" (change)="recupererPerso($event.target.value); findSurveillant($event.target.value, exam.dateDepart, exam.dateFin)"
-        ngModel
-        required
-        #surveillant="ngModel"
-        [ngClass]="{'form-control' : true,
+                        <option *ngFor="let s of salles" [value]="s.designation" >{{s.designation}}</option>
+                      </select>
+                      <small *ngIf="salle?.errors?.required && salle?.touched" class="form-text text-danger">champs obligatoire</small>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label style="color: black;">Surveillants:</label>
+                      <select class=" input-large form-control" name="surveillant" id="surveillant" (change)="recupererPerso($event.target.value); findSurveillant($event.target.value, exam.dateDepart, exam.dateFin)"
+                              ngModel
+                              required
+                              #surveillant="ngModel"
+                              [ngClass]="{'form-control' : true,
   'is-invalid' : !surveillant?.valid && surveillant?.touched,
     'is-valid' : surveillant?.valid && surveillant?.touched}" >
 
-  <option *ngFor="let surve of personnels" [value]="surve.nom">{{surve.nom}}</option>
-</select>
-<small *ngIf="surveillant?.errors?.required && surveillant?.touched" class="form-text text-danger">champs obligatoire</small>
+                        <option *ngFor="let surve of personnels" [value]="surve.nom">{{surve.nom}}</option>
+                      </select>
+                      <small *ngIf="surveillant?.errors?.required && surveillant?.touched" class="form-text text-danger">champs obligatoire</small>
 
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <br>
+                    <div class="form-group" style="margin-top: 10px;">
+                      <button class="btn btn-block" type="button" [disabled]="!validate()" (click)="addSurve(perso)" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header">La liste des surveillants</div>
+                  <div class="card-body">
+                    <div class="table-rasponsive">
+                      <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                          <th>Nom</th>
+                          <th>Prénom</th>
+                          <th>Mail</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor= "let surveillant of examSalle.surveillants">
+                          <td>{{surveillant.nom}}</td>
+                          <td>{{surveillant.prenom}}</td>
+                          <td>{{surveillant.mail}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <button class="btn btn-block" type="button" (click)="addExamSalle()" [disabled]="!validateExamSalle()" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">La liste des Affectations</div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+
+                    <thead>
+                    <tr>
+                      <th>Salle</th>
+                      <th>Surveillants</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor= "let examSalle of exam.examSalles">
+                      <td>{{examSalle.salle.designation}}</td>
+                      <td ><span *ngFor= "let surveillant of examSalle.surveillants">{{surveillant.nom}} {{surveillant.prenom}} <br></span> </td>
+                    </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="modal-body">
+            <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
+            <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" [disabled]="!validateSave()" (click)="save();parentModal.hide();">Ajouter</button>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="col-md-2">
-      <br>
-      <div class="form-group" style="margin-top: 10px;">
-              <button class="btn btn-block" type="button" [disabled]="!validate()" (click)="addSurve(perso)" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
-      </div>
-      </div>
   </div>
-  
-    <div class="card">
-      <div class="card-header">La liste des surveillants</div>
-      <div class="card-body">
-    <div class="table-rasponsive">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Mail</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor= "let surveillant of examSalle.surveillants">
-            <td>{{surveillant.nom}}</td>
-            <td>{{surveillant.prenom}}</td>
-            <td>{{surveillant.mail}}</td>
-            </tr>
-          </tbody>
-      </table>
-    </div>
-    </div>
-  </div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-12">
-  <div class="form-group">
-    <button class="btn btn-block" type="button" (click)="addExamSalle()" [disabled]="!validateExamSalle()" style="height: 36px;background-color: #2e3047;border-color: #2e3047;"><i class="fa fa-plus" style="color: #fff !important"></i></button>
-</div>
-</div>
-</div>
-<div class="card">
-  <div class="card-header">La liste des Affectations</div>
-  <div class="card-body">
-<div class="table-responsive">
-  <table class="table table-bordered">
-   
-      <thead>
-        <tr>
-          <th>Salle</th>
-          <th>Surveillants</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor= "let examSalle of exam.examSalles">
-          <td>{{examSalle.salle.designation}}</td>
-          <td ><span *ngFor= "let surveillant of examSalle.surveillants">{{surveillant.nom}} {{surveillant.prenom}} <br></span> </td>
-          </tr>
-        </tbody>
-    
-  </table>
-</div>
-  </div>
-</div>
-      </form>
-      <div class="modal-body">
-        <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
-        <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" [disabled]="!validateSave()" (click)="save();parentModal.hide();">Ajouter</button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
 
   <!--liste des salles dans globale interface -->
   <div class="modal fade" bsModal #ModalSalle="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
@@ -311,6 +356,7 @@ background-color: #fff;">
                 </table>
               </div>
             </div>
+          </div>
 
         </div>
       </div>
@@ -338,52 +384,52 @@ background-color: #fff;">
                 <label for="filiere" style="color: black;">Filière</label>
                 <input type="text" class="form-control" name="filiere" placeholder="{{exam.filiere.libelle}}" [(ngModel)]="exam.filiere.libelle">
                 <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+              </div>
             </div>
-            </div>
-  
+
             <div class="col-md-6">
               <div class="form-group">
                 <label for="module" style="color: black;">Examen</label>
                 <input type="text" class="form-control" name="examen" placeholder="Examen" [(ngModel)]="exam.module.libelle">
                 <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
               </div>
-            
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="filiere" style="color: black;">Date</label>
-              <input type="text" class="form-control" name="date" placeholder="{{exam.dateDepart | date: 'dd/MM/yyyy'}}" [value]="exam.dateDepart | date: 'dd/MM/yyyy'">
-              <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
-          </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="filiere" style="color: black;">Heure début</label>
-              <input type="text" class="form-control" name="hd" placeholder="{{exam.dateDepart | date: 'HH:mm'}}" [value]="exam.dateDepart | date: 'HH:mm'">
-              <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
-          </div>
-          </div>
 
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="module" style="color: black;">Heure fin</label>
-              <input type="text" class="form-control" name="hf" placeholder="{{exam.dateFin| date: 'HH:mm'}}" [value]="exam.dateFin | date: 'HH:mm'">
-              <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
             </div>
-          
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="filiere" style="color: black;">Salle</label>
-            <select class=" input-large form-control" name="salle" id="salle" [(ngModel)]="examEtudiant.salle.designation"
-                    ngModel
-                    required
-                    #salle="ngModel"
-                    [ngClass]="{'form-control' : true,
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="filiere" style="color: black;">Date</label>
+                <input type="text" class="form-control" name="date" placeholder="{{exam.dateDepart | date: 'dd/MM/yyyy'}}" [value]="exam.dateDepart | date: 'dd/MM/yyyy'">
+                <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="filiere" style="color: black;">Heure début</label>
+                <input type="text" class="form-control" name="hd" placeholder="{{exam.dateDepart | date: 'HH:mm'}}" [value]="exam.dateDepart | date: 'HH:mm'">
+                <small *ngIf="filiere?.errors?.required && filiere?.touched" class="form-text text-danger">champs obligatoire</small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="module" style="color: black;">Heure fin</label>
+                <input type="text" class="form-control" name="hf" placeholder="{{exam.dateFin| date: 'HH:mm'}}" [value]="exam.dateFin | date: 'HH:mm'">
+                <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="filiere" style="color: black;">Salle</label>
+                <select class=" input-large form-control" name="salle" id="salle" [(ngModel)]="examEtudiant.salle.designation"
+                        ngModel
+                        required
+                        #salle="ngModel"
+                        [ngClass]="{'form-control' : true,
             'is-invalid' : !salle?.valid && salle?.touched,
               'is-valid' : salle?.valid && salle?.touched}">
               <option value="">--Choisir une salle--</option>
@@ -435,7 +481,7 @@ background-color: #fff;">
               </div>
             </div>
           </div>
-    
+
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="ModalEtudiant.hide();">Annuler</button>
@@ -465,13 +511,13 @@ background-color: #fff;">
                 <thead>
                 <th>Etudiants</th>
                 <th>Salle</th>
-              
+
                 </thead>
                 <tbody>
-                  <tr *ngFor="let examEtudiant of examEtudiants">
-                    <td>{{examEtudiant.etudiant.nom}} {{examEtudiant.etudiant.prenom}}</td>
-                    <td >{{examEtudiant.salle.designation}}</td>
-                  </tr>   
+                <tr *ngFor="let examEtudiant of examEtudiants">
+                  <td>{{examEtudiant.etudiant.nom}} {{examEtudiant.etudiant.prenom}}</td>
+                  <td >{{examEtudiant.salle.designation}}</td>
+                </tr>
                 </tbody>
               </table>
             </div>

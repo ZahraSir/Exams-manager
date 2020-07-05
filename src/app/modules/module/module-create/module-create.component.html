@@ -1,63 +1,63 @@
 <div style="margin-top: 180px;margin-left: 100px; width: 1420px;">
   <div class="respo">
-  <div class="card-header" style="background-color: #2e3047; color: #fff;">
-    <h4 style="text-align: left;">Liste des modules</h4>
-  </div>
-  <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+    <div class="card-header" style="background-color: #2e3047; color: #fff;">
+      <h4 style="text-align: left;">Liste des modules</h4>
+    </div>
+    <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
   background-color: #fff;">
-    <div class="row">
-      <div>
-        <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+      <div class="row">
+        <div>
+          <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
        width: 1411px;
     /* width: 1347px;*/
       margin-left: -4px;"/>
+        </div>
+      </div>
+
+      <button class="btn btn-info fa fa-plus" style="float: right !important;" (click)="ajoutModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter module</button>
+
+
+
+      <div class="table-responsive ">
+        <table class="table table-bordered" style="text-align: center;">
+          <thead>
+          <tr>
+            <th>Module</th>
+            <th>Professeur</th>
+            <th>Filière</th>
+            <th>Semestre</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor= "let module of modules | filter: item|paginate: {itemsPerPage:5,currentPage:p}">
+            <td>{{module.libelle}}</td>
+            <td>{{module.professeur.nom}} {{module.professeur.prenom}}</td>
+            <td>{{module.filiere.libelle}}</td>
+            <td>{{module.semestre.libelle}}</td>
+            <td>
+              <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal2);" ></button>
+              <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="recuperer(module);modifeModal.show(); findByfiliereLibelle(module.filiere.libelle); findByDepartementLibelle(module.filiere.departement.libelle)"></button>
+            </td>
+            <!--Confirmation du suppression-->
+            <ng-template #modal2>
+              <div class="modal-body text-center">
+                <p>Voulez-vous vraiment supprimer ce module?</p>
+                <button type="button" class="btn btn-success" (click)="decline(); deleteById(module);">Oui</button>
+                <button type="button" class="btn btn-danger" style="margin-left: 5px;" (click)="decline();">Non</button>
+              </div>
+            </ng-template>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-img-overly">
+        <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
       </div>
     </div>
-
-        <button class="btn btn-info fa fa-plus" style="float: right !important;" (click)="ajoutModal.show(); vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter module</button>
-
-
-
-  <div class="table-responsive ">
-    <table class="table table-bordered" style="text-align: center;">
-      <thead>
-      <tr>
-        <th>Module</th>
-        <th>Professeur</th>
-        <th>Filière</th>
-        <th>Semestre</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor= "let module of modules | filter: item|paginate: {itemsPerPage:5,currentPage:p}">
-        <td>{{module.libelle}}</td>
-        <td>{{module.professeur.nom}} {{module.professeur.prenom}}</td>
-        <td>{{module.filiere.libelle}}</td>
-        <td>{{module.semestre.libelle}}</td>
-        <td>
-          <button class="btn btn-danger btn-sm fa fa-trash" (click)="openModal(modal2);" ></button>
-          <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="recuperer(module);modifeModal.show(); findByfiliereLibelle(module.filiere.libelle); findByDepartementLibelle(module.filiere.departement.libelle)"></button>
-        </td>
-        <!--Confirmation du suppression-->
-        <ng-template #modal2>
-          <div class="modal-body text-center">
-            <p>Voulez-vous vraiment supprimer ce module?</p>
-            <button type="button" class="btn btn-success" (click)="decline(); deleteById(module);">Oui</button>
-            <button type="button" class="btn btn-danger" style="margin-left: 5px;" (click)="decline();">Non</button>
-          </div>
-        </ng-template>
-      </tr>
-      </tbody>
-    </table>
   </div>
-  <div class="card-img-overly">
-    <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
-  </div>
-</div>
-</div>
 </div>
 
 <!--Modifier module-->
@@ -65,7 +65,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #2e3047;">
-        <h4 id="dialog-nested-name1" class="modal-title pull-left" >Modifier module</h4>
+        <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #ffffff !important;">Modifier module</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modifeModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -142,13 +142,11 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
-            <button class="btn btn-info btn-sm" type="button" (click)="update(module);modifeModal.hide();">Enregistrer les modifications</button>
-          </div>
         </form>
-
-
-
+        <div class="modal-body">
+          <button class="btn btn-close pull-right" (click)="modifeModal.hide();">Annuler</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;" (click)="update(module);modifeModal.hide();">Editer</button>
+        </div>
       </div>
     </div>
   </div>
@@ -167,11 +165,11 @@
       <div class="modal-body">
         <form>
           <div class="row">
-            
+
             <div class="col-md-6">
               <div class="form-group">
                 <label style="color: black;">Filière:</label>
-                <select class=" input-large form-control" name="filiere" [(ngModel)]="module.filiere.libelle" (change)="findByfiliereLibelle($event.target.value); findByLibelle($event.target.value) " 
+                <select class=" input-large form-control" name="filiere" [(ngModel)]="module.filiere.libelle" (change)="findByfiliereLibelle($event.target.value); findByLibelle($event.target.value) "
                         ngModel
                         required
                         #filiere="ngModel"
@@ -238,10 +236,9 @@
             </div>
 
           </div>
-          
           <div class="modal-body">
-            <button class="btn btn-outline-danger pull-right" (click)="ajoutModal.hide();">Annuler</button>
-            <button class="btn btn-outline-success pull-right" style="margin-right: 5px;" (click)="ajoutModal.hide(); save();">Ajouter</button>
+            <button class="btn btn-close pull-right" (click)="ajoutModal.hide();">Annuler</button>
+            <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="ajoutModal.hide();save();" [disabled]="!validate()" >Ajouter</button>
           </div>
         </form>
       </div>

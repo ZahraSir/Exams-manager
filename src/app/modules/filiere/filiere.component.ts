@@ -36,7 +36,7 @@ export class FiliereComponent implements OnInit {
     this.filiereService.findAll();
     this.filiereService.getNiveaux();
     this.filiereService.getDepartements();
-   
+
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -158,23 +158,26 @@ export class FiliereComponent implements OnInit {
     this.filiereService.findByNiveauLibelle(niveau);
 
   }
-  
+
   get professeurs(): Array<Professeur> {
     return this.filiereService.professeurs;
   }
-  
+
   public findByDepartementLibelle(libelle){
     console.log(libelle)
     this.filiereService.findByDepartementLibelle(libelle);
   }
 
+  public validate(): boolean {
+    return this.filiereService.validate();
+  }
   public update(filiere: Filiere){
     console.log(filiere)
     this.filiereService.update(filiere.id, filiere.libelle, filiere.niveau.libelle, filiere.departement.libelle)
   }
-
   public getColor(value){
     console.log(value);
     this.filiere.couleur = value;
+
   }
 }

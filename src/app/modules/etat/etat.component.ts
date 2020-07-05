@@ -6,7 +6,7 @@ import {SallesService} from '../../controller/services/salles.service';
 import {Salles} from '../../controller/model/salles';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {User} from '../../controller/model';
-import {AuthenticationService, UserService} from '../../controller/services';
+import {AuthenticationService} from '../../controller/services';
 import {first} from 'rxjs/operators';
 
 @Component({
@@ -20,9 +20,10 @@ export class EtatComponent implements OnInit {
   p = 1;
   currentUser: User;
   users = [];
+  user: User;
   constructor(private etatService: EtatService,
               private salleService: SallesService,
-              private modalService: BsModalService, private authenticationService: AuthenticationService, private userService: UserService)
+              private modalService: BsModalService, private authenticationService: AuthenticationService)
   { this.currentUser = this.authenticationService.currentUserValue; }
 
 
@@ -42,7 +43,7 @@ export class EtatComponent implements OnInit {
     return this.salleService.salle;
   }
   private loadAllUsers() {
-    this.userService.getAll()
+    this.authenticationService.getAll()
       .pipe(first())
       .subscribe(users => this.users = users);
   }

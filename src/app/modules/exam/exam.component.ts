@@ -18,7 +18,6 @@ import { Message } from 'primeng/api';
 import { ExamEtudiant } from 'src/app/controller/model/exam-etudiant';
 import { Etudiant } from 'src/app/controller/model/etudiant';
 
-
 @Component({
   selector: 'app-exam',
   templateUrl: './exam.component.html',
@@ -62,7 +61,7 @@ export class ExamComponent implements OnInit {
   get exams(): Array<Exam> {
     return this.examService.exams;
   }
- 
+
   get surveillants(): Array<Surveillant> {
     return this.examService.surveillants;
   }
@@ -131,14 +130,14 @@ export class ExamComponent implements OnInit {
     console.log(prof)
     this.examService.update(id, dateDepart, dateFin, module, prof, filiere);
   }
-  
- 
+
+
   public addSalle(salle: Salles){
     this.examService.addSalle(salle);
   }
 
   public selectedChangeHandler(event: any) {
-  //  this.selectedSur = event.target.valu;
+    //  this.selectedSur = event.target.valu;
     console.log(event);
   }
   public vider(){
@@ -153,7 +152,7 @@ export class ExamComponent implements OnInit {
     this.examService.findBySallesDesignation(sal);
   }
   recupererPerso(perso) {
-    this.examService.findByPersonnelNom(perso);    
+    this.examService.findByPersonnelNom(perso);
   }
   get surveill(): Surveillant {
     return this.examService.surveill;
@@ -174,7 +173,7 @@ export class ExamComponent implements OnInit {
   public findEtatPrevue() {
     this.salleService.findEtatPrevue();
   }
- 
+
   public saveSurveillant() {
     this.surveillantService.save();
   }
@@ -215,19 +214,19 @@ export class ExamComponent implements OnInit {
       this.dateF = new Date(this.exam.dateFin)
       console.log(this.dateD);
       console.log(this.dateF);
-     let time = this.dateF.getTime() - this.dateD.getTime();
-     console.log(time)
-     if(time < 0){
-      this.msg.push({severity:'error', detail:'Date départ doit être plus petit que la date fin!!'});
-     }else{ 
-       this.msg = []
-     }
+      let time = this.dateF.getTime() - this.dateD.getTime();
+      console.log(time)
+      if(time < 0){
+        this.msg.push({severity:'error', detail:'Date départ doit être plus petit que la date fin!!'});
+      }else{
+        this.msg = []
+      }
     }else{
-   this.dateDebut = new Date(value);
-   this.dateDebut.setHours(this.dateDebut.getHours() + 2);
-   this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
-   this.exam.dateFin = this.dateFin;
-  }
+      this.dateDebut = new Date(value);
+      this.dateDebut.setHours(this.dateDebut.getHours() + 2);
+      this.dateFin = moment(this.dateDebut).format("YYYY-MM-DD[T]HH:mm");
+      this.exam.dateFin = this.dateFin;
+    }
   }
   get examSal(): ExamSalle{
     return this.examService.examSal;
@@ -236,9 +235,9 @@ export class ExamComponent implements OnInit {
   public addExamSalle(){
     console.log(this.examSalle);
     this.examService.addExamSalle(this.examSalle);
-    
+
   }
-  
+
   get surveillant(): Surveillant {
     return this.examService.surveillant;
   }
@@ -253,28 +252,28 @@ export class ExamComponent implements OnInit {
   }
   public deleteExamSallesByDesignationFromView(examSalle: ExamSalle) {
     this.examService.deleteExamSallesByDesignationFromView(examSalle);
-  } 
+  }
 
   public validateExamSalle(){
     return this.examService.validateExamSalle();
   }
   public verifier(value){
     if( this.exam.dateDepart != null)
-{   
-   this.dateD = new Date(this.exam.dateDepart);
-   this.dateF = new Date(this.exam.dateFin)
-   let time = this.dateF.getTime() - this.dateD.getTime();
-   if(time < 0){
-    this.msgs.push({severity:'error', detail:'Date fin doit être plus grand que la date départ!!'});
-   }else{ 
-     this.msgs = []
-   }
-  }else{
-    this.dateF = new Date(value);
-    this.dateF.setHours(this.dateF.getHours() - 2);
-    let dateD = moment(this.dateF).format("YYYY-MM-DD[T]HH:mm");
-    this.exam.dateDepart = dateD;
-   }
+    {
+      this.dateD = new Date(this.exam.dateDepart);
+      this.dateF = new Date(this.exam.dateFin)
+      let time = this.dateF.getTime() - this.dateD.getTime();
+      if(time < 0){
+        this.msgs.push({severity:'error', detail:'Date fin doit être plus grand que la date départ!!'});
+      }else{
+        this.msgs = []
+      }
+    }else{
+      this.dateF = new Date(value);
+      this.dateF.setHours(this.dateF.getHours() - 2);
+      let dateD = moment(this.dateF).format("YYYY-MM-DD[T]HH:mm");
+      this.exam.dateDepart = dateD;
+    }
   }
 
   public validateSave(): boolean{
@@ -284,7 +283,7 @@ export class ExamComponent implements OnInit {
   get examEtudiant() : ExamEtudiant{
     return this.examService.examEtudiant;
   }
-  
+
   get etudiants(): Array<Etudiant>{
     return this.examService.etudiants;
   }
@@ -302,9 +301,9 @@ export class ExamComponent implements OnInit {
     this.examService.addExamEtudiant(examEtudiant)
   }
 
-get examEtudiants() : Array<ExamEtudiant>{
-  return this.examService.examEtudiants;
-}
+  get examEtudiants() : Array<ExamEtudiant>{
+    return this.examService.examEtudiants;
+  }
 
 get examEtudiantss() : Array<ExamEtudiant>{
   return this.examService.examEtudiantss;
@@ -313,7 +312,7 @@ get examEtudiantss() : Array<ExamEtudiant>{
 public affecter(){
   this.examService.affecter();
 
-}
+  }
 
 public click(etudiant){
   this.examEtudiant.etudiant = etudiant;

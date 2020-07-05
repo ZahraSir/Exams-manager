@@ -7,6 +7,6 @@ export class Etudiant {
   public prenom: string;
   public mail: string;
   public cne: string;
-  public filiere= new Filiere();
-  public semestre= new Semestre();
+  public filiere = new Filiere();
+  public semestre = new Semestre();
 }

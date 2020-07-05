@@ -17,6 +17,8 @@ export class EtudiantService {
   private _niveauSemestres: Array<NiveauSemestre>;
   private _urlEtudiants = 'http://localhost:8090/exam-api/etudiants/';
   private _urlSemestre = 'http://localhost:8090/exam-api/niveau-semestre/';
+  private _display: number;
+
   constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   get etudiant(): Etudiant{
@@ -51,7 +53,13 @@ export class EtudiantService {
   set niveauSemestres(niveauSemestres: Array<NiveauSemestre>){
     this._niveauSemestres = niveauSemestres;
   }
+  get display(): number{
+    return this._display;
+  }
 
+  set display(display: number){
+    this._display = display;
+  }
   public save(){
     this.http.post<number>(this._urlEtudiants + 'save/', this.etudiant).subscribe(
       data => {
@@ -59,8 +67,10 @@ export class EtudiantService {
           this.toastr.success(this.etudiant.nom + ' a été ajouté dans la liste', 'Ajout réussi');
           this.etudiants.push(this.etudiant);
           this.etudiant = null;
+          this.display = 1;
           console.log(this.etudiant);
         }else if (data === -1){
+          this.display = -1;
           this.toastr.error(this.etudiant.cne + ' existe déja dans la liste', 'Alerte!');
         }
       },
@@ -68,6 +78,9 @@ export class EtudiantService {
         console.log(error);
       }
     );
+  }
+  public validate(): boolean{
+    return this.etudiant.nom != null && this.etudiant.cne != null && this.etudiant.prenom != null && this.etudiant.mail != null && this.etudiant.filiere.libelle != null && this.etudiant.semestre.libelle != null;
   }
 
   public recuperer(etudiant: Etudiant){
@@ -149,4 +162,15 @@ export class EtudiantService {
       }
     );
   }
+public findEtudiantByDepartementLibelle(libelle) {
+  this.http.get<Array<Etudiant>>(this._urlEtudiants + 'filiere/departement/' + libelle ).subscribe(
+    data => {
+      console.log(data);
+      this._etudiants = data;
+      console.log('fbjd ' + this.niveauSemestres);
+
+    }
+  );
 }
+}
+

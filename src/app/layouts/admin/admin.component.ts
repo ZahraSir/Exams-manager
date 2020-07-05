@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {User} from '../../controller/model';
+import {AuthenticationService} from '../../controller/services';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-admin',
@@ -6,10 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-
-  constructor() { }
+  currentUser: User;
+  modalRef: BsModalRef;
+  constructor(private authenticationService: AuthenticationService, private modalService: BsModalService) {  this.currentUser = this.authenticationService.currentUserValue; }
 
   ngOnInit(): void {
   }
-
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 }

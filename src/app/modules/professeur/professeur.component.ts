@@ -73,5 +73,8 @@ export class ProfesseurComponent implements OnInit {
   refresh(): void {
     window.location.reload();
   }
+  public validate(): boolean{
+    return this.professeurService.validate();
+  }
 }
 

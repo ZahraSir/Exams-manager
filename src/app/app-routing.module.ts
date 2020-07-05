@@ -19,7 +19,17 @@ import {RegisterComponent} from './modules/register';
 import { AuthGuard } from './modules/_helpers/auth.guard';
 import { SessionComponent } from './modules/session/session.component';
 import { ProfilComponent } from './modules/profil/profil.component';
+import {Role} from './controller/model/role';
 import { ResponsableComponent } from './layouts/responsable/responsable.component';
+import {ProfesseursComponent} from './layouts/responsable/professeur/professeur.component';
+import {ExamsComponent} from './layouts/responsable/exam/exam.component';
+import {FilieresComponent} from './layouts/responsable/filiere/filiere.component';
+import {EtudiantsComponent} from './layouts/responsable/etudiant/etudiant.component';
+import {SalleComponent} from './layouts/responsable/salle/salle.component';
+import {AcceuilComponent} from './modules/acceuil/acceuil.component';
+import {AcceuiComponent} from './layouts/responsable/acceui/acceui.component';
+import {ModulesComponent} from './layouts/responsable/module/module.component';
+
 
 
 
@@ -33,8 +43,9 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard],
+  {path: 'admin', component: AdminComponent, data: {roles: [Role.Admin] }, canActivate: [AuthGuard],
     children: [
+      {path: '', component: AcceuilComponent},
       {path: 'salles', component: SallesComponent},
       {path: 'departements', component: DepartementComponent},
       {path: 'professeurs', component: ProfesseurComponent},
@@ -48,9 +59,21 @@ const routes: Routes = [
       {path: 'etudiants', component: EtudiantComponent},
       {path: 'personnels', component: PersonnelComponent},
       {path: 'sessions', component: SessionComponent},
-      {path: 'profil', component: ProfilComponent}
+      {path: 'profil/:id', component: ProfilComponent},
+      {path: 'edit/:id', component: SessionComponent}
     ]},
-  {path: 'responsable', component: ResponsableComponent, canActivate: [AuthGuard]}
+  {path: 'responsable', component: ResponsableComponent, data: {roles: [Role.User] }, canActivate: [AuthGuard],   children: [
+      {path: '', component: AcceuiComponent},
+      {path: 'salles', component: SalleComponent},
+      {path: 'professeurs', component: ProfesseursComponent},
+      {path: 'surveillants', component: SurveillantComponent},
+      {path: 'exams', component: ExamsComponent},
+      {path: 'modules', component: ModulesComponent},
+      {path: 'fillieres', component: FilieresComponent},
+      {path: 'calendars', component: CalendarComponent},
+      {path: 'etudiants', component: EtudiantsComponent},
+      {path: 'profil/:id', component: ProfilComponent},
+    ]}
 ];
 
 @NgModule({

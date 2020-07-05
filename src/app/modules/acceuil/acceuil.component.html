@@ -1,0 +1,27 @@
+
+<div class="img" style="margin-left: -80px;">
+  <section>
+    <div class="box">
+      <h1>Bienvenu {{currentUser.username}} <span>dans l'application gestion des examens</span> </h1>
+      <button type="button" class="button" (click)="childModal.show();">À propos de l'application</button>
+    </div>
+  </section>
+</div>
+
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name" style="margin-left: -630px !important; margin-top: 250px !important;">
+  <div class="modal-dialog " style="width: 450px;background-color: #2e3047 !important; ">
+    <div class="modal-content" style=" background-color: #2e3047 !important; border-color: #2e3047 !important; ">
+      <div class="modal-header" style="background-color: #2e3047 !important; ">
+        <h5 id="dialog-child-name" class="modal-title pull-left" style="color: white !important; font-style:italic;">
+          Notre application permet au responsable d'une filière de créer un
+          examen sans avoir un conflit au niveau des salles ou
+          du temps, et de choisir les surveillants selon
+          leurs disponibilités</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="childModal.hide();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

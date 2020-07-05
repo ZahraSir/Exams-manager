@@ -1,0 +1,96 @@
+.position{
+  margin-left: 88%;
+  width: 120px;
+}
+
+
+.form{
+  padding-left: 250%;
+}
+
+#float-input{
+  width: 300px;
+  height: 40px;
+  margin-top: 30px;
+}
+label{
+  font-size: 20px;
+}
+
+.custom-invalid-feedback{
+  width: 100% !important;
+  margin-top: 0.25rem;
+  margin-left: 35px;
+  font-size: 100%;
+  color: red;
+  text-align: center;
+
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color:  #24C2FF;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+h3 {
+  color: black;
+}
+/*
+#thirdModal2 {
+  background-color: #84E0A1;
+  border-color: #ffffff;
+  color: #fff;
+}*/
+.card-footer {
+  padding: .5rem 1rem;
+  background-color: rgba(0,0,0,.03);
+  border-top: 1px solid rgba(0,0,0,.125);
+}
+
+.table{
+  border-style: groove !important;
+  background-color: #fff;
+}
+.btn-primary{
+  color: #2e3047;
+  background-color: #3bba9c;
+  border-color: #24C2FF;
+}
+
+.btn-close{
+  color: #41403f;
+  background-color: #8d8c8a;
+  border-color: #636261;
+}
+@media (max-width: 952px) {
+  .respo {
+    width: 552px !important;
+    height: 300px !important;
+    margin-top: 10px !important;
+    margin-left: -170px !important;
+  }
+  #cherche {
+    width: 542px !important;
+    height: 15px;
+  }
+  .btn-info {
+    width: 220px !important;
+    height: 40px !important;
+  }
+}

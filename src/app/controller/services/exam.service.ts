@@ -281,7 +281,7 @@ export class ExamService {
   set examSalle(value: ExamSalle) {
     this._examSalle = value;
   }
-  
+
   get examSalles(): Array<ExamSalle> {
     if(this._examSalles == null){
       this._examSalles = new Array<ExamSalle>();
@@ -380,7 +380,7 @@ export class ExamService {
     this.http.get<Array<Exam>>(this._urlexam + 'find-all').subscribe(
       data => {
         this._exams = data;
-  
+
       }
     );
   }
@@ -390,11 +390,11 @@ export class ExamService {
       data => {
         if (data === 1) {
           this.exams.push(this.cloneExam(this.exam));
-          this.toastr.success(this.exam.reference + ' a été ajouté avec succés ', 'Ajout réussi!');
+          this.toastr.success(this.exam.module.libelle + ' a été ajouté avec succés ', 'Ajout réussi!');
           this.exam = null;
           console.log(this.exam);
         }else if (data === -1){
-          this.toastr.error(this.exam.reference + ' existe déja ', 'Attention!');
+          this.toastr.error(this.exam.module.libelle + ' existe déja ', 'Attention!');
         }
       }, error => {
         console.log(error);
@@ -417,10 +417,10 @@ export class ExamService {
     this.http.delete<number>(this._urlexam + 'delete-by-id/' + exam.id).subscribe(
       data => {
         if(data == -1)
-        this.toastr.error(exam.reference + ' non passé', 'Suppression impossible!');
+          this.toastr.error(exam.reference + ' non passé', 'Suppression impossible!');
         else{
           this.deleteByidFromView(exam);
-      }
+        }
       }
     );
   }
@@ -443,7 +443,7 @@ export class ExamService {
     this.exam.examSalles = exam.examSalles;
     this.exam.module.libelle = exam.module.libelle;
     this.exam.filiere.libelle = exam.filiere.libelle;
-    
+
   }
 
   public update(id: number, dateDepart: string, dateFin: string, module: String, prof: string, filiere: string){
@@ -453,7 +453,7 @@ export class ExamService {
           window.location.reload();
           this.toastr.success(module + ' a été modifié avec succés', 'Modification réussi!');
         }
-       
+
       });
   }
 
@@ -485,7 +485,7 @@ export class ExamService {
   public findByPersonnelNom(personnel) {
     this.http.get<Personnel>(this._urlperso + 'find-by-nom/' + personnel).subscribe(
       data => {
-        this.perso = data; 
+        this.perso = data;
       }
     );
   }
@@ -519,27 +519,27 @@ export class ExamService {
   public findBySalleDesignationDatedepartDateFin(designation: string, dateDepart: string, dateFin: string){
     this.http.get<Array<Surveillant>>( 'http://localhost:8090/exam-api/surveillants/' + designation + '/' + moment(dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/' + moment(dateFin).format("YYYY-MM-DD[T]HH:mm")).subscribe(
       data => {
-         this.examS.surveillants = data;
+        this.examS.surveillants = data;
       }
     );
     console.log(this.examS.surveillants)
-    
+
   }
 
 
   public  findExamSalle(designation: string, dateDepart: string, dateFin: string ){
     this.http.get<Array<ExamSalle>>(this._urlExSa + 'designation/' + designation + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
-         if (data.length == 0){
+        if (data.length == 0){
           this.display = 1;
           console.log('display = ' + this.display);
           console.log(data + 'hadi khawya');
-         }
-         else{
+        }
+        else{
           this.display = -1
-           this.toastr.error(' la salle ' + designation + ' n\'est pas disponible a ce moment', 'Alert!');
-           console.log(data + 'hadi 3amra matsvihach');
-         }
+          this.toastr.error(' la salle ' + designation + ' n\'est pas disponible a ce moment', 'Alert!');
+          console.log(data + 'hadi 3amra matsvihach');
+        }
 
       }
     );
@@ -547,16 +547,16 @@ export class ExamService {
   public  findSurveillant(nom: string, dateDepart: string, dateFin: string ){
     this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/nom/' + nom + '/dateDepart/' + dateDepart + '/dateFin/' + dateFin ).subscribe(
       data => {
-         if (data.length == 0){
-        this.surve = 1;
+        if (data.length == 0){
+          this.surve = 1;
           console.log(data + 'hada msali');
-         }
-         else{
+        }
+        else{
           this.surve = -1;
-           this.toastr.error(' la salle ' + nom + ' n\'est pas disponible a ce moment', 'Alert!');
-          
-           console.log(data + 'hada mamsalich');
-         }
+          this.toastr.error(' la salle ' + nom + ' n\'est pas disponible a ce moment', 'Alert!');
+
+          console.log(data + 'hada mamsalich');
+        }
 
       }
     );
@@ -636,6 +636,7 @@ export class ExamService {
   }
 
  
+
   public vider(){
     this.exam = null;
   }
@@ -670,20 +671,20 @@ export class ExamService {
   public findByExam(id: number){
     this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/find-by-exam/' + id).subscribe(
       data => {
-        this.examSal.surveillants = data;      
+        this.examSal.surveillants = data;
       }
     );
 
   }
 
- public validateExamSalle(){
-    return this.examSalle.salle.designation != null && this.examSalle.surveillants.length > 0 
+  public validateExamSalle(){
+    return this.examSalle.salle.designation != null && this.examSalle.surveillants.length > 0
   }
 
   public findExamSalleByDate(dateDepart: string, dateFin: string, module: string){
     this.http.get<Array<ExamSalle>>('http://localhost:8090/exam-api/exams-salle/dateDepart/'+ moment(dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/dateFin/' + moment(dateFin).format("YYYY-MM-DD[T]HH:mm")+ '/module/' + module ).subscribe(
       data => {
-        this.examEtudiant.exam.examSalles = data;  
+        this.examEtudiant.exam.examSalles = data;
         console.log(this.examEtudiant)
       }
     );
@@ -693,27 +694,27 @@ export class ExamService {
   public findEtudiants(exam: Exam){
     this.http.get<Array<Etudiant>>('http://localhost:8090/exam-api/etudiants/filiere/'+ exam.filiere.libelle + '/module/' +exam.module.libelle ).subscribe(
       data => {
-        this.etudiants = data;  
+        this.etudiants = data;
         console.log(this.etudiants)
       }
     );
   }
 
-  
-public validateSave():boolean{
-let dateDepart = new Date(this.exam.dateDepart);
-let dateFin = new Date(this.exam.dateFin);
-let time = dateFin.getTime() - dateDepart.getTime();
-  return this.exam.filiere.libelle != null && this.exam.module.libelle != null && this.exam.dateDepart != null && this.exam.dateFin != null && this.exam.prof != null && time > 0}
+
+  public validateSave():boolean{
+    let dateDepart = new Date(this.exam.dateDepart);
+    let dateFin = new Date(this.exam.dateFin);
+    let time = dateFin.getTime() - dateDepart.getTime();
+    return this.exam.filiere.libelle != null && this.exam.module.libelle != null && this.exam.dateDepart != null && this.exam.dateFin != null && this.exam.prof != null && time > 0}
 
   public addExamEtudiant(examEtudiant: ExamEtudiant){
-    this.examEtudiants.push(examEtudiant);    
+    this.examEtudiants.push(examEtudiant);
     this.examEtudiant = null
-   
+
   }
 
   public affecter(){
-       this.http.post<number>('http://localhost:8090/exam-api/exam-etudiants/save-exam-etudiant/' , this.examEtudiants).subscribe(
+    this.http.post<number>('http://localhost:8090/exam-api/exam-etudiants/save-exam-etudiant/' , this.examEtudiants).subscribe(
       data => {
         console.log(data)
       }, error => {
@@ -737,11 +738,8 @@ public printDocument(exam: Exam){
       if (data === 1) {
         this.toastr.success(' la liste a été bien télechargé');
       }
-    }, error => {
-      console.log(error);
-    }
-  );
-}
+     } );
+  }
 
 public exportExcel(exam: Exam){
   this.http.post<number>( 'http://localhost:8090/exam-api/exam-etudiants/export-excel/module/' + exam.module.libelle + '/date-depart/' + moment(exam.dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/date-fin/' + moment(exam.dateFin).format("YYYY-MM-DD[T]HH:mm"), this.examEtudiants).subscribe(
@@ -789,10 +787,16 @@ private deleteExamBySurveillantId1(surveillant: Surveillant) {
     this.surveillantss.splice(index, 1);
   }
 }
+ 
+public findExamByDepartementLibelle(libelle) {
+  this.http.get<Array<Exam>>(this._urlexam + 'filiere/departement/' + libelle ).subscribe(
+    data => {
+      console.log(data);
+      this.exams = data;
+      console.log('exambyDepartement ' + this.exams);
+    }
+  );
+}
   }
-
-
-
-
 
 

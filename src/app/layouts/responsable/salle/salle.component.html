@@ -1,0 +1,44 @@
+<!--Liste des salles-->
+<div style="margin-top: 180px;margin-left: 100px; width: 1420px;">
+  <div class="respo">
+    <div class="card-header" style="background-color: #2e3047; color: #fff;">
+      <h4 style="text-align: left;">Liste des Salles</h4>
+    </div>
+    <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+ background-color: #fff;">
+      <div class="row">
+        <div >
+          <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+      margin-top: -18px;
+      background-color: #f8f6f6;
+      width: 1411px;
+    /* width: 1347px;*/
+      margin-left: -4px;"/>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered" style="text-align: center;" id="content-excel">
+          <thead>
+          <th>D&eacute;signation</th>
+          <th>Capacit&eacute;</th>
+          <th>Etat</th>
+          <th>Type</th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let s of salles|filter: item|paginate: {itemsPerPage:5,currentPage:p}" >
+            <td>{{s.designation}}</td>
+            <td >{{s.capacite}}</td>
+            <td>{{s.etat}}</td>
+            <td>{{s.type}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-img-overly">
+        <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

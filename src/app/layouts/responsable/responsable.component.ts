@@ -9,11 +9,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./responsable.component.css']
 })
 export class ResponsableComponent implements OnInit {
-
+  currentUser: User;
+  user: User;
   constructor(private userService: UserService,  private authenticationService: AuthenticationService, private router: Router) {
     this.currentUser = this.authenticationService.currentUserValue;
    }
-  currentUser: User;
+
   ngOnInit(): void {
   }
   logout() {

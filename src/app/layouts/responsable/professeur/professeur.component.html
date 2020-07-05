@@ -1,0 +1,267 @@
+<!--Liste des Professeurs-->
+<div style="margin-top: 180px;margin-left: 100px; width: 1420px;">
+  <div class="respo">
+    <div class="card-header" style="background-color: #2e3047; color: #fff;">
+      <h4 style="text-align: left;">Liste des Professeurs</h4>
+    </div>
+    <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
+ background-color: #fff;">
+      <div class="row">
+        <div>
+          <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
+      margin-top: -18px;
+      background-color: #f8f6f6;
+      width: 1411px;
+    /* width: 1347px;*/
+      margin-left: -4px;"/>
+        </div>
+      </div>
+      <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter professeur</button>
+
+      <div class="table-responsive">
+        <table class="table table-bordered" style="text-align: center;">
+          <thead>
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>Mail</th>
+          <th>Responsabilite</th>
+          <th>Departement</th>
+          <th>Actions</th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let p of professeurs|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
+            <td>{{p.nom}}</td>
+            <td >{{p.prenom}}</td>
+            <td>{{p.mail}}</td>
+            <td>{{p.responsabilite.libelle}}</td>
+            <td>{{p.departement.libelle}}</td>
+            <td>
+              <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
+              <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;"  (click)=" recuperer(p,p.id); editModal.show();"></button>
+            </td>
+            <!--Confirmation du suppression-->
+            <ng-template #template >
+              <div class="modal-body text-center">
+                <p>Voulez-vous vraiment supprimer ce Professeur?</p>
+                <button type="button" class="btn btn-success" (click)="confirm();deleteByNom(p);" >Oui</button>
+                <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
+              </div>
+            </ng-template>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-img-overly">
+        <pagination-controls (pageChange)=" p=$event " style="text-align: center;"></pagination-controls>
+      </div>
+    </div>
+  </div>
+
+
+  <!--Ajouter Professeur-->
+  <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #2e3047;">
+          <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Ajouter professeur</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="parentModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nom" style="color: black;">Nom:</label>
+                  <input id="float-input" type="text" size="30" id="nom" placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+                         ngModel
+                         required
+                         #nom="ngModel"
+                         [ngClass]="{'form-control' : true,
+                     'is-invalid' : !nom?.valid && nom?.touched,
+                     'is-valid' : nom?.valid && nom?.touched}">
+                  <small *ngIf="nom?.errors?.required && nom?.touched"
+                         class="form-text custom-invalid-feedback">champs obligatoire</small>
+                </div></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="prenom" style="color: black;">Prénom:</label>
+                  <input id="float-input" type="text" min="1" size="4" id="prenom"  placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+                         ngModel
+                         required
+                         min="18"
+                         #prenom="ngModel"
+                         [ngClass]="{'form-control' : true,
+                    'is-invalid' : !prenom?.valid && prenom?.touched,
+                    'is-valid' : prenom?.valid && prenom?.touched}">
+                  <small *ngIf="prenom?.errors?.required && prenom?.touched"
+                         class="form-text custom-invalid-feedback">champs obligatoire</small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="mail" style="color: black;">Email:</label>
+                  <input id="float-input" type="email" id="mail" size="30" placeholder="exemple@gmail.com" name="mail" [(ngModel)]="professeur.mail"
+                         ngModel
+                         required
+                         #mail="ngModel"
+                         [ngClass]="{'form-control' : true,
+                     'is-invalid' : !mail?.valid && mail?.touched,
+                     'is-valid' : mail?.valid && mail?.touched}">
+                  <small *ngIf="mail?.errors?.required && mail?.touched"
+                         class="form-text custom-invalid-feedback">champs obligatoire</small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="respo" style="color: black;">Responsabilite:</label>
+                  <select class=" input-large form-control" name="responsabilite" [(ngModel)]="professeur.responsabilite" id="respo"
+                          ngModel
+                          required
+                          #responsabilite="ngModel"
+                          [ngClass]="{'form-control' : true,
+                'is-invalid' : !responsabilite?.valid && responsabilite?.touched,
+                  'is-valid' : responsabilite?.valid && responsabilite?.touched}">
+                    <option value="">--Choisir une responsabilite--</option>
+                    <option *ngFor="let responsabilite of responsabilites" [ngValue]="responsabilite">{{responsabilite.libelle}}</option>
+                  </select>
+                  <small *ngIf="responsabilite?.errors?.required && responsabilite?.touched" class="form-text text-danger">champs obligatoire</small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="depar" style="color: black;">Departement:</label>
+                  <input  type="text" min="1" size="4" id="depar"   name="departement" [(ngModel)]="currentUser.departement"
+                         ngModel
+                         required
+                         #departement="ngModel"
+                         [ngClass]="{'form-control' : true,
+                    'is-invalid' : !departement?.valid && departement?.touched,
+                    'is-valid' : departement?.valid && departement?.touched}">
+                  <small *ngIf="departement?.errors?.required && departement?.touched" class="form-text text-danger">champs obligatoire</small>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="modal-body">
+            <button class="btn btn-close pull-right" (click)="parentModal.hide();">Annuler</button>
+            <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;"(click)="save();parentModal.hide();"  [disabled]="!validate()">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--Modifier Professeur-->
+  <div class="modal fade" bsModal #editModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #2e3047;">
+          <h4 id="dialog-nested-name1" class="modal-title pull-left" style="color: #fff;">Modifier professeur</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="editModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nom" style="color: black;">Nom:</label>
+                  <input id="float-input" type="text" size="30" id="nom"  placeholder="Nom" name="nom" [(ngModel)]="professeur.nom"
+                         ngModel
+                         required
+                         #nom="ngModel"
+                         [ngClass]="{'form-control' : true,
+                     'is-invalid' : !nom?.valid && nom?.touched,
+                     'is-valid' : nom?.valid && nom?.touched}">
+                  <small *ngIf="nom?.errors?.required && nom?.touched"
+                         class="form-text custom-invalid-feedback">champs obligatoire</small>
+                </div></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="prenom" style="color: black;">Prénom:</label>
+                  <input id="float-input" type="text" min="1" size="4" id="prenom" placeholder="Prenom" name="prenom" [(ngModel)]="professeur.prenom"
+                         ngModel
+                         required
+                         min="18"
+                         #prenom="ngModel"
+                         [ngClass]="{'form-control' : true,
+                    'is-invalid' : !prenom?.valid && prenom?.touched,
+                    'is-valid' : prenom?.valid && prenom?.touched}">
+                  <small *ngIf="prenom?.errors?.required && prenom?.touched"
+                         class="form-text custom-invalid-feedback">champs obligatoire</small>
+                </div></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="mail" style="color: black;">Email:</label>
+                  <input id="float-input" type="email" size="30" id="mail" placeholder="exemple@gmail.com" name="mail" [(ngModel)]="professeur.mail"
+                         ngModel
+                         required
+                         #mail="ngModel"
+                         [ngClass]="{'form-control' : true,
+                     'is-invalid' : !mail?.valid && mail?.touched,
+                     'is-valid' : mail?.valid && mail?.touched}">
+                  <small *ngIf="mail?.errors?.required && mail?.touched"
+                         class="form-text custom-invalid-feedback">champs obligatoire</small>
+                </div></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="respo" style="color: black;">Responsabilite:</label>
+                  <select class=" input-large form-control" id="respo" name="responsabilite" [(ngModel)]="professeur.responsabilite"
+                          ngModel
+                          required
+                          #responsabilite="ngModel"
+                          [ngClass]="{'form-control' : true,
+                'is-invalid' : !responsabilite?.valid && responsabilite?.touched,
+                  'is-valid' : responsabilite?.valid && responsabilite?.touched}">
+                    <option [ngValue]="responsabilite" [selected]="professeur.responsabilite.libelle">{{professeur.responsabilite.libelle}}</option>
+                    <option *ngFor="let responsabilite of responsabilites" [ngValue]="responsabilite">{{responsabilite.libelle}}</option>
+                  </select>
+                  <small *ngIf="responsabilite?.errors?.required && responsabilite?.touched" class="form-text text-danger">champs obligatoire</small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div>
+                    <label for="depar" style="color: black;">Departement:</label>
+                    <input id="float-input" type="text" min="1" size="4" id="depar"   name="departement" [(ngModel)]="currentUser.departement"
+                           ngModel
+                           required
+                           #departement="ngModel"
+                           [ngClass]="{'form-control' : true,
+                    'is-invalid' : !departement?.valid && departement?.touched,
+                    'is-valid' : departement?.valid && departement?.touched}">
+                    <small *ngIf="departement?.errors?.required && departement?.touched" class="form-text text-danger">champs obligatoire</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="modal-body">
+            <button class="btn btn-close pull-right" (click)="editModal.hide();">Annuler</button>
+            <button class="btn btn-primary pull-right" style="margin-right: 5px;"  (click)="editModal.hide();update(professeur.id, professeur.nom, professeur.prenom, professeur.mail, professeur.responsabilite.libelle, professeur.departement.libelle);">Editer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

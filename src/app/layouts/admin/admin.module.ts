@@ -40,9 +40,11 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+
+import {AcceuilComponent} from '../../modules/acceuil/acceuil.component';
+
 import { FullCalendarModule } from '@fullcalendar/angular';
 import {CheckboxModule} from 'primeng/checkbox';
-
 
 @NgModule({
   declarations: [
@@ -62,8 +64,8 @@ import {CheckboxModule} from 'primeng/checkbox';
     PersonnelComponent,
     SessionComponent,
     ProfilComponent,
- 
-   
+     ExamComponent,
+    AcceuilComponent
   ],
   imports: [
     CommonModule,
@@ -86,11 +88,9 @@ import {CheckboxModule} from 'primeng/checkbox';
     NgbModalModule,
     ReactiveFormsModule,
     TableModule,
+    CheckboxModule,
     FlatpickrModule.forRoot(),
     MessagesModule,
-    MessageModule,
-    CheckboxModule,
-    
     ToastrModule.forRoot({
       timeOut: 5000
     }),
@@ -98,9 +98,7 @@ import {CheckboxModule} from 'primeng/checkbox';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    TabsModule.forRoot(),
-    FullCalendarModule
-    ], 
-    
+    TabsModule.forRoot()
+  ],
 })
 export class AdminModule { }

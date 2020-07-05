@@ -1,10 +1,10 @@
 <div flexLayout="column">
-<header>
+<header >
     <div id="content-wrapper" class="d-flex-column">
       <div id="content">
         <nav class="navbar navbar-light navbar-expand shadow mb-4 topbar static-top">
           <input type="checkbox" id="check">
-          <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0 " style="margin-left: 210px !important;">
+          <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0 "  routerLink="/responsable" style="margin-left: 210px !important;">
             <div class="sidebar-brand-icon rotate-n-15">
               <i class="fa fa-calendar-check-o header"></i>
             </div>
@@ -13,18 +13,14 @@
             </div>
           </a>
           <div class="menu">
-            <a routerLink= "/responsable/salles" routerLinkActive="active" class="nav-item nav-a">Salles</a>
-            <a routerLink= "/responsable/departements" routerLinkActive="active" class="nav-item">Departement</a>
-            <a  routerLink= "/responsable/responsabilites"  routerLinkActive="active" class="nav-item">Responsabilite</a>
-            <a  routerLink= "/responsable/personnels"  routerLinkActive="active" class="nav-item">Personnel</a>
-            <a routerLink= "/responsable/professeurs"  routerLinkActive="active" class="nav-item">Professeur</a>
+            <a routerLink= "/responsable/salles" routerLinkActive="active" class="nav-item nav1">Salles</a>
+            <a routerLink= "/responsable/professeurs"  routerLinkActive="active" class="nav-item nav2">Professeur</a>
             <a routerLink= "/responsable/surveillants"  routerLinkActive="active" class="nav-item">Surveillant</a>
             <a routerLink= "/responsable/etudiants"  routerLinkActive="active" class="nav-item">Etudiant</a>
             <a routerLink= "/responsable/modules"  routerLinkActive="active" class="nav-item">Module</a>
             <a routerLink= "/responsable/fillieres"  routerLinkActive="active" class="nav-item">Filiere</a>
             <a routerLink= "/responsable/exams"  routerLinkActive="active" class="nav-item">Exam</a>
             <a routerLink= "/responsable/calendars"  routerLinkActive="active" class="nav-item">Calendrier</a>
-            <a routerLink= "/responsable/etat"  routerLinkActive="active" class="nav-item">Etat</a>
             <div class="animation start-home"></div>
           </div>
             <div class="btn-group" dropdown>
@@ -32,15 +28,15 @@
                       aria-controls="dropdown-basic">
                 {{currentUser.username}} <span class="caret"></span>
               </button>
-              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" style="background-color: #2e3047; margin-top: 13.8px; "
                   role="menu" aria-labelledby="button-basic">
-                <li role="menuitem"><a class="dropdown-item" routerLink= "/responsable/profil" style="color: black !important; ">Profil</a></li>
+                <li role="menuitem"><a class="dropdown-item" routerLink= "/responsable/profil/{{currentUser.id}}" style="color: #E7E9F0 !important; ">Profil</a></li>
                 <li class="divider dropdown-divider"></li>
-                <li role="menuitem"><a class="dropdown-item" (click)="logout()" style="color: black !important; " >Se déconnecter</a>
+                <li role="menuitem"><a class="dropdown-item" (click)="logout()" style="color: #E7E9F0 !important; " >Se déconnecter</a>
                 </li>
               </ul>
             </div>
-          
+
           <label for="check" class="checkbtn"><i class="fa fa-bars" style="font-size: 20px !important; color: #E7E9F0 !important; transform: none !important;"></i></label>
         </nav>
       </div>

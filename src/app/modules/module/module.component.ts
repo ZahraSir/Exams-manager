@@ -18,7 +18,7 @@ export class ModuleComponent implements OnInit {
   constructor(private moduleService: ModuleService, private filiereService: FiliereService, private semestreService: SemestreService, private etudiantService: EtudiantService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   get module(): Module{
@@ -56,7 +56,7 @@ export class ModuleComponent implements OnInit {
   get niveauSemestres(): Array<NiveauSemestre>{
     return this.filiereService.niveauSemestres;
   }
-  
+
   get professeurs(): Array<Professeur> {
     return this.filiereService.professeurs;
   }

@@ -25,9 +25,7 @@ export class SurveillantComponent implements OnInit {
   ngOnInit(): void {
     this.surveillantService.findAll();
   }
-  public save() {
-    this.surveillantService.save();
-  }
+
   get surveillants(): Array<Surveillant> {
     return this.surveillantService.surveillants;
   }
