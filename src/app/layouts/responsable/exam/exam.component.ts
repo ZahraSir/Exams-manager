@@ -20,6 +20,8 @@ import {Filiere} from '../../../controller/model/filiere';
 import {FiliereService} from '../../../controller/services/filiere.service';
 import {User} from '../../../controller/model';
 import {AuthenticationService} from '../../../controller/services';
+import {ExamEtudiant} from '../../../controller/model/exam-etudiant';
+import {Etudiant} from '../../../controller/model/etudiant';
 
 
 @Component({
@@ -39,6 +41,7 @@ export class ExamsComponent implements OnInit {
   dateD: Date;
   msgs: Message[] = [];
   msg: Message[] = [];
+  id:number;
   p = 1;
   currentUser: User ;
   constructor(private examService: ExamService, private filiereService: FiliereService, private authenticationService: AuthenticationService,
@@ -87,6 +90,9 @@ export class ExamsComponent implements OnInit {
   }
   get personnel(): Personnel {
     return this.examService.personnel;
+  }
+  get exa(): Array<Exam> {
+    return this.examService.exa;
   }
 
   get survei(): Personnel{
@@ -265,4 +271,72 @@ export class ExamsComponent implements OnInit {
   public validateSave(): boolean{
     return this.examService.validateSave();
   }
+
+  public findByExamId(exam: number){
+    this.id = exam;
+    this.examService.findByExamId(exam);
+  }
+
+  public printDocument(exam: number){
+    console.log(this.id);
+    this.examService.printDocument(exam);
+  }
+
+  public exportExcel(exam: number){
+    console.log(this.id);
+    this.examService.exportExcel(exam);
+  }
+  public click(etudiant){
+    console.log(etudiant.nom);
+    this.examEtudiant.etudiant = etudiant;
+    this.examEtudiants.push(this.clone(this.examEtudiant));
+    console.log(this.examEtudiants);
+  }
+
+  public clone(examEtudiant: ExamEtudiant){
+    const cloneExamEtudiant = new ExamEtudiant();
+    cloneExamEtudiant.id = examEtudiant.id;
+    cloneExamEtudiant.exam = examEtudiant.exam;
+    cloneExamEtudiant.salle.designation = examEtudiant.salle.designation;
+    cloneExamEtudiant.etudiant = examEtudiant.etudiant;
+    return cloneExamEtudiant;
+  }
+  get examEtudiant(): ExamEtudiant{
+    return this.examService.examEtudiant;
+  }
+
+  get etudiants(): Array<Etudiant>{
+    return this.examService.etudiants;
+  }
+  public recupere(exam: Exam){
+    console.log(exam);
+    this.examService.exam = exam;
+    this.examEtudiant.exam = exam;
+    console.log(this.examEtudiant.exam);
+    this.examService.findExamSalleByDate(exam.dateDepart, exam.dateFin, exam.module.libelle);
+  }
+
+  public findEtudiants(filiere: string, semestre: string){
+    console.log(filiere + ' ' + semestre);
+    this.examService.findEtudiants(filiere, semestre);
+  }
+
+  public aaa(examEtudiant){
+
+    console.log(examEtudiant);
+  }
+
+  public addExamEtudiant(examEtudiant: ExamEtudiant){
+    this.examService.addExamEtudiant(examEtudiant);
+  }
+
+  get examEtudiants(): Array<ExamEtudiant>{
+    return this.examService.examEtudiants;
+  }
+
+  public affecter(){
+    this.examService.affecter();
+
+  }
+
 }

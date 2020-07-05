@@ -31,6 +31,9 @@ import {FlatpickrModule} from 'angularx-flatpickr';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import { SalleComponent } from './layouts/responsable/salle/salle.component';
 import { AcceuiComponent } from './layouts/responsable/acceui/acceui.component';
+import { CalendrierComponent } from './layouts/responsable/calendrier/calendrier.component';
+import {FullCalendarModule} from '@fullcalendar/angular';
+import {CheckboxModule} from "primeng/checkbox";
 
 
 
@@ -53,7 +56,8 @@ registerLocaleData(localeFr);
     EtudiantsComponent,
     ResponsableComponent,
     SalleComponent,
-    AcceuiComponent
+    AcceuiComponent,
+    CalendrierComponent
 
   ],
   imports: [
@@ -73,7 +77,9 @@ registerLocaleData(localeFr);
     AngularFireModule.initializeApp(environment.firebase),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
-    TabsModule
+    TabsModule,
+    FullCalendarModule,
+    CheckboxModule
   ],
   providers: [        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

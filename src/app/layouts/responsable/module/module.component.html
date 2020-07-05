@@ -145,7 +145,7 @@
         </form>
         <div class="modal-body">
           <button class="btn btn-close pull-right" (click)="modifeModal.hide();">Annuler</button>
-          <button class="btn btn-primary pull-right" style="margin-right: 5px;" (click)="update(module);modifeModal.hide();">Editer</button>
+          <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="update(module);modifeModal.hide();">Editer</button>
         </div>
       </div>
     </div>
@@ -238,7 +238,7 @@
 
           <div class="modal-body">
             <button class="btn btn-close pull-right" (click)="ajoutModal.hide();">Annuler</button>
-            <button class="btn btn-primary btn-ajout pull-right" style="margin-right: 5px;" (click)="ajoutModal.hide();save();" [disabled]="!validate()" >Ajouter</button>
+            <button class="btn btn-ajout pull-right" style="margin-right: 5px;" (click)="ajoutModal.hide();save();" [disabled]="!validate()" >Ajouter</button>
           </div>
         </form>
       </div>

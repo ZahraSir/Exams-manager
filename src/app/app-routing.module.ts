@@ -29,6 +29,7 @@ import {SalleComponent} from './layouts/responsable/salle/salle.component';
 import {AcceuilComponent} from './modules/acceuil/acceuil.component';
 import {AcceuiComponent} from './layouts/responsable/acceui/acceui.component';
 import {ModulesComponent} from './layouts/responsable/module/module.component';
+import {CalendrierComponent} from './layouts/responsable/calendrier/calendrier.component';
 
 
 
@@ -73,6 +74,7 @@ const routes: Routes = [
       {path: 'calendars', component: CalendarComponent},
       {path: 'etudiants', component: EtudiantsComponent},
       {path: 'profil/:id', component: ProfilComponent},
+      {path: 'calendrier', component: CalendrierComponent}
     ]}
 ];
 

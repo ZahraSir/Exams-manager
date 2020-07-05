@@ -1,12 +1,16 @@
-﻿﻿import { Injectable } from '@angular/core';
+﻿import {User} from '../../controller/model';
+﻿import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { Role } from 'src/app/controller/model/role';
 
 // array in local storage for registered users
-let users = JSON.parse(localStorage.getItem('users')) || [];
-const usersKey = 'react-signup-verification-boilerplate-users';
+ let users = JSON.parse(localStorage.getItem('users')) || [];
+//let users: User[] = [
+//{ id: 1, username: 'ADMIN', password: 'admin', firstName: 'ADMIN', lastName: 'ADMIN', role: Role.Admin, email: 'fatmazahrazaizi@gmail.com', departement: '--------'  },
+//{ id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User, email: 'user@gmail.com', departement: 'chimie' } ];
+
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {

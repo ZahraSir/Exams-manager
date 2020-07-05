@@ -8,7 +8,7 @@
       <div class="card-body" style="border-style: solid; border-color: #2e3047 ;
 background-color: #fff;">
         <div class="row">
-          <div >
+          <div>
             <input  type = " text " id="cherche" class = "form-control " placeholder = "Recherche globale..."   name = " item " [(ngModel)] = "item"  style="height: 46px;
       margin-top: -18px;
       background-color: #f8f6f6;
@@ -33,7 +33,7 @@ background-color: #fff;">
             <th>Actions</th>
             </thead>
             <tbody>
-            <tr *ngFor="let e of exams|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
+            <tr *ngFor="let e of exams|filter: item|paginate: {itemsPerPage:7,currentPage:p}">
               <td >{{e.module.libelle}}</td>
               <td>{{e.filiere.libelle}}</td>
               <td>{{e.dateDepart | date: 'dd-MM-yyyy'}}</td>
@@ -108,6 +108,7 @@ background-color: #fff;">
                           [ngClass]="{'form-control' : true,
               'is-invalid' : !module?.valid && module?.touched,
                 'is-valid' : module?.valid && module?.touched}">
+                    <option value="">--Choisir un module--</option>
                     <option *ngFor="let module of modules" [value]="module.libelle" >{{module.libelle}}</option>
                   </select>
                   <small *ngIf="module?.errors?.required && module?.touched" class="form-text text-danger">champs obligatoire</small>

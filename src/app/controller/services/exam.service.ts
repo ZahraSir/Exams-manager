@@ -26,6 +26,7 @@ export class ExamService {
   private _module: Module;
   private _exam: Exam;
   private _exams: Array<Exam>;
+  private _exa: Array<Exam>;
   private _urlexam = 'http://localhost:8090/exam-api/exams/';
   private _surveillant: Surveillant;
   private _surveillants: Array<Surveillant>;
@@ -117,6 +118,18 @@ export class ExamService {
   set exam(value: Exam) {
     this._exam = value;
   }
+
+  get exa(): Array<Exam> {
+    if (this._exa == null) {
+      this._exa = new Array<Exam>();
+    }
+    return this._exa;
+  }
+
+  set exa(value: Array<Exam>) {
+    this._exa = value;
+  }
+
   get personnels(): Array<Personnel> {
     if (this._personnels == null) {
       this._personnels = new Array<Personnel>();
@@ -729,8 +742,8 @@ export class ExamService {
     this.http.get<Array<Exam>>(this._urlexam + 'filiere/departement/' + libelle ).subscribe(
       data => {
         console.log(data);
-        this.exams = data;
-        console.log('exambyDepartement ' + this.exams);
+        this.exa = data;
+        console.log('exambyDepartement ' + this.exa);
       }
     );
   }

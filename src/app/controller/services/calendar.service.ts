@@ -19,10 +19,10 @@ export class CalendarService {
   private _json : string;
   public events : Array<EventInput> = new Array();
   private _surveillants: Array<Surveillant>;
- 
+
 get exam(): Exam{
   if(this._exam == null){
-    this._exam = new Exam()
+    this._exam = new Exam();
   }
   return this._exam;
 }
@@ -44,27 +44,36 @@ set surveillants(value: Array<Surveillant>){
 public findEvents(){
   this.http.get<Array<Calendar>>('http://localhost:8090/exam-api/calendar/find-all').subscribe(
     data => {
-      this.events= data;
+      this.events = data;
     }
-  )
+  );
 }
 
+
+  public findEventsByFiliere(libelle){
+    this.http.get<Array<Calendar>>('http://localhost:8090/exam-api/calendar/filiere/departement/' + libelle).subscribe(
+      data => {
+        this.events = data;
+      }
+    );
+  }
+
 public findExam(title, start, end){
-  this.http.get<Exam>('http://localhost:8090/exam-api/exams/events/date-depart/' + start + '/date-fin/' + end +'/module/' + title).subscribe(
+  this.http.get<Exam>('http://localhost:8090/exam-api/exams/events/date-depart/' + start + '/date-fin/' + end + '/module/' + title).subscribe(
     data => {
       this.exam = data;
-      this.exam.dateDepart = moment(data.dateDepart).format("YYYY-MM-DD[T]HH:mm");
+      this.exam.dateDepart = moment(data.dateDepart).format('YYYY-MM-DD[T]HH:mm');
       console.log(this.exam);
       this.findByExam(this.exam.id)
     }
-  )
+  );
 }
 
 public findByExam(id: number){
   this.http.get<Array<Surveillant>>('http://localhost:8090/exam-api/surveillants/find-by-exam/' + id).subscribe(
     data => {
-      this.surveillants = data; 
-      console.log(this.surveillants)    
+      this.surveillants = data;
+      console.log(this.surveillants);
     }
   );
 

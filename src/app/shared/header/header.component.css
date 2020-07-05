@@ -540,7 +540,7 @@ a:nth-child(10) {
 }
 a:nth-child(11) {
   width: 15px;
-  left: 108px !important;
+  left: 160px !important;
 }
 a:nth-child(12) {
   width: 15px;
@@ -577,49 +577,43 @@ a:nth-child(12) {
   background-color: #95B4C7;
 }
 .menu .start-contact, a:nth-child(6):hover~.animation {
-  width: 105px;
-  left: 555px;
+  width: 85px;
+  left: 563px;
   /*background-color: #3BA58C;*/
   background-color: #7FB3D5;
 }
 .menu .start-contact, a:nth-child(7):hover~.animation {
-  width: 85px;
+  width: 82px;
   left: 670px;
   /*background-color: #3BA58C;*/
   background-color:#5499C7;
 }
 .menu .start-contact, a:nth-child(8):hover~.animation {
-  width: 82px;
-  left: 760px;
+  width: 64px;
+  left: 767px;
   /*background-color: #0B8165;*/
   background-color: #2980B9 ;
 }
 .menu .start-contact, a:nth-child(9):hover~.animation {
-  width: 64px;
+  width: 60px;
   left: 841px;
   /*background-color: #1E7563;*/
   background-color:  #2471A3;
 }
 .menu .start-contact, a:nth-child(10):hover~.animation {
-  width: 60px;
+  width: 100px;
   left: 906px;
 
   background-color:#1F618D;
 }
 .menu .start-contact, a:nth-child(11):hover~.animation {
-  width: 100px;
-  left: 973px;
+  width: 53px;
+  left: 1020px;
 
   /*background-color: #1A6454;*/
   background-color: #1A5276;
 }
-.menu .start-contact, a:nth-child(12):hover~.animation {
-  width: 53px;
-  left: 1080px;
 
-  /*background-color: #035140;*/
-  background-color: #154360;
-}
 
 .checkbtn {
   float: right !important;
