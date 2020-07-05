@@ -41,11 +41,11 @@ background-color: #fff;">
               <td>{{e.dateFin | date: 'HH:mm'}}</td>
               <td>{{e.prof.nom}}</td>
               <td> <button class="btn btn-success btn-sm "  (click)=" ModalSalle.show();findByExam(e.id)">Liste des Salle et des surveillants</button></td>
-              <td> <button class="btn btn-dark btn-sm "  (click)=" ModalEtudiants.show();findByExamId(e.id)">Liste des étudiants</button></td>
+              <td> <button class="btn btn-dark btn-sm "  (click)=" ModalEtudiants.show();findByExamModuleDate(e);">Liste des étudiants</button></td>
               <td>
                 <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
                 <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findSalleByExamReference(exam);"></button>
-                <button class="btn btn-warning btn-sm " style="margin-left: 5px;" (click)="ModalEtudiant.show();recupere(e); findEtudiants(e.filiere.libelle, e.module.semestre.libelle);" >Affectation des étudiants</button>
+                <button class="btn btn-warning btn-sm " style="margin-left: 5px;" (click)="ModalEtudiant.show();recupere(e); findEtudiants(e);" >Affectation des étudiants</button>
               </td>
 
               <ng-template #template >
@@ -64,51 +64,7 @@ background-color: #fff;">
         </div>
       </div>
     </div>
-    <button class="btn btn-info fa fa-plus" (click)="parentModal.show();vider();" style="float: left !important;/* margin: 5px; */font-size: 20px;height: 45px;margin-left: -18px;margin-bottom: 10px;margin-top: 5px;background-color: #2e3047;border-color: #2e3047;">Ajouter exam</button>
-
-    <div class="table-responsive">
-  <table class="table table-bordered" style="text-align: center;" >
-    <thead>
-    <th>Module</th>
-    <th>Filière</th>
-    <th>Date</th>
-    <th>Heure départ</th>
-    <th>Heure fin</th>
-    <th>Professeur</th>
-    <th>Salles & Surveillants</th>
-    <th>Liste des étudiants</th>
-    <th>Actions</th>
-    </thead>
-    <tbody>
-    <tr *ngFor="let e of exams|filter: item|paginate: {itemsPerPage:5,currentPage:p}">
-      <td >{{e.module.libelle}}</td>
-      <td>{{e.filiere.libelle}}</td>
-      <td>{{e.dateDepart | date: 'dd-MM-yyyy'}}</td>
-      <td>{{e.dateDepart | date: 'HH:mm'}}</td>
-      <td>{{e.dateFin | date: 'HH:mm'}}</td>
-      <td>{{e.prof.nom}}</td>
-      <td> <button class="btn btn-success btn-sm "  (click)=" ModalSalle.show();findByExamModule(e)">Liste des Salle et des surveillants</button></td>
-      <td> <button class="btn btn-dark btn-sm "  (click)=" ModalEtudiants.show();findByExamModuleDate(e)">Liste des étudiants</button></td>
-      <td>
-        <button class="btn btn-danger btn-sm fa fa-trash"  (click)="openModal(template)"></button>
-        <button class="btn btn-info btn-sm fa fa-edit" style="margin-left: 5px;" (click)="editModal.show();recuperer(e, e.id); findByExamModul(e);"></button>
-        <button class="btn btn-warning btn-sm " style="margin-left: 5px;" (click)="ModalEtudiant.show();recupere(e); findEtudiants(e);">Affectation des étudiants</button>
-      </td>
-
-      <ng-template #template >
-        <div class="modal-body text-center">
-          <p>Voulez-vous vraiment supprimer ce examen?</p>
-          <button type="button" class="btn btn-success" (click)="confirm();deleteByReference(e);" >Oui</button>
-          <button  type="button" class="btn btn-danger" (click)="decline()" style="margin-left: 5px;" >Non</button>
-        </div>
-      </ng-template>
-    </tr>
-    </tbody>
-  </table>
-</div>
-<div class="card-img-overly">
-  <pagination-controls (pageChange)=" p=$event " style="margin-left: 50px;"></pagination-controls>
-</div>
+    
 </div>
   </div>
 
@@ -361,10 +317,6 @@ background-color: #fff;">
         </div>
       </div>
     </div>
-  </div>
-
-
-</div>
 
 <!--Affectation des etudiants-->
 <div class="modal fade" bsModal #ModalEtudiant="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">

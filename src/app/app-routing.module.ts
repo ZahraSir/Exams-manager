@@ -22,7 +22,6 @@ import { ProfilComponent } from './modules/profil/profil.component';
 import {Role} from './controller/model/role';
 import { ResponsableComponent } from './layouts/responsable/responsable.component';
 import {ProfesseursComponent} from './layouts/responsable/professeur/professeur.component';
-import {ExamsComponent} from './layouts/responsable/exam/exam.component';
 import {FilieresComponent} from './layouts/responsable/filiere/filiere.component';
 import {EtudiantsComponent} from './layouts/responsable/etudiant/etudiant.component';
 import {SalleComponent} from './layouts/responsable/salle/salle.component';
@@ -67,7 +66,6 @@ const routes: Routes = [
       {path: 'salles', component: SalleComponent},
       {path: 'professeurs', component: ProfesseursComponent},
       {path: 'surveillants', component: SurveillantComponent},
-      {path: 'exams', component: ExamsComponent},
       {path: 'modules', component: ModulesComponent},
       {path: 'fillieres', component: FilieresComponent},
       {path: 'calendars', component: CalendarComponent},

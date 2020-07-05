@@ -446,8 +446,8 @@ export class ExamService {
 
   }
 
-  public update(id: number, dateDepart: string, dateFin: string, module: String, prof: string, filiere: string){
-    this.http.put(this._urlexam + id + '/' + moment(dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/' + moment(dateFin).format("YYYY-MM-DD[T]HH:mm") + '/' + module + '/' + prof + '/' + filiere , this.exam).subscribe(
+  public update(id: number, dateDepart: string, dateFin: string, module: String, prof: string, filiere: string, title: string){
+    this.http.put(this._urlexam + id + '/' + moment(dateDepart).format("YYYY-MM-DD[T]HH:mm") + '/' + moment(dateFin).format("YYYY-MM-DD[T]HH:mm") + '/' + module + '/' + prof + '/' + filiere + '/' + title, this.exam).subscribe(
       data => {
         if (data > 0) {
           window.location.reload();

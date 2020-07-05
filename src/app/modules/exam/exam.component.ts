@@ -37,10 +37,11 @@ export class ExamComponent implements OnInit {
   msgs: Message[] = [];
   msg: Message[] = [];
   id: number;
+  title: string;
   p = 1;
   students: Array<string>;
   exportColumns: any[];
-  examP = new Exam();
+examP   = new Exam();
   constructor(private examService: ExamService,
               private modalService: BsModalService, private printService: PrintService, private salleService: SallesService, private surveillantService: SurveillantService,
               private toastrService: ToastrService) { }
@@ -105,6 +106,7 @@ export class ExamComponent implements OnInit {
   }
   public recuperer(exam: Exam, id: number) {
     console.log(exam)
+    this.title = exam.module.libelle;
     this.examService.recuperer(exam, id);
   }
   public openModal(template: TemplateRef<any>) {
@@ -123,12 +125,7 @@ export class ExamComponent implements OnInit {
   }
 
   public update(id: number, dateDepart: string, dateFin: string, module: String, prof: string, filiere: string){
-    console.log(dateDepart);
-    console.log(dateFin);
-    console.log(module);
-    console.log(filiere);
-    console.log(prof)
-    this.examService.update(id, dateDepart, dateFin, module, prof, filiere);
+    this.examService.update(id, dateDepart, dateFin, module, prof, filiere, this.title);
   }
 
 

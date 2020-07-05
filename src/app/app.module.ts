@@ -19,7 +19,6 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {AngularFireModule} from '@angular/fire';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {ProfesseursComponent} from './layouts/responsable/professeur/professeur.component';
-import {ExamsComponent} from './layouts/responsable/exam/exam.component';
 import {ModulesComponent} from './layouts/responsable/module/module.component';
 import {FilieresComponent} from './layouts/responsable/filiere/filiere.component';
 import {EtudiantsComponent} from './layouts/responsable/etudiant/etudiant.component';
@@ -31,6 +30,7 @@ import {FlatpickrModule} from 'angularx-flatpickr';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import { SalleComponent } from './layouts/responsable/salle/salle.component';
 import { AcceuiComponent } from './layouts/responsable/acceui/acceui.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 
@@ -47,7 +47,6 @@ registerLocaleData(localeFr);
     RegisterComponent,
     AlertComponent,
     ProfesseursComponent,
-    ExamsComponent,
     ModulesComponent,
     FilieresComponent,
     EtudiantsComponent,
@@ -57,6 +56,7 @@ registerLocaleData(localeFr);
 
   ],
   imports: [
+    CheckboxModule,
     BrowserModule,
     AppRoutingModule,
     AdminModule,
