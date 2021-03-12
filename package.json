@@ -44,7 +44,7 @@
     "fs-js": "^1.0.6",
     "fullcalendar": "^3.10.2",
     "jquery": "^3.5.1",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.5.3",
     "moment": "^2.26.0",
     "ng-fullcalendar": "^2.0.3",
