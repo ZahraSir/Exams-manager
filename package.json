@@ -60,7 +60,7 @@
     "require": "^2.4.20",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "xlsx": "^0.16.1",
+    "xlsx": "^0.17.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
